@@ -92,7 +92,7 @@ export default function LiveActivity() {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 10 }} className="wc26-activity-grid">
+        <div className="wc26-activity-grid">
           {items.map((a, i) => (
             <div key={i} className="wc26-activity-item"
               style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 14, padding: "12px 14px", display: "flex", alignItems: "flex-start", gap: 12, animation: "wc26-slide 0.4s ease-out" }}

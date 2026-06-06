@@ -22,7 +22,7 @@ export default function TrustSection() {
           <p style={{ fontSize: "clamp(13px,3vw,16px)", color: C.textSoft, lineHeight: 1.6, ...dm }}>{t("trust.body")}</p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 32 }} className="wc26-trust-grid">
+        <div style={{ marginBottom: 32 }} className="wc26-trust-grid">
           {TRUST_CARDS.map(card => (
             <div key={card.titleKey} className="wc26-card" style={{ padding: "clamp(16px,4vw,28px) clamp(14px,3vw,24px)", boxShadow: C.shadowSm, position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,${C.blue},${C.blueDark})` }} />
@@ -39,7 +39,7 @@ export default function TrustSection() {
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 14, marginBottom: 32 }} className="wc26-trust-grid">
+        <div style={{ marginBottom: 32 }} className="wc26-trust-grid">
           {TESTIMONIALS.map(t2 => (
             <div key={t2.name} className="wc26-card" style={{ padding: "clamp(14px,3vw,22px)", boxShadow: C.shadowSm }}>
               <div style={{ color: C.gold, fontSize: 13, marginBottom: 8, letterSpacing: 2 }}>{"★".repeat(t2.stars)}</div>
