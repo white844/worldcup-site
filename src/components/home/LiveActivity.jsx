@@ -72,10 +72,16 @@ export default function LiveActivity() {
     [offset, nowMs, t]
   );
 
-  const purchases = useMemo(
-    () => RECENT_PURCHASES.map(p => ({ ...p, liveTime: liveAgo(p.offsetMins, nowMs, t) })),
-    [nowMs, t]
-  );
+  const purchases = useMemo(() => {
+    const WINDOW     = 5;
+    const ROTATE_MS  = 90 * 60 * 1000; // rotate every 90 minutes
+    const totalWindows = Math.ceil(RECENT_PURCHASES.length / WINDOW); // 12 windows
+    const windowIdx  = Math.floor(Date.now() / ROTATE_MS) % totalWindows;
+    const start      = windowIdx * WINDOW;
+    return RECENT_PURCHASES
+      .slice(start, start + WINDOW)
+      .map(p => ({ ...p, liveTime: liveAgo(p.offsetMins, nowMs, t) }));
+  }, [nowMs, t]);
 
   return (
     <section id="live" style={{ background: C.navy, padding: "clamp(40px,8vw,72px) 0" }}>
