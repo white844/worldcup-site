@@ -32,8 +32,8 @@ const T = {
 
     // ── Hero ─────────────────────────────────────────────────
     "hero.badge":          "{n} matches · Admin-verified listings",
-    "hero.title":          "Buy World Cup 2026 Tickets Safely",
-    "hero.title.em":       "Safely",
+    "hero.title":          "Buy World Cup 2026 Tickets",
+    "hero.title.em":       "Tickets",
     "hero.subtitle":       "Every listing verified by admin",
     "hero.body":           "Every ticket is manually reviewed by our team before going live — so you can buy with full confidence.",
     "hero.search.placeholder": "Search teams, cities, venues…",
@@ -216,8 +216,8 @@ const T = {
     "nav.sell":        "Vender tu Entrada",
 
     "hero.badge":          "{n} partidos · Listados verificados por admin",
-    "hero.title":          "Compra Entradas para el Mundial 2026 con Seguridad",
-    "hero.title.em":       "con Seguridad",
+    "hero.title":          "Compra Entradas para el Mundial 2026",
+    "hero.title.em":       "Entradas",
     "hero.subtitle":       "Cada listado verificado por admin",
     "hero.body":           "Cada entrada es revisada manualmente por nuestro equipo antes de publicarse — para que puedas comprar con total confianza.",
     "hero.search.placeholder": "Buscar equipos, ciudades, estadios…",
@@ -391,8 +391,8 @@ const T = {
     "nav.sell":        "Vendre mon Billet",
 
     "hero.badge":          "{n} matchs · Annonces vérifiées par l'admin",
-    "hero.title":          "Achetez vos Billets pour la Coupe du Monde 2026 en Toute Sécurité",
-    "hero.title.em":       "en Toute Sécurité",
+    "hero.title":          "Achetez vos Billets pour la Coupe du Monde 2026 ",
+    "hero.title.em":       "Billets",
     "hero.subtitle":       "Chaque annonce vérifiée par l'admin",
     "hero.body":           "Chaque billet est examiné manuellement par notre équipe avant mise en ligne — pour acheter en toute confiance.",
     "hero.search.placeholder": "Rechercher des équipes, villes, stades…",
@@ -568,8 +568,8 @@ const T = {
     "nav.sell":        "Vender meu Ingresso",
 
     "hero.badge":          "{n} jogos · Anúncios verificados pelo admin",
-    "hero.title":          "Compre Ingressos para a Copa do Mundo 2026 com Segurança",
-    "hero.title.em":       "com Segurança",
+    "hero.title":          "Compre Ingressos para a Copa do Mundo 2026",
+    "hero.title.em":       "Ingressos",
     "hero.subtitle":       "Cada anúncio verificado pelo admin",
     "hero.body":           "Cada ingresso é revisado manualmente pela nossa equipe antes de ser publicado — para você comprar com total confiança.",
     "hero.search.placeholder": "Buscar times, cidades, estádios…",
@@ -922,8 +922,8 @@ const T = {
     "nav.sell":        "Ticket verkaufen",
 
     "hero.badge":          "{n} Spiele · Admin-verifizierte Angebote",
-    "hero.title":          "WM 2026-Tickets sicher kaufen",
-    "hero.title.em":       "sicher",
+    "hero.title":          "WM 2026-Tickets kaufen",
+    "hero.title.em":       "Tickets",
     "hero.subtitle":       "Jedes Angebot vom Admin verifiziert",
     "hero.body":           "Jedes Ticket wird von unserem Team manuell geprüft, bevor es online geht — damit du mit vollem Vertrauen kaufen kannst.",
     "hero.search.placeholder": "Teams, Städte, Stadien suchen…",
