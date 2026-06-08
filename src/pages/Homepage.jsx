@@ -12,7 +12,7 @@ import { setPageMeta, SITE_TITLE } from "../tokens";
 
 
 export default function Homepage() {
-  useEffect(() => setPageMeta(SITE_TITLE, "Buy verified World Cup 2026 tickets. Every listing manually reviewed. 100% buyer protection on every order."), []);
+  useEffect(() => setPageMeta(SITE_TITLE, "World Cup 2026 tickets. Every listing is manually reviewed. 100% buyer protection on every order."), []);
   return (
     <PageShell>
       <Hero />

@@ -12,14 +12,17 @@ const ICON_BG = {
 };
 
 const BASE_TIME = Date.now();
-const ACTIVITY_OFFSETS = ACTIVITIES.map((_, i) => ((i * 137 + 23) % 14) + 1);
-const PURCHASE_OFFSETS = RECENT_PURCHASES.map((_, i) => ((i * 97 + 5) % 18) + 2);
 
 function liveAgo(baseOffsetMins, nowMs, t) {
   const elapsedMins = Math.floor((nowMs - BASE_TIME) / 60_000);
   const total = baseOffsetMins + elapsedMins;
+  if (total < 2)  return "just now";
   if (total < 60) return t("live.ago.min", { n: total });
-  return t("live.ago.hour", { n: Math.floor(total / 60) });
+  const h = Math.floor(total / 60);
+  const m = total % 60;
+  if (m === 0) return t("live.ago.hour", { n: h });
+  // e.g. "1h 23m ago"
+  return `${h}h ${m}m ago`;
 }
 
 // Renders "Name from City bought Match (Cat)" with t() for the connective words
@@ -63,13 +66,14 @@ export default function LiveActivity() {
   const items = useMemo(
     () => Array.from({ length: 6 }, (_, i) => {
       const idx = (i + offset) % ACTIVITIES.length;
-      return { ...ACTIVITIES[idx], liveTime: liveAgo(ACTIVITY_OFFSETS[idx], nowMs, t) };
+      const a = ACTIVITIES[idx];
+      return { ...a, liveTime: liveAgo(a.offsetMins, nowMs, t) };
     }),
     [offset, nowMs, t]
   );
 
   const purchases = useMemo(
-    () => RECENT_PURCHASES.map((p, i) => ({ ...p, liveTime: liveAgo(PURCHASE_OFFSETS[i], nowMs, t) })),
+    () => RECENT_PURCHASES.map(p => ({ ...p, liveTime: liveAgo(p.offsetMins, nowMs, t) })),
     [nowMs, t]
   );
 
@@ -92,7 +96,7 @@ export default function LiveActivity() {
           </div>
         </div>
 
-        <div className="wc26-activity-grid">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 10 }} className="wc26-activity-grid">
           {items.map((a, i) => (
             <div key={i} className="wc26-activity-item"
               style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 14, padding: "12px 14px", display: "flex", alignItems: "flex-start", gap: 12, animation: "wc26-slide 0.4s ease-out" }}
