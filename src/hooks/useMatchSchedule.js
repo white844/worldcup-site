@@ -139,10 +139,15 @@ export function useMatchSchedule(allMatches) {
   const prevSoonRef  = useRef(null);
   const ariaRef      = useRef(null);
 
+  // ── Clock — tick every 60 s ────────────────────────────────────────────────
+  useEffect(() => {
+    const id = setInterval(() => setNowMs(Date.now()), 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   // ── Compute live / upcoming / starting-soon / groups ──────────────────────
   const { liveMatches, nextIsoDate, startingSoonIds, dateGroups } = useMemo(() => {
-    const live = allMatches.filter(m => !isMatchPast(m.isoDate, nowMs));
+    const live = allMatches.filter(m => !m.isFinished && !isMatchPast(m.isoDate, nowMs));
 
     // Starting-soon set (kickoff within 24 h)
     const soonIds = new Set(
@@ -186,23 +191,6 @@ export function useMatchSchedule(allMatches) {
         newlyExpired.forEach(id => next.add(id));
         return next;
       });
-
-        // ── Clock — adaptive tick rate ────────────────────────────────────────────
-  // 10 s when any match is starting within 1 hour (countdown needs precision),
-  // 60 s otherwise (saves unnecessary re-renders during quiet periods).
-  useEffect(() => {
-    const tick = startingSoonIds.size > 0
-      ? [...startingSoonIds].some(id => {
-          const m = allMatches.find(x => x.id === id);
-          if (!m) return false;
-          return kickoffUTC(m.isoDate, m.time) - Date.now() <= 3_600_000; // within 1h
-        })
-        ? 10_000   // < 1 h away — update every 10 s for accurate countdown
-        : 60_000   // 1–24 h away — every 60 s is fine
-      : 60_000;    // nothing soon — standard 60 s
-    const id = setInterval(() => setNowMs(Date.now()), tick);
-    return () => clearInterval(id);
-  }, [startingSoonIds, allMatches]);
 
       announce(
         ariaRef,
