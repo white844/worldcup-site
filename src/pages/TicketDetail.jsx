@@ -287,7 +287,7 @@ export default function TicketDetail() {
                 <Shield size={15} /> 100% Buyer Protection on this listing
               </div>
               {[
-                "Full money-back if tickets are invalid or don't match this listing",
+                "Yout get refunded if tickets are invalid or don't match this listing",
                 "All listings are manually verified by our admin team before going live",
                 "Dispute resolution team available 24/7",
               ].map(item => (

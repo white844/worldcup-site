@@ -15,22 +15,261 @@ import {
 } from "./wc26Schedule.js";
 
 // ─── Sellers ──────────────────────────────────────
+// Power sellers (s01–s05): repeat frequently — ~30% of listings
+// Regular sellers (s06–s12): appear 2–3 times each
+// One-time sellers (s13–s23): appear once or twice
 export const SELLERS = [
-  { sellerId:"s01", seller:"Carlos M.",  rating:4.8, response:5,  sales:312, since:"Jan 2023", avatar:"C", avatarBg:"linear-gradient(135deg,#1B3C88,#4A62BC)", location:"Madrid, Spain",           bio:"Experienced reseller. All tickets sourced directly from official allocations. Fast delivery guaranteed." },
-  { sellerId:"s02", seller:"Emma V.",    rating:4.7, response:8,  sales:187, since:"Mar 2023", avatar:"E", avatarBg:"linear-gradient(135deg,#7C3AED,#A78BFA)", location:"London, UK",              bio:"Football fan and part-time ticket reseller. Specialise in European fixtures. Always happy to answer questions." },
-  { sellerId:"s03", seller:"John D.",    rating:4.9, response:3,  sales:521, since:"Nov 2022", avatar:"J", avatarBg:"linear-gradient(135deg,#059669,#10B981)", location:"São Paulo, Brazil",        bio:"Top-rated seller with 500+ completed sales. Quick to respond and always delivers on time." },
-  { sellerId:"s04", seller:"Sarah K.",   rating:4.6, response:7,  sales:98,  since:"Jun 2023", avatar:"S", avatarBg:"linear-gradient(135deg,#DC2626,#F87171)", location:"New York, USA",            bio:"Casual seller — offloading tickets I can no longer use. Honest descriptions, great prices." },
-  { sellerId:"s05", seller:"Pedro A.",   rating:5.0, response:2,  sales:744, since:"Sep 2022", avatar:"P", avatarBg:"linear-gradient(135deg,#D97706,#FCD34D)", avatarColor:"#92400E", location:"Buenos Aires, Argentina", bio:"Professional reseller with perfect rating. 700+ sales, zero disputes. Fastest response time on the platform." },
-  { sellerId:"s06", seller:"Marie L.",   rating:4.9, response:4,  sales:263, since:"Feb 2023", avatar:"M", avatarBg:"linear-gradient(135deg,#0EA5E9,#7DD3FC)", location:"Paris, France",            bio:"French football fan selling surplus tickets. All listings are genuine — no surprises." },
-  { sellerId:"s07", seller:"Hans B.",    rating:4.7, response:6,  sales:155, since:"Apr 2023", avatar:"H", avatarBg:"linear-gradient(135deg,#475569,#94A3B8)", location:"Munich, Germany",          bio:"Regular reseller based in Germany. Quick turnaround and always communicates proactively." },
-  { sellerId:"s08", seller:"Yuki T.",    rating:4.8, response:5,  sales:201, since:"Jan 2023", avatar:"Y", avatarBg:"linear-gradient(135deg,#BE185D,#F472B6)", location:"Tokyo, Japan",             bio:"Long-time football supporter selling genuine tickets. Prompt delivery, always as described." },
-  { sellerId:"s09", seller:"Omar S.",    rating:4.6, response:10, sales:77,  since:"Jul 2023", avatar:"O", avatarBg:"linear-gradient(135deg,#B45309,#FCD34D)", location:"Cairo, Egypt",             bio:"First-time seller with verified ID. Tickets genuine and ready to transfer on payment." },
-  { sellerId:"s10", seller:"Mike T.",    rating:4.8, response:4,  sales:334, since:"Oct 2022", avatar:"M", avatarBg:"linear-gradient(135deg,#0F766E,#2DD4BF)", location:"Toronto, Canada",          bio:"Season ticket holder and reseller. Know what fans need — great seats, honest pricing." },
-  { sellerId:"s11", seller:"Juan R.",    rating:4.5, response:12, sales:64,  since:"Aug 2023", avatar:"J", avatarBg:"linear-gradient(135deg,#1D4ED8,#60A5FA)", location:"Mexico City, Mexico",      bio:"Local seller with genuine tickets for Mexico fixtures. Contact me with any questions." },
-  { sellerId:"s12", seller:"Ali K.",     rating:4.7, response:7,  sales:143, since:"Mar 2023", avatar:"A", avatarBg:"linear-gradient(135deg,#7C3AED,#C4B5FD)", location:"Riyadh, Saudi Arabia",     bio:"Verified seller — all tickets bought through official channels. Safe and fast." },
-  { sellerId:"s13", seller:"Lena B.",    rating:4.9, response:3,  sales:408, since:"Dec 2022", avatar:"L", avatarBg:"linear-gradient(135deg,#059669,#6EE7B7)", location:"Amsterdam, Netherlands",   bio:"One of the platform's most active sellers. Impeccable track record, fast responses." },
-  { sellerId:"s14", seller:"Ryo N.",     rating:4.6, response:9,  sales:88,  since:"May 2023", avatar:"R", avatarBg:"linear-gradient(135deg,#BE123C,#FDA4AF)", location:"Osaka, Japan",             bio:"Genuine fan selling spares. All tickets come with full transfer support." },
-  { sellerId:"s15", seller:"Fatima A.",  rating:4.8, response:6,  sales:192, since:"Feb 2023", avatar:"F", avatarBg:"linear-gradient(135deg,#1B3C88,#818CF8)", location:"Casablanca, Morocco",      bio:"Verified Moroccan seller — especially strong for Atlas Lions fixtures. Always reliable." },
+
+  // ── Power sellers — show up repeatedly, high sales, slightly imperfect ──────
+  {
+    sellerId:"s01", seller:"Marco Delgado",
+    rating:4.7, response:6, sales:389, since:"Oct 2022",
+    avatar:"MD", avatarBg:"linear-gradient(135deg,#1B3C88,#4A62BC)",
+    location:"Polanco, Mexico City",
+    bio:"Been doing this since Russia 2018. Got allocation contacts for most group stage fixtures. Usually respond same day, sometimes takes till evening if I'm at work.",
+  },
+  {
+    sellerId:"s02", seller:"Sophie Whitfield",
+    rating:4.9, response:4, sales:521, since:"Aug 2022",
+    avatar:"SW", avatarBg:"linear-gradient(135deg,#7C3AED,#A78BFA)",
+    location:"Islington, London",
+    bio:"Full-time reseller, this is literally my job. 500+ sales, zero chargebacks. I over-communicate — you'll know exactly where your tickets are at every stage.",
+  },
+  {
+    sellerId:"s03", seller:"Rafael Souza",
+    rating:4.8, response:5, sales:447, since:"Dec 2022",
+    avatar:"RS", avatarBg:"linear-gradient(135deg,#059669,#10B981)",
+    location:"Pinheiros, São Paulo",
+    bio:"Brazilian football obsessive. I buy in bulk from official allocations and sell what I can't use. Mostly Brazil and South American fixtures but I have tickets across the board.",
+  },
+  {
+    sellerId:"s04", seller:"Nadia Fontaine",
+    rating:4.6, response:9, sales:274, since:"Feb 2023",
+    avatar:"NF", avatarBg:"linear-gradient(135deg,#BE185D,#F472B6)",
+    location:"Lyon, France",
+    bio:"Football fan first, seller second. Got into reselling after Qatar when I ended up with more tickets than I could use. Prices are fair — I'm not here to rip anyone off.",
+  },
+  {
+    sellerId:"s05", seller:"James Okafor",
+    rating:4.9, response:3, sales:612, since:"Jul 2022",
+    avatar:"JO", avatarBg:"linear-gradient(135deg,#D97706,#F59E0B)",
+    location:"Hackney, London",
+    bio:"Top seller on here. 600+ completed sales across 3 World Cups and 2 Euros. I know this process inside out — fast, clean, no drama. Check my reviews.",
+  },
+
+  // ── Regular sellers — appear 2–3 times each ──────────────────────────────
+  {
+    sellerId:"s06", seller:"Tomás Herrera",
+    rating:4.7, response:7, sales:134, since:"Mar 2023",
+    avatar:"TH", avatarBg:"linear-gradient(135deg,#DC2626,#F87171)",
+    location:"Providencia, Santiago",
+    bio:"Chilean fan who travels to every major tournament. Selling surplus from my group allocation — all tickets are genuine, purchased through official Chilean FA channels.",
+  },
+  {
+    sellerId:"s07", seller:"Aisha Mensah",
+    rating:4.8, response:6, sales:98, since:"May 2023",
+    avatar:"AM", avatarBg:"linear-gradient(135deg,#0EA5E9,#38BDF8)",
+    location:"Accra, Ghana",
+    bio:"Selling a pair of tickets my brother can't use anymore. First time listing on here but I've bought on similar platforms before — know how it works. Happy to video call.",
+  },
+  {
+    sellerId:"s08", seller:"Connor Bradshaw",
+    rating:4.5, response:14, sales:61, since:"Sep 2023",
+    avatar:"CB", avatarBg:"linear-gradient(135deg,#475569,#64748B)",
+    location:"Didsbury, Manchester",
+    bio:"Bought 4 tickets for the England group games, mate dropped out last minute. Selling 2. Not a professional seller so bear with me on response time — work shifts.",
+  },
+  {
+    sellerId:"s09", seller:"Yuna Park",
+    rating:4.9, response:4, sales:203, since:"Jan 2023",
+    avatar:"YP", avatarBg:"linear-gradient(135deg,#0F766E,#14B8A6)",
+    location:"Gangnam, Seoul",
+    bio:"Verified Korean seller. I handle mostly Asian fixtures but have tickets across multiple venues. All sourced through official Korean FA allocation. Fast transfer on payment.",
+  },
+  {
+    sellerId:"s10", seller:"Luca Ferretti",
+    rating:4.6, response:11, sales:87, since:"Jun 2023",
+    avatar:"LF", avatarBg:"linear-gradient(135deg,#1D4ED8,#3B82F6)",
+    location:"Trastevere, Rome",
+    bio:"Italian fan selling spares. Got more tickets than people in my group could make. Prices are what I paid plus a bit — not trying to make a killing, just recover costs.",
+  },
+  {
+    sellerId:"s11", seller:"Khalid Al-Rashidi",
+    rating:4.7, response:8, sales:156, since:"Apr 2023",
+    avatar:"KA", avatarBg:"linear-gradient(135deg,#92400E,#D97706)",
+    location:"Al Olaya, Riyadh",
+    bio:"Saudi fan with tickets for the Saudi Arabia group matches plus a few others I picked up. All official. I know the transfer process well — smooth and straightforward.",
+  },
+  {
+    sellerId:"s12", seller:"Elena Vasquez",
+    rating:4.8, response:5, sales:178, since:"Feb 2023",
+    avatar:"EV", avatarBg:"linear-gradient(135deg,#7C3AED,#8B5CF6)",
+    location:"Chamberí, Madrid",
+    bio:"Spanish football fan and occasional reseller. Mostly Spain and European fixtures. I reply quickly and have never had a complaint. All tickets are what I say they are.",
+  },
+
+  // ── One-time / occasional sellers ───────────────────────────────────────
+  {
+    sellerId:"s13", seller:"Priya Nair",
+    rating:4.8, response:7, sales:12, since:"Jan 2026",
+    avatar:"PN", avatarBg:"linear-gradient(135deg,#BE185D,#EC4899)",
+    location:"Bandra, Mumbai",
+    bio:"First time selling tickets. Got 2 for the India watch party fixture but can no longer travel. Tickets are genuine, bought through official channels. Happy to provide proof.",
+  },
+  {
+    sellerId:"s14", seller:"Antoine Dubois",
+    rating:4.9, response:3, sales:34, since:"Nov 2025",
+    avatar:"AD", avatarBg:"linear-gradient(135deg,#059669,#10B981)",
+    location:"Bordeaux, France",
+    bio:"Selling 3 tickets from my company's allocation — event clash means none of us can go. Premium seats, proper section, will transfer same day on payment confirmed.",
+  },
+  {
+    sellerId:"s15", seller:"Mateus Costa",
+    rating:4.3, response:18, sales:8, since:"Mar 2026",
+    avatar:"MC", avatarBg:"linear-gradient(135deg,#1B3C88,#3B82F6)",
+    location:"Copacabana, Rio de Janeiro",
+    bio:"Selling my Brazil vs Colombia pair. Got a family thing that weekend now, gutted about it. New to this platform but been selling on other sites. Take a look at what I've got.",
+  },
+  {
+    sellerId:"s16", seller:"Ingrid Holmberg",
+    rating:4.7, response:9, sales:22, since:"Dec 2025",
+    avatar:"IH", avatarBg:"linear-gradient(135deg,#0EA5E9,#0284C7)",
+    location:"Södermalm, Stockholm",
+    bio:"Swedish fan who travels to every major tournament. Selling spare ticket — my travel partner found cheaper flights home and doesn't want to stay for the match.",
+  },
+  {
+    sellerId:"s17", seller:"Darius Okonkwo",
+    rating:4.6, response:12, sales:19, since:"Feb 2026",
+    avatar:"DO", avatarBg:"linear-gradient(135deg,#16A34A,#4ADE80)",
+    location:"Victoria Island, Lagos",
+    bio:"Nigerian football fan. Got tickets for a couple of fixtures I can't now attend. All bought legit. I'm new on here but not new to selling — done it on other platforms before.",
+  },
+  {
+    sellerId:"s18", seller:"Hannah Bergström",
+    rating:5.0, response:2, sales:6, since:"Apr 2026",
+    avatar:"HB", avatarBg:"linear-gradient(135deg,#DC2626,#EF4444)",
+    location:"Gothenburg, Sweden",
+    bio:"Only listing I have — selling 2 Upper Tier seats I can't use. Bought through official Sweden allocation. Perfect reviews so far, I respond immediately.",
+  },
+  {
+    sellerId:"s19", seller:"Reuben Abramowitz",
+    rating:4.4, response:22, sales:41, since:"Aug 2025",
+    avatar:"RA", avatarBg:"linear-gradient(135deg,#475569,#94A3B8)",
+    location:"Brooklyn, New York",
+    bio:"Reseller based in NYC. Mostly US fixtures but I travel for the big ones. Bit slower to respond on weekdays — I work nights. But I always come through.",
+  },
+  {
+    sellerId:"s20", seller:"Valentina Cruz",
+    rating:4.8, response:6, sales:53, since:"Oct 2025",
+    avatar:"VC", avatarBg:"linear-gradient(135deg,#D97706,#FCD34D)",
+    location:"Palermo, Buenos Aires",
+    bio:"Argentine fan and part-time seller. Have a few pairs of tickets for Argentina fixtures that friends bailed on. Prices are fair, I'm easy to deal with.",
+  },
+  {
+    sellerId:"s21", seller:"Takeshi Mori",
+    rating:4.7, response:8, sales:29, since:"Jan 2026",
+    avatar:"TM", avatarBg:"linear-gradient(135deg,#BE185D,#F472B6)",
+    location:"Shibuya, Tokyo",
+    bio:"Japanese fan selling my spare Japan vs Germany ticket. My wife can't join me now so I'm going alone and selling her seat. Genuine ticket, ready to transfer.",
+  },
+  {
+    sellerId:"s22", seller:"Fatou Diallo",
+    rating:4.9, response:5, sales:17, since:"Feb 2026",
+    avatar:"FD", avatarBg:"linear-gradient(135deg,#1B3C88,#818CF8)",
+    location:"Dakar, Senegal",
+    bio:"Selling tickets for France vs Senegal — the dream fixture for us. Got 4, only need 2. All official. This is a once in a lifetime match and I want someone genuine to have them.",
+  },
+  {
+    sellerId:"s23", seller:"Dmitri Volkov",
+    rating:4.5, response:16, sales:38, since:"Sep 2025",
+    avatar:"DV", avatarBg:"linear-gradient(135deg,#7C3AED,#A78BFA)",
+    location:"Prague, Czech Republic",
+    bio:"European reseller. Got tickets for a few matches across different venues. Not always the fastest to respond but I always deliver. Check my track record.",
+  },
+  {
+    sellerId:"s24", seller:"Camila Reyes",
+    rating:4.8, response:7, sales:14, since:"Feb 2026",
+    avatar:"CR", avatarBg:"linear-gradient(135deg,#DC2626,#F87171)",
+    location:"Miraflores, Lima",
+    bio:"Peruvian fan selling 2 tickets for the Peru fixture. Bought them when I thought I could go, work got in the way. Genuine tickets, can provide photos of confirmation email.",
+  },
+  {
+    sellerId:"s25", seller:"Olusegun Adeyemi",
+    rating:4.6, response:11, sales:27, since:"Nov 2025",
+    avatar:"OA", avatarBg:"linear-gradient(135deg,#16A34A,#22C55E)",
+    location:"Lekki, Lagos",
+    bio:"Nigerian football fan. Travelling to the tournament and got one extra in my group allocation. Selling the spare — no markup, just face value plus transfer fee.",
+  },
+  {
+    sellerId:"s26", seller:"Mei-Ling Chen",
+    rating:4.9, response:4, sales:46, since:"Aug 2025",
+    avatar:"ML", avatarBg:"linear-gradient(135deg,#0EA5E9,#0284C7)",
+    location:"Xinyi, Taipei",
+    bio:"Regular football traveller. Been to every World Cup since 2014. Selling a pair from my allocation — my cousin can't make it from Taipei. Everything is above board.",
+  },
+  {
+    sellerId:"s27", seller:"Finn Gallagher",
+    rating:4.4, response:19, sales:9, since:"Mar 2026",
+    avatar:"FG", avatarBg:"linear-gradient(135deg,#1B3C88,#3B82F6)",
+    location:"Rathmines, Dublin",
+    bio:"Irish lad selling tickets for a couple of matches. Got more than I needed when I was going with a bigger group. Bit slow to reply sometimes, sorry in advance — I'll get back to you.",
+  },
+  {
+    sellerId:"s28", seller:"Amara Traoré",
+    rating:4.7, response:8, sales:33, since:"Dec 2025",
+    avatar:"AT", avatarBg:"linear-gradient(135deg,#B45309,#F59E0B)",
+    location:"Plateau, Abidjan",
+    bio:"Ivorian fan selling my Senegal and Morocco tickets — I follow African football more broadly, not just my own team. Both tickets are genuine, bought through the CAF allocation process.",
+  },
+  {
+    sellerId:"s29", seller:"Sebastián Mora",
+    rating:4.8, response:6, sales:71, since:"Jul 2025",
+    avatar:"SM", avatarBg:"linear-gradient(135deg,#059669,#34D399)",
+    location:"Laureles, Medellín",
+    bio:"Colombian fan and occasional reseller. Have tickets for a few fixtures including the Colombia group games. I know the process well and always make it easy for the buyer.",
+  },
+  {
+    sellerId:"s30", seller:"Lieselotte van den Berg",
+    rating:4.9, response:5, sales:58, since:"Oct 2025",
+    avatar:"LV", avatarBg:"linear-gradient(135deg,#F97316,#FB923C)",
+    location:"Jordaan, Amsterdam",
+    bio:"Dutch fan selling a pair for Netherlands vs Belgium — the real final as far as I'm concerned. My partner doesn't want to go anymore. These are good seats, Sec 117 Lower Bowl.",
+  },
+  {
+    sellerId:"s31", seller:"Tariq Benali",
+    rating:4.5, response:13, sales:22, since:"Jan 2026",
+    avatar:"TB", avatarBg:"linear-gradient(135deg,#7C3AED,#C4B5FD)",
+    location:"Agdal, Rabat",
+    bio:"Moroccan fan selling tickets I bought optimistically. Life got complicated. The tickets are real — I can share the original purchase confirmation. Prefer WhatsApp for questions.",
+  },
+  {
+    sellerId:"s32", seller:"Hana Kovářová",
+    rating:4.7, response:9, sales:16, since:"Feb 2026",
+    avatar:"HK", avatarBg:"linear-gradient(135deg,#BE185D,#F472B6)",
+    location:"Vinohrady, Prague",
+    bio:"Czech football fan. Selling 2 tickets for a group stage match — my travel group fell apart when prices went up. New to this platform but I'm straightforward to deal with.",
+  },
+  {
+    sellerId:"s33", seller:"Marcus Osei",
+    rating:4.6, response:10, sales:44, since:"Sep 2025",
+    avatar:"MO", avatarBg:"linear-gradient(135deg,#DC2626,#EF4444)",
+    location:"East Legon, Accra",
+    bio:"Ghanaian reseller with a few tickets across different fixtures. Been doing this informally for years, first time on a proper platform. Fair prices, no nonsense.",
+  },
+  {
+    sellerId:"s34", seller:"Yasmin Öztürk",
+    rating:4.8, response:6, sales:29, since:"Nov 2025",
+    avatar:"YO", avatarBg:"linear-gradient(135deg,#0F766E,#14B8A6)",
+    location:"Beşiktaş, Istanbul",
+    bio:"Turkish football fan with tickets bought for the tournament. Selling 2 as our group is down to 4 from 6. Tickets are all official. I speak English, Turkish and German if that helps.",
+  },
+  {
+    sellerId:"s35", seller:"Brandon Thibodeau",
+    rating:4.3, response:21, sales:7, since:"Apr 2026",
+    avatar:"BT", avatarBg:"linear-gradient(135deg,#475569,#64748B)",
+    location:"Plateau-Mont-Royal, Montreal",
+    bio:"Canadian selling tickets for a couple of matches near home. Bought 4 for the Canada games, only need 2 now. Not a professional seller — just a fan trying to get face value back.",
+  },
 ];
 
 // ─── Seat pool ─────────────────────────────────────
@@ -320,7 +559,15 @@ export const ALL_MATCHES = WC26_ALL_FIXTURES.map((m, i) => {
     weekend:  dow === 0 || dow === 6,
     highDemand: isHD,
     listedAt: makeListedAt(i),
-    ...SELLERS[i % SELLERS.length],
+    // Weighted seller assignment: power sellers (s01–s05) appear ~30% of listings
+    // Remaining 70% spread across regular + one-time sellers
+    ...(() => {
+      const POWER   = SELLERS.slice(0, 5);   // s01–s05: repeat sellers
+      const OTHERS  = SELLERS.slice(5);      // s06–s23: appear less often
+      // Every 3rd listing gets a power seller (deterministic but varied)
+      if (i % 3 === 0) return POWER[i % POWER.length];
+      return OTHERS[Math.floor(i / 3) % OTHERS.length];
+    })(),
     ...SEAT_POOL[i % SEAT_POOL.length],
   };
 });
