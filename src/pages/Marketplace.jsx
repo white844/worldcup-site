@@ -332,6 +332,45 @@ export default function Marketplace() {
             </div>
           </div>
 
+          {/* Opening Match hero banner — pinned above everything on match day */}
+          {safePage === 1 && !search && !cities.length && !teams.length && !dates.length && !quick && (() => {
+            const opening = liveMatches.find(m => m.isOpeningMatch);
+            if (!opening) return null;
+            return (
+              <div style={{
+                marginBottom: 24,
+                borderRadius: 16,
+                overflow: "hidden",
+                background: "linear-gradient(135deg, #0F1F5C 0%, #1B3C88 40%, #E8302A 100%)",
+                boxShadow: "0 8px 32px rgba(232,48,42,0.25), 0 2px 8px rgba(15,23,42,0.2)",
+                border: "1.5px solid rgba(232,48,42,0.4)",
+              }}>
+                <div style={{ padding: "20px 24px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                    <span style={{ fontSize: 22 }}>🏆</span>
+                    <span style={{ ...sora, fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)" }}>
+                      FIFA World Cup 2026 · Opening Match
+                    </span>
+                    {opening.isLive && opening.liveScore && (
+                      <span style={{ ...dm, fontSize: 11, fontWeight: 800, background: "#E8302A", color: "#fff", padding: "3px 10px", borderRadius: 999, letterSpacing: "0.04em", animation: "wc26-pulse-live 1s ease-in-out infinite" }}>
+                        ● LIVE {opening.liveScore.home}–{opening.liveScore.away}
+                        {opening.liveScore.minute ? ` ${opening.liveScore.minute}'` : ""}
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                    <span style={{ ...sora, fontSize: "clamp(22px,4vw,32px)", fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>
+                      🇲🇽 Mexico vs South Africa 🇿🇦
+                    </span>
+                  </div>
+                  <div style={{ ...dm, fontSize: 13, color: "rgba(255,255,255,0.72)", marginTop: 8 }}>
+                    Today · Estadio Azteca, Mexico City · Kickoff 19:00 UTC
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
           {/* Next match banner — only on page 1, no active filters */}
           {safePage === 1 && !search && !cities.length && !teams.length && !dates.length && !quick && (
             <NextMatchBanner nextIsoDate={nextIsoDate} nextMatches={nextMatches} />

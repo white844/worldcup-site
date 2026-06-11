@@ -154,8 +154,11 @@ export function useMatchSchedule(allMatches) {
       live.filter(m => isStartingSoon(m, nowMs)).map(m => m.id)
     );
 
-    // Sort: starting-soon first, then soonest date, then stable ID order
+    // Sort: live matches first, then starting-soon, then soonest date, then stable ID order
     live.sort((a, b) => {
+      const aLive = a.isLive ? 0 : 1;
+      const bLive = b.isLive ? 0 : 1;
+      if (aLive !== bLive) return aLive - bLive;
       const aSoon = soonIds.has(a.id) ? 0 : 1;
       const bSoon = soonIds.has(b.id) ? 0 : 1;
       if (aSoon !== bSoon) return aSoon - bSoon;

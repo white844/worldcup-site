@@ -92,12 +92,20 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         borderRadius: 14, overflow: "hidden", cursor: isExpiring ? "default" : "pointer",
         transition: "box-shadow 0.2s, border-color 0.2s, transform 0.2s",
         background: C.bgCard,
-        border: isStartingSoon
+        border: match.isLive
+          ? `2px solid #EF4444`
+          : match.isOpeningMatch
+          ? `2px solid #E8302A`
+          : isStartingSoon
           ? `1.5px solid #F59E0B99`
           : isNext
           ? `1.5px solid ${C.blue}66`
           : `1px solid ${isLimited && hov ? C.dangerBorder : C.border}`,
-        boxShadow: isStartingSoon
+        boxShadow: match.isLive
+          ? `${C.shadowLg}, 0 0 0 4px rgba(239,68,68,0.15)`
+          : match.isOpeningMatch
+          ? `${C.shadowLg}, 0 0 0 4px rgba(232,48,42,0.12)`
+          : isStartingSoon
           ? `${C.shadowLg}, 0 0 0 3px rgba(245,158,11,0.15)`
           : isNext
           ? `${C.shadowLg}, 0 0 0 3px ${C.blue}14`
@@ -109,8 +117,53 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         pointerEvents: isExpiring ? "none" : "auto",
       }}
     >
-      {/* Priority ribbon: Starting Soon > Up Next */}
-      {isStartingSoon ? (
+      {/* Priority ribbon: Live > Opening Match > Starting Soon > Up Next > countdown */}
+      {match.isLive ? (
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "6px 14px",
+          background: "linear-gradient(90deg, #B91C1C, #EF4444)",
+          fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
+          textTransform: "uppercase", color: "#fff", ...dm,
+          animation: "wc26-pulse-live 1s ease-in-out infinite",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            <span style={{
+              width: 7, height: 7, borderRadius: "50%", background: "#fff",
+              boxShadow: "0 0 0 2px rgba(255,255,255,0.4)", flexShrink: 0,
+            }} />
+            Live Now
+            {match.isOpeningMatch && (
+              <span style={{ opacity: 0.85, fontWeight: 600, textTransform: "none", letterSpacing: 0, fontSize: 9 }}>
+                · Opening Match
+              </span>
+            )}
+          </div>
+          {match.liveScore && match.liveScore.home != null && (
+            <span style={{
+              fontSize: 13, fontWeight: 900, background: "rgba(0,0,0,0.25)",
+              padding: "2px 10px", borderRadius: 6,
+              fontVariantNumeric: "tabular-nums", letterSpacing: "0.04em",
+            }}>
+              {match.liveScore.home} – {match.liveScore.away}
+              {match.liveScore.minute ? <span style={{ fontSize: 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>{match.liveScore.minute}'</span> : null}
+            </span>
+          )}
+        </div>
+      ) : match.isOpeningMatch ? (
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "6px 14px",
+          background: "linear-gradient(90deg, #1B3C88, #E8302A)",
+          fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
+          textTransform: "uppercase", color: "#fff", ...dm,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ fontSize: 14 }}>🏆</span>
+            Opening Match · FIFA World Cup 2026
+          </div>
+        </div>
+      ) : isStartingSoon ? (
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "5px 14px",
@@ -166,12 +219,11 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
             {match.group}
           </span>
           <div style={{ display:"flex", gap:6, alignItems:"center" }}>
-            {match.isLive && (
+            {match.isLive && !match.isOpeningMatch && (
               <span style={{
                 padding:"2px 7px", borderRadius:999, fontSize:9, fontWeight:800,
                 background:"#EF4444", color:"#fff", letterSpacing:".06em",
-                animation:"wc26-pulse-live 1s ease-in-out infinite",
-              }}>● LIVE {match.liveScore ? `${match.liveScore.home}–${match.liveScore.away}` : ""}</span>
+              }}>● LIVE {match.liveScore ? `${match.liveScore.home}–${match.liveScore.away}${match.liveScore.minute ? ` ${match.liveScore.minute}'` : ""}` : ""}</span>
             )}
             <span className="wc26-pill wc26-pill-sm"
               style={{ background: statusPill.bg, color: statusPill.color, border: `1px solid ${statusPill.border}` }}>
@@ -197,7 +249,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, marginBottom: 6, ...dm }}>
           <Calendar size={11} color={C.blue} />{match.date} · {(() => {
             try {
-              const [y, mo, d] = match.date.split("-").map(Number);
+              const [y, mo, d] = match.isoDate.split("-").map(Number);
               const [h, m] = match.time.split(":").map(Number);
               const utcDate = new Date(Date.UTC(y, mo - 1, d, h, m));
               return utcDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
