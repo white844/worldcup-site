@@ -562,7 +562,7 @@ const CATEGORY_PRICES = {
     "Round of 16":   [310, 340, 370, 400],
     "Round of 32":   [260, 285, 310],
     "group_hd":      [390, 420, 460, 490, 520, 550],
-    "group":         [230, 250, 270, 290, 310],
+    "group":         [230, 290, 270, 310, 350],
   },
   // Cat 2 — mid-lower
   "Category 2": {
