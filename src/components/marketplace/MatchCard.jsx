@@ -195,7 +195,14 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
       {/* Body */}
       <div style={{ padding: "12px 14px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, marginBottom: 6, ...dm }}>
-          <Calendar size={11} color={C.blue} />{match.date} · {match.time}
+          <Calendar size={11} color={C.blue} />{match.date} · {(() => {
+            try {
+              const [y, mo, d] = match.date.split("-").map(Number);
+              const [h, m] = match.time.split(":").map(Number);
+              const utcDate = new Date(Date.UTC(y, mo - 1, d, h, m));
+              return utcDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+            } catch { return match.time; }
+          })()}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, marginBottom: 14, ...dm }}>
           <MapPin size={11} color={C.blue} />

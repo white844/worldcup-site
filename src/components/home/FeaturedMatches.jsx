@@ -107,7 +107,7 @@ function FeaturedCard({ match, urgency }) {
         </div>
 
         <div style={{ padding: "0 16px 12px", display: "flex", flexDirection: "column", gap: 5 }}>
-          {[["📅", `${match.date} · ${match.time}`], ["📍", match.venue]].map(([ic, val]) => (
+          {[["📅", `${match.date} · ${(() => { try { const [y,mo,d]=match.date.split("-").map(Number); const [h,m]=match.time.split(":").map(Number); return new Date(Date.UTC(y,mo-1,d,h,m)).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); } catch(e){ return match.time; } })()}`], ["📍", match.venue]].map(([ic, val]) => (
             <div key={val} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, ...dm }}>
               <span style={{ color: C.blue }}>{ic}</span>{val}
             </div>
