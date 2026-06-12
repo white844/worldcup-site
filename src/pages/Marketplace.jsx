@@ -102,7 +102,7 @@ export default function Marketplace() {
       if (q && ![m.homeRaw, m.awayRaw, m.venue, m.city].some(s => s?.toLowerCase().includes(q))) return false;
       if (cities.length && !cities.includes(m.city))  return false;
       if (teams.length) {
-        const matched = teams.some(teamFilter => { const tn = teamName(teamFilter); return tn === m.homeRaw || tn === m.awayRaw; });
+        const matched = teams.some(t => { const tn = teamName(t); return tn === m.homeRaw || tn === m.awayRaw; });
         if (!matched) return false;
       }
       if (dates.length && !dates.includes(m.date))   return false;
@@ -229,7 +229,23 @@ export default function Marketplace() {
 
         {/* Sticky filter bar */}
         <div style={{ position: "sticky", top: 64, zIndex: 30, background: C.bgCard, borderBottom: `1px solid ${C.border}`, boxShadow: "0 2px 8px rgba(15,23,42,0.06)" }}>
-          {/* Mobile toggle row */}
+          {/* Always-visible search row — never hidden behind the filter toggle */}
+          <div className="wc26-persistent-search-row" style={{ padding: "10px 16px", borderBottom: `1px solid ${C.border}` }}>
+            <div style={{ display:"flex", alignItems:"center", gap:8, background:C.bg, borderRadius:10, padding:"9px 12px",
+              border:`1.5px solid ${search ? C.blue : C.border}`, transition:"border 0.15s", maxWidth: 480 }}>
+              <Search size={15} color={search ? C.blue : C.textSoft} />
+              <input value={search} onChange={e => setSearch(e.target.value)}
+                placeholder={t("filter.searchAll")}
+                style={{ flex:1, border:"none", outline:"none", fontSize:14, color:C.text, background:"transparent", ...dm }} />
+              {search && (
+                <button onClick={() => setSearch("")} style={{ background:"none", border:"none", cursor:"pointer", display:"flex" }}>
+                  <X size={14} color={C.textSoft} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile toggle row — for dropdown filters (city/team/date/price/sort), search is always visible above */}
           <div className="wc26-filters-toggle-row" style={{ display: "none", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: filtersOpen ? `1px solid ${C.border}` : "none" }}>
             <span style={{ fontSize: 13, fontWeight: 700, color: C.text, ...dm }}>
               {t("mkt.filters")} {chips.length > 0 && `(${chips.length})`}
@@ -294,16 +310,7 @@ export default function Marketplace() {
             <span style={{ fontSize: 14, color: C.textSoft, ...dm }}>
               <strong style={{ color: C.text }}>{displayResult.length}</strong> {displayResult.length !== 1 ? t("mkt.matchesFound") : t("mkt.matchFound")}
               {loading && <span style={{ marginLeft:8, fontSize:10, fontWeight:700, color:C.blue, background:C.infoBg, padding:"2px 7px", borderRadius:999, border:`1px solid ${C.infoBorder}` }}>{t("filter.updating")}</span>}
-              {!loading && usingLive && (
-                <span style={{ marginLeft:8, fontSize:10, fontWeight:700, color:C.green, background:C.greenBg, padding:"2px 7px", borderRadius:999, border:`1px solid ${C.greenBorder}` }}>
-                  {t("filter.liveData")}
-                  {lastUpdated && (
-                    <span style={{ fontWeight:500, opacity:0.8, marginLeft:4 }}>
-                      · {lastUpdated.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" })}
-                    </span>
-                  )}
-                </span>
-              )}
+              {!loading && usingLive && <span style={{ marginLeft:8, fontSize:10, fontWeight:700, color:C.green, background:C.greenBg, padding:"2px 7px", borderRadius:999, border:`1px solid ${C.greenBorder}` }}>{t("filter.liveData")}</span>}
               {chips.length > 0 && (
                 <span> · <button onClick={clearAll} style={{ background: "none", border: "none", cursor: "pointer", color: C.blue, fontWeight: 600, fontSize: 14, ...dm }}>
                   {t("mkt.clearFilters")}
@@ -369,21 +376,11 @@ export default function Marketplace() {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
                     <span style={{ ...sora, fontSize: "clamp(22px,4vw,32px)", fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>
-                      {opening.homeRaw} vs {opening.awayRaw}
+                      🇲🇽 Mexico vs South Africa 🇿🇦
                     </span>
                   </div>
                   <div style={{ ...dm, fontSize: 13, color: "rgba(255,255,255,0.72)", marginTop: 8 }}>
-                    Today · {opening.venue}{(() => {
-                      try {
-                        if (!opening.isoDate || !opening.time) return "";
-                        const [y, mo, d] = opening.isoDate.split("-").map(Number);
-                        const [h, m] = opening.time.split(":").map(Number);
-                        if ([y, mo, d, h, m].some(isNaN)) return "";
-                        const utcDate = new Date(Date.UTC(y, mo - 1, d, h, m));
-                        if (isNaN(utcDate.getTime())) return "";
-                        return " · Kickoff " + utcDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-                      } catch { return ""; }
-                    })()}
+                    Today · Estadio Azteca, Mexico City · Kickoff 19:00 UTC
                   </div>
                 </div>
               </div>
@@ -515,12 +512,12 @@ export default function Marketplace() {
           {totalPages > 1 && (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 48 }}>
               <Button variant="secondary" size="sm" disabled={safePage === 1}
-                onClick={() => { if (safePage > 1) setPage(safePage - 1); }}
+                onClick={() => setPage(Math.max(1, safePage - 1))}
                 style={{ padding: "8px", borderRadius: 10 }}>
                 <ChevronLeft size={16} color={C.textMid} />
               </Button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-                <button key={p} onClick={() => { if (p !== safePage) setPage(p); }}
+                <button key={p} onClick={() => setPage(p)}
                   style={{
                     width: 36, height: 36, borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.15s", ...dm,
                     border: `1px solid ${p === safePage ? C.blue : C.border}`,
@@ -531,7 +528,7 @@ export default function Marketplace() {
                 </button>
               ))}
               <Button variant="secondary" size="sm" disabled={safePage === totalPages}
-                onClick={() => { if (safePage < totalPages) setPage(safePage + 1); }}
+                onClick={() => setPage(Math.min(totalPages, safePage + 1))}
                 style={{ padding: "8px", borderRadius: 10 }}>
                 <ChevronRight size={16} color={C.textMid} />
               </Button>
