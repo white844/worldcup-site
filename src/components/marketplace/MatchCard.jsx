@@ -8,6 +8,7 @@
  *  isExpiring — true when match just passed (triggers exit animation)
  */
 import { useState } from "react";
+import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { Calendar, MapPin, ShieldCheck, Star, Bell } from "lucide-react";
 import { C, sora, dm } from "../../tokens";
@@ -57,7 +58,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
   const navigate      = useNavigate();
   const [hov, setHov] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const { tickets = 3, viewers = 20 } = urgency ?? {};
+  const { tickets = 3 } = urgency ?? {};
   const isLimited     = tickets <= 2;
   // Live countdown — recalculated on each render (nowMs ticks every 60 s from context)
   // We import nowMs via a lightweight re-export of Date.now since MatchCard
@@ -88,16 +89,17 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       aria-label={`${teamName(match.home)} vs ${teamName(match.away)}, ${match.date}, ${match.price} per ticket${isNext ? ", next upcoming match" : ""}${isStartingSoon ? ", starting within 24 hours" : ""}${countdown ? ", " + countdown : ""}`}
+      className={`wc26-match-card ${isExpiring ? "wc26-match-card-static" : ""}`}
       style={{
         borderRadius: 14, overflow: "hidden", cursor: isExpiring ? "default" : "pointer",
-        transition: "box-shadow 0.2s, border-color 0.2s, transform 0.2s",
+        transition: isExpiring ? "none" : "box-shadow 0.2s, border-color 0.2s, transform 0.2s",
         background: C.bgCard,
         border: match.isLive
-          ? `2px solid #EF4444`
+          ? `2px solid ${C.liveRed}`
           : match.isOpeningMatch
-          ? `2px solid #E8302A`
+          ? `2px solid ${C.accent}`
           : isStartingSoon
-          ? `1.5px solid #F59E0B99`
+          ? `1.5px solid ${C.gold}99`
           : isNext
           ? `1.5px solid ${C.blue}66`
           : `1px solid ${isLimited && hov ? C.dangerBorder : C.border}`,
@@ -109,7 +111,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           ? `${C.shadowLg}, 0 0 0 3px rgba(245,158,11,0.15)`
           : isNext
           ? `${C.shadowLg}, 0 0 0 3px ${C.blue}14`
-          : hov ? C.shadowLg : C.shadowSm,
+          : hov && !isExpiring ? C.shadowLg : C.shadowSm,
         transform: hov && !isExpiring ? "translateY(-3px)" : "translateY(0)",
         animation: isExpiring
           ? "wc26-fadeout 0.6s ease forwards"
@@ -122,15 +124,15 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "6px 14px",
-          background: "linear-gradient(90deg, #B91C1C, #EF4444)",
+          background: `linear-gradient(90deg, ${C.liveRedDark}, ${C.liveRed})`,
           fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "#fff", ...dm,
-          animation: "wc26-pulse-live 1s ease-in-out infinite",
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-            <span style={{
+            <span className="wc26-live-pulse" style={{
               width: 7, height: 7, borderRadius: "50%", background: "#fff",
               boxShadow: "0 0 0 2px rgba(255,255,255,0.4)", flexShrink: 0,
+              animation: "wc26-pulse-live 1s ease-in-out infinite",
             }} />
             Live Now
             {match.isOpeningMatch && (
@@ -171,12 +173,12 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "5px 14px",
-          background: "linear-gradient(90deg, #D97706, #F59E0B)",
+          background: `linear-gradient(90deg, ${C.goldDark}, ${C.gold})`,
           fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "#fff", ...dm,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{
+            <span className="wc26-status-pulse" style={{
               width: 6, height: 6, borderRadius: "50%", background: "#fff",
               boxShadow: "0 0 0 2px rgba(255,255,255,0.4)",
               animation: "wc26-pulse 1.8s ease-in-out infinite", flexShrink: 0,
@@ -197,8 +199,8 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "#fff", ...dm,
         }}>
-          <span style={{
-            width: 6, height: 6, borderRadius: "50%", background: "#4ADE80",
+          <span className="wc26-status-pulse" style={{
+            width: 6, height: 6, borderRadius: "50%", background: C.live,
             boxShadow: "0 0 0 2px rgba(74,222,128,0.4)",
             animation: "wc26-pulse 1.8s ease-in-out infinite", flexShrink: 0,
           }} />
@@ -209,7 +211,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           padding: "4px 14px",
           background: "rgba(245,158,11,0.08)",
           borderBottom: "1px solid rgba(245,158,11,0.15)",
-          fontSize: 10, fontWeight: 700, color: "#92400E",
+          fontSize: 10, fontWeight: 700, color: C.warnText,
           fontVariantNumeric: "tabular-nums", ...dm,
         }}>
           ⏱ {countdown}
@@ -226,7 +228,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
             {match.isLive && !match.isOpeningMatch && (
               <span style={{
                 padding:"2px 7px", borderRadius:999, fontSize:9, fontWeight:800,
-                background:"#EF4444", color:"#fff", letterSpacing:".06em",
+                background: C.liveRed, color:"#fff", letterSpacing:".06em",
               }}>● LIVE {match.liveScore && match.liveScore.home != null
                   ? `${match.liveScore.home}–${match.liveScore.away}${match.isHalfTimeScore ? " HT" : match.liveScore.minute ? ` ${match.liveScore.minute}'` : ""}`
                   : ""}</span>
@@ -296,7 +298,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               {match.avatar}
             </div>
             <span style={{ fontSize: 12, fontWeight: 600, color: C.textMid, ...dm }}>{match.seller}</span>
-            <span style={{ fontSize: 11, color: "#F59E0B", fontWeight: 700 }}>★ {match.rating}</span>
+            <span style={{ fontSize: 11, color: C.gold, fontWeight: 700 }}>★ {match.rating}</span>
           </div>
           <span style={{ fontSize: 11, color: C.textSoft, ...dm }}>🕐 {timeAgo(match.listedAt)}</span>
         </div>
@@ -308,15 +310,15 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
                 onClick={e => { e.stopPropagation(); onToggleSave(match.id, `${match.homeRaw} vs ${match.awayRaw}`); }}
                 style={{
                   flex:1, padding:"7px 8px", borderRadius:8,
-                  border:`1.5px solid ${isSaved ? "#F59E0B" : C.border}`,
-                  background: isSaved ? "#FFFBEB" : C.bg,
-                  color: isSaved ? "#D97706" : C.textMid,
+                  border:`1.5px solid ${isSaved ? C.gold : C.border}`,
+                  background: isSaved ? C.goldBg : C.bg,
+                  color: isSaved ? C.goldDark : C.textMid,
                   fontSize:11, fontWeight:700, cursor:"pointer",
                   display:"flex", alignItems:"center", justifyContent:"center", gap:4,
                   transition:"all 0.15s", ...dm,
                 }}
               >
-                <Star size={11} fill={isSaved ? "#F59E0B" : "none"} color={isSaved ? "#D97706" : C.textMid} />
+                <Star size={11} fill={isSaved ? C.gold : "none"} color={isSaved ? C.goldDark : C.textMid} />
                 {isSaved ? t("card.saved") : t("card.save")}
               </button>
             )}
@@ -343,23 +345,23 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         <button
           onClick={handleContact}
           aria-label={`Contact seller for ${teamName(match.home)} vs ${teamName(match.away)}`}
+          className="wc26-whatsapp-btn"
           style={{
             width: "100%", padding: "10px", borderRadius: 10,
-            background: "linear-gradient(135deg,#25D366,#128C7E)",
+            background: `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
             border: "none", color: "#fff", fontSize: 13, fontWeight: 700,
-            cursor: "pointer", transition: "all 0.15s",
+            cursor: "pointer",
             display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-            boxShadow: "0 3px 12px rgba(37,211,102,0.30)", ...dm,
+            ...dm,
           }}
-          onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(37,211,102,0.45)"; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)";    e.currentTarget.style.boxShadow = "0 3px 12px rgba(37,211,102,0.30)"; }}
         >
           <span>💬</span> {t("card.contact")}
         </button>
       </div>
 
-      {/* WhatsApp confirm modal */}
-      {confirmOpen && (
+      {/* WhatsApp confirm modal — rendered in a Portal to prevent card onClick from firing */}
+    </div>
+    {confirmOpen && ReactDOM.createPortal(
         <div
           onClick={e => { e.stopPropagation(); setConfirmOpen(false); }}
           style={{
@@ -371,23 +373,24 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         >
           <div
             onClick={e => e.stopPropagation()}
+            className="wc26-modal-entering"
             style={{
-              background: "#fff", borderRadius: 16, padding: 28,
+              background: C.bgCard, borderRadius: 16, padding: 28,
               maxWidth: 360, width: "100%",
-              boxShadow: "0 24px 60px rgba(15,23,42,0.25)",
+              boxShadow: C.shadowLg,
             }}
           >
             <div style={{ fontSize: 32, marginBottom: 12, textAlign: "center" }}>💬</div>
-            <div style={{ fontSize: 17, fontWeight: 800, color: "#0F172A", marginBottom: 8, textAlign: "center", fontFamily: "Sora,sans-serif" }}>
+            <div style={{ fontSize: 17, fontWeight: 800, color: C.text, marginBottom: 8, textAlign: "center", ...sora }}>
               {t("wa.title")}
             </div>
-            <div style={{ fontSize: 13, color: "#64748B", marginBottom: 6, textAlign: "center", fontFamily: "DM Sans,sans-serif", lineHeight: 1.5 }}>
+            <div style={{ fontSize: 13, color: C.textSoft, marginBottom: 6, textAlign: "center", lineHeight: 1.5, ...dm }}>
               {t("wa.about")}
             </div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#0F172A", textAlign: "center", marginBottom: 4, fontFamily: "DM Sans,sans-serif" }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: C.text, textAlign: "center", marginBottom: 4, ...dm }}>
               {labelTeam(match.home)} vs {labelTeam(match.away)}
             </div>
-            <div style={{ fontSize: 12, color: "#64748B", textAlign: "center", marginBottom: 20, fontFamily: "DM Sans,sans-serif" }}>
+            <div style={{ fontSize: 12, color: C.textSoft, textAlign: "center", marginBottom: 20, ...dm }}>
               {match.date} · {(() => {
                 try {
                   if (!match.isoDate || !match.time) return match.time ?? "";
@@ -400,26 +403,31 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
                 } catch { return match.time ?? ""; }
               })()} · {match.venue}
             </div>
-            <div style={{ fontSize: 12, color: "#92400E", background: "#FFF7ED", border: "1px solid #FED7AA", borderRadius: 8, padding: "10px 12px", marginBottom: 20, fontFamily: "DM Sans,sans-serif", lineHeight: 1.5 }}>
+            <div style={{ fontSize: 12, color: C.warnText, background: C.warnBg, border: `1px solid ${C.warnBorder}`, borderRadius: 8, padding: "10px 12px", marginBottom: 20, lineHeight: 1.5, ...dm }}>
               {t("wa.warning")}
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <button
                 onClick={e => { e.stopPropagation(); setConfirmOpen(false); }}
-                style={{ flex: 1, padding: "11px", borderRadius: 10, border: "1px solid #E2E8F0", background: "#F8FAFC", fontSize: 13, fontWeight: 600, color: "#64748B", cursor: "pointer", fontFamily: "DM Sans,sans-serif" }}
+                className="wc26-btn wc26-btn-secondary"
+                style={{ flex: 1, padding: "11px", borderRadius: 10, fontSize: 13,
+                  border: `1px solid ${C.border}`, background: C.bg,
+                  color: C.textMid, fontWeight: 600, cursor: "pointer", ...dm }}
               >
                 {t("wa.cancel")}
               </button>
               <button
                 onClick={handleConfirmContact}
-                style={{ flex: 2, padding: "11px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#25D366,#128C7E)", fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontFamily: "DM Sans,sans-serif" }}
+                className="wc26-whatsapp-btn"
+                style={{ flex: 2, padding: "11px", borderRadius: 10, border: "none", background: `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, ...dm }}
               >
                 <span>💬</span> {t("wa.open")}
               </button>
             </div>
-          </div>
-        </div>
-      )}
-    </div>
+      </div>
+    </div>,
+    document.body
+  )}
+  </>
   );
 }
