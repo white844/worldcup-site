@@ -53,18 +53,6 @@ export function isStartingSoon(match, nowMs) {
   return diffMs > 0 && diffMs <= 86_400_000;
 }
 
-/**
- * Time-based live detection — fallback when API doesn't set isLive.
- * Considers a match "in progress" from kickoff until kickoff + 130 min
- * (90 min + 40 min buffer for extra time / injury time).
- */
-export function isMatchLiveByTime(match, nowMs) {
-  if (match.isLive) return true; // API already confirmed it
-  const kickoff    = kickoffUTC(match.isoDate, match.time);
-  const kickoffEnd = kickoff + 130 * 60_000; // 130 minutes
-  return nowMs >= kickoff && nowMs <= kickoffEnd;
-}
-
 // ─── NEW: Countdown formatter ─────────────────────────────────────────────────
 
 /**
@@ -74,14 +62,26 @@ export function isMatchLiveByTime(match, nowMs) {
  * "Starts in 45m"     — < 1 h away
  * "Starts in 30s"     — < 1 min away
  * "Starting now"      — within 30 s of kickoff
- * "In progress"       — kickoff passed, match day still active
- * null                — > 7 days away (don't clutter the card)
+ * null                — match is finished, live, kickoff already passed
+ *                        without status confirmation, or > 7 days away
  */
 export function kickoffCountdown(match, nowMs) {
+  // Trust real match status over the clock when we have it: a match
+  // that the API confirms is FINISHED should never show "In progress",
+  // and one that's still SCHEDULED shouldn't either, even if its listed
+  // kickoff time has technically elapsed (stale/placeholder schedule data).
+  if (match.isFinished) return null;
+  if (match.isLive)     return null;
+
   const kickoff = kickoffUTC(match.isoDate, match.time);
   const diffMs  = kickoff - nowMs;
 
-  if (diffMs <= 0)                  return "In progress";
+  if (diffMs <= 0) {
+    // Kickoff time has passed but we have no live/finished confirmation
+    // (e.g. static fallback data with an imprecise time). Don't claim
+    // the match is "in progress" — just stop showing a countdown.
+    return null;
+  }
   if (diffMs > 7 * 86_400_000)     return null;
 
   const totalSecs = Math.floor(diffMs / 1_000);
@@ -158,22 +158,12 @@ export function useMatchSchedule(allMatches) {
   }, []);
 
   // ── Compute live / upcoming / starting-soon / groups ──────────────────────
-  const { liveMatches, nextIsoDate, startingSoonIds, liveIds, dateGroups } = useMemo(() => {
-    // Augment matches: set isLive by time if API hasn't already flagged it
-    const augmented = allMatches.map(m => {
-      const liveByClock = isMatchLiveByTime(m, nowMs);
-      if (liveByClock && !m.isLive) return { ...m, isLive: true };
-      return m;
-    });
+  const { liveMatches, nextIsoDate, startingSoonIds, dateGroups } = useMemo(() => {
+    const live = allMatches.filter(m => !m.isFinished && !isMatchPast(m.isoDate, nowMs));
 
-    const live = augmented.filter(m => !m.isFinished && !isMatchPast(m.isoDate, nowMs));
-
-    // Track which matches are confirmed live (by API or by clock)
-    const liveSet = new Set(live.filter(m => m.isLive).map(m => m.id));
-
-    // Starting-soon set (kickoff within 24 h, not already live)
+    // Starting-soon set (kickoff within 24 h)
     const soonIds = new Set(
-      live.filter(m => !m.isLive && isStartingSoon(m, nowMs)).map(m => m.id)
+      live.filter(m => isStartingSoon(m, nowMs)).map(m => m.id)
     );
 
     // Sort: live matches first, then starting-soon, then soonest date, then stable ID order
@@ -195,7 +185,6 @@ export function useMatchSchedule(allMatches) {
       liveMatches:     live,
       nextIsoDate:     next,
       startingSoonIds: soonIds,
-      liveIds:         liveSet,
       dateGroups:      groups,
     };
   }, [allMatches, nowMs]);
@@ -268,7 +257,6 @@ export function useMatchSchedule(allMatches) {
     ariaRef,
     // New
     startingSoonIds,
-    liveIds,
     dateGroups,
   };
 }
