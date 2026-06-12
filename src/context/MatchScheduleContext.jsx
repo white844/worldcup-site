@@ -48,6 +48,6 @@ export function useSchedule() {
   const ctx = useContext(MatchScheduleContext);
   if (!ctx) throw new Error("useSchedule must be used inside MatchScheduleProvider");
   // ctx now includes: liveMatches, nextIsoDate, expiredIds, nowMs, ariaRef,
-  //                   startingSoonIds, dateGroups
+  //                   startingSoonIds, liveIds, dateGroups
   return ctx;
 }

@@ -51,7 +51,7 @@ export default function Marketplace() {
   useEffect(() => setPageMeta("Browse Tickets | " + SITE_TITLE, "Browse verified World Cup 2026 tickets by team, city, date and price. All listings admin-reviewed."), []);
 
   // ── Live schedule from context (ticks every 60 s, already fed from live API) ─
-  const { liveMatches, nextIsoDate, expiredIds, startingSoonIds, dateGroups, usingLive, lastUpdated, loading } = useSchedule();
+  const { liveMatches, nextIsoDate, expiredIds, startingSoonIds, liveIds, dateGroups, usingLive, lastUpdated, loading } = useSchedule();
 
   // Buyer features — wishlist operates on the live matches from context
   const { savedIds, toggle: toggleSave, isSaved, savedMatches } = useWishlist(liveMatches);
@@ -389,7 +389,7 @@ export default function Marketplace() {
 
           {/* Next match banner — only on page 1, no active filters */}
           {safePage === 1 && !search && !cities.length && !teams.length && !dates.length && !quick && (
-            <NextMatchBanner nextIsoDate={nextIsoDate} nextMatches={nextMatches} />
+            <NextMatchBanner nextIsoDate={nextIsoDate} nextMatches={nextMatches} liveIds={liveIds} />
           )}
 
           {/* Empty state */}
@@ -473,7 +473,7 @@ export default function Marketplace() {
                           key={`card-${m.id}`}
                           match={m}
                           urgency={urgencyMap[m.id] ?? { tickets: 3, viewers: 20 }}
-                          isNext={nextIds.has(m.id)}
+                          isNext={nextIds.has(m.id) && !m.isLive}
                           isStartingSoon={startingSoonIds.has(m.id)}
                           isExpiring={false}
                           isSaved={isSaved(m.id)}
