@@ -724,7 +724,119 @@ const CATEGORY_PRICES = {
   },
 };
 
+// ─── Market price overrides (sourced from SeatGeek, Jun 12 2026) ─────────────
+// Maps fixture ID → market "from" price in USD.
+// getPrice() returns this directly when a match has an override, bypassing
+// the category-based formula so listings reflect real market benchmarks.
+// Includes ALL fixtures (both active and commented-out) so prices are ready
+// the moment any match is uncommented in wc26Schedule.js.
+const PRICE_OVERRIDES = {
+  // ── GROUP A ──────────────────────────────────────────────────────────────
+  "gs01":  399, // Mexico vs South Africa       — Jun 11, Estadio Azteca (opening match; SeatGeek premium)
+  "gs02":  308, // South Korea vs Czech Republic — Jun 11, Estadio Akron   [commented out]
+  "gs03":  259, // Czech Republic vs South Africa— Jun 18, Mercedes-Benz   [commented out]
+  "gs04": 3615, // Mexico vs South Korea         — Jun 18, Estadio Akron
+  "gs05": 2159, // Czech Republic vs Mexico      — Jun 24, Estadio Azteca  [commented out — SeatGeek "Mexico vs Czechia" $2,159]
+  "gs06":  308, // South Africa vs South Korea   — Jun 24, Estadio BBVA    [commented out — peer to gs02]
+
+  // ── GROUP B ──────────────────────────────────────────────────────────────
+  "gs07":  270, // Canada vs Bosnia & Herzegovina— Jun 12, BMO Field
+  "gs08":  393, // Qatar vs Switzerland          — Jun 13, Levi's Stadium   [commented out — SeatGeek $393]
+  "gs09":  434, // Switzerland vs Bosnia & Herz  — Jun 18, SoFi Stadium    [commented out — SeatGeek "Switzerland vs Bosnia" $434]
+  "gs10":  471, // Canada vs Qatar               — Jun 18, BC Place
+  "gs11":  588, // Switzerland vs Canada         — Jun 24, BC Place         [SeatGeek "Canada vs Switzerland" $588]
+  "gs12":  253, // Bosnia & Herz vs Qatar        — Jun 24, Lumen Field      [commented out — SeatGeek "Qatar vs Bosnia" $253]
+
+  // ── GROUP C ──────────────────────────────────────────────────────────────
+  "gs13": 1569, // Brazil vs Morocco             — Jun 13, MetLife Stadium
+  "gs14":  929, // Haiti vs Scotland             — Jun 13, Gillette Stadium  [commented out — SeatGeek "Haiti vs Scotland" $929]
+  "gs15":  757, // Scotland vs Morocco           — Jun 19, Gillette Stadium  [commented out — SeatGeek $757]
+  "gs16": 1100, // Brazil vs Haiti               — Jun 19, Lincoln Financial Field
+  "gs17": 1869, // Scotland vs Brazil            — Jun 24, Hard Rock Stadium [SeatGeek "Brazil vs Scotland" $1,869]
+  "gs18":  442, // Morocco vs Haiti              — Jun 24, Mercedes-Benz     [SeatGeek "Morocco vs Haiti" $442]
+
+  // ── GROUP D ──────────────────────────────────────────────────────────────
+  "gs19": 1665, // USA vs Paraguay               — Jun 12, SoFi Stadium
+  "gs20":  275, // Australia vs Turkey           — Jun 13, BC Place          [commented out — SeatGeek $275]
+  "gs21": 1185, // USA vs Australia              — Jun 19, Lumen Field       [SeatGeek $1,185]
+  "gs22":  469, // Turkey vs Paraguay            — Jun 19, Levi's Stadium    [commented out — SeatGeek "Paraguay vs Turkey" $469]
+  "gs23":  469, // Turkey vs USA                 — Jun 25, SoFi Stadium      [peer to gs22]
+  "gs24":  275, // Paraguay vs Australia         — Jun 25, Levi's Stadium    [commented out — peer to gs20]
+
+  // ── GROUP E ──────────────────────────────────────────────────────────────
+  "gs25":  566, // Germany vs Curaçao            — Jun 14, NRG Stadium       [commented out — SeatGeek "Germany vs Curacao" $566]
+  "gs26":  933, // Ivory Coast vs Ecuador        — Jun 14, Lincoln Financial Field
+  "gs27":  985, // Germany vs Ivory Coast        — Jun 20, BMO Field         [SeatGeek $985]
+  "gs28":  419, // Ecuador vs Curaçao            — Jun 20, Arrowhead Stadium [commented out — SeatGeek $419]
+  "gs29":  419, // Curaçao vs Ivory Coast        — Jun 25, Lincoln Financial Field [commented out — peer to gs28]
+  "gs30":  933, // Ecuador vs Germany            — Jun 25, MetLife Stadium   [peer to gs26]
+
+  // ── GROUP F ──────────────────────────────────────────────────────────────
+  "gs31":  987, // Netherlands vs Japan          — Jun 14, AT&T Stadium
+  "gs32":  750, // Sweden vs Tunisia             — Jun 14, Estadio BBVA
+  "gs33":  708, // Netherlands vs Sweden         — Jun 20, NRG Stadium       [SeatGeek $708]
+  "gs34":  704, // Tunisia vs Japan              — Jun 20, Estadio BBVA      [SeatGeek "Japan vs Tunisia" $704]
+  "gs35":  987, // Japan vs Sweden               — Jun 25, AT&T Stadium      [peer to gs31]
+  "gs36":  750, // Tunisia vs Netherlands        — Jun 25, Arrowhead Stadium [peer to gs32]
+
+  // ── GROUP G ──────────────────────────────────────────────────────────────
+  "gs37":  463, // Belgium vs Egypt              — Jun 15, Lumen Field
+  "gs38":  308, // Iran vs New Zealand           — Jun 15, SoFi Stadium      [commented out — SeatGeek "New Zealand vs Iran" $308]
+  "gs39":  386, // Belgium vs Iran               — Jun 21, SoFi Stadium      [SeatGeek $386]
+  "gs40":  273, // New Zealand vs Egypt          — Jun 21, BC Place          [commented out — SeatGeek $273]
+  "gs41":  308, // Egypt vs Iran                 — Jun 26, Lumen Field       [commented out — peer to gs38]
+  "gs42":  386, // New Zealand vs Belgium        — Jun 26, BC Place          [commented out — peer to gs39]
+
+  // ── GROUP H ──────────────────────────────────────────────────────────────
+  "gs43":  618, // Spain vs Cape Verde           — Jun 15, Mercedes-Benz Stadium
+  "gs44":  427, // Saudi Arabia vs Uruguay       — Jun 15, Hard Rock Stadium
+  "gs45":  833, // Spain vs Saudi Arabia         — Jun 21, Mercedes-Benz     [SeatGeek $833]
+  "gs46":  413, // Uruguay vs Cape Verde         — Jun 21, Hard Rock Stadium [SeatGeek $413]
+  "gs47":  413, // Cape Verde vs Saudi Arabia    — Jun 26, NRG Stadium       [peer to gs46]
+  "gs48":  618, // Uruguay vs Spain              — Jun 26, Estadio Akron     [peer to gs43]
+
+  // ── GROUP I ──────────────────────────────────────────────────────────────
+  "gs49":  864, // France vs Senegal             — Jun 16, MetLife Stadium
+  "gs50":  366, // Iraq vs Norway                — Jun 16, Gillette Stadium
+  "gs51":  704, // France vs Iraq                — Jun 22, Lincoln Financial Field [SeatGeek $704]
+  "gs52":  565, // Norway vs Senegal             — Jun 22, MetLife Stadium   [SeatGeek $565]
+  "gs53":  864, // Norway vs France              — Jun 26, Gillette Stadium  [peer to gs49]
+  "gs54":  366, // Senegal vs Iraq               — Jun 26, BMO Field         [peer to gs50]
+
+  // ── GROUP J ──────────────────────────────────────────────────────────────
+  "gs55":  831, // Argentina vs Algeria          — Jun 16, Arrowhead Stadium
+  "gs56":  244, // Austria vs Jordan             — Jun 16, Levi's Stadium    [commented out — SeatGeek $244]
+  "gs57": 1451, // Argentina vs Austria          — Jun 22, AT&T Stadium      [SeatGeek $1,451]
+  "gs58":  263, // Jordan vs Algeria             — Jun 22, Levi's Stadium    [SeatGeek $263]
+  "gs59":  244, // Algeria vs Austria            — Jun 27, Arrowhead Stadium [peer to gs56]
+  "gs60":  831, // Jordan vs Argentina           — Jun 27, AT&T Stadium      [peer to gs55]
+
+  // ── GROUP K ──────────────────────────────────────────────────────────────
+  "gs61": 1044, // Portugal vs DR Congo          — Jun 17, NRG Stadium
+  "gs62":  821, // Uzbekistan vs Colombia        — Jun 17, Estadio Azteca
+  "gs63": 1328, // Portugal vs Uzbekistan        — Jun 23, NRG Stadium       [SeatGeek $1,328]
+  "gs64":  704, // Colombia vs DR Congo          — Jun 23, Estadio Akron     [SeatGeek $704]
+  "gs65": 1044, // Colombia vs Portugal          — Jun 27, Hard Rock Stadium [peer to gs61]
+  "gs66":  821, // DR Congo vs Uzbekistan        — Jun 27, Mercedes-Benz     [peer to gs62]
+
+  // ── GROUP L ──────────────────────────────────────────────────────────────
+  "gs67":  969, // England vs Croatia            — Jun 17, AT&T Stadium
+  "gs68":  405, // Ghana vs Panama               — Jun 17, BMO Field
+  "gs69":  763, // England vs Ghana              — Jun 23, Gillette Stadium  [SeatGeek $763]
+  "gs70":  698, // Panama vs Croatia             — Jun 23, BMO Field         [SeatGeek "Croatia vs Panama" $698]
+  "gs71":  969, // Panama vs England             — Jun 27, MetLife Stadium   [peer to gs67]
+  "gs72":  405, // Croatia vs Ghana              — Jun 27, Lincoln Financial Field [peer to gs68]
+};
+
 function getPrice(fixture, idx, category) {
+  // If we have a real market price for this fixture, use it directly.
+  // Vary slightly by idx so multiple listings of the same match aren't identical.
+  if (PRICE_OVERRIDES[fixture.id] !== undefined) {
+    const base    = PRICE_OVERRIDES[fixture.id];
+    const offsets = [-30, -20, -10, 0, 10, 20, 40, 60, 80];
+    return Math.max(200, base + offsets[idx % offsets.length]);
+  }
+
   const isHD  = WC26_HIGH_DEMAND.has(fixture.id);
   const round = fixture.round ?? `Group ${fixture.group}`;
   const cat   = category ?? "Category 3"; // fallback
