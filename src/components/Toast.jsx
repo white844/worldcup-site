@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { CheckCircle, MessageCircle, Heart, Info, X } from "lucide-react";
 import { C, dm } from "../tokens";
 
@@ -20,17 +20,28 @@ function Toast({ id, type = "success", message, onDismiss }) {
   const cfg     = ICONS[type] || ICONS.success;
   const Icon    = cfg.icon;
   const [vis, setVis] = useState(false);
+  const dismissedRef = useRef(false);
+
+  const ENTER_MS = 200;
+  const EXIT_MS  = 150;
+  const LIFETIME_MS = 3000;
 
   useEffect(() => {
     // Trigger enter animation on next frame
     const t1 = setTimeout(() => setVis(true), 10);
-    // Auto-dismiss after 3 s
-    const t2 = setTimeout(() => { setVis(false); setTimeout(() => onDismiss(id), 300); }, 3000);
+    // Auto-dismiss after lifetime
+    const t2 = setTimeout(() => setVis(false), LIFETIME_MS);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [id, onDismiss]);
+  }, [id]);
 
   return (
     <div
+      onTransitionEnd={() => {
+        if (!vis && !dismissedRef.current) {
+          dismissedRef.current = true;
+          onDismiss(id);
+        }
+      }}
       style={{
         display:        "flex",
         alignItems:     "center",
@@ -46,7 +57,9 @@ function Toast({ id, type = "success", message, onDismiss }) {
         pointerEvents:  "all",
         opacity:        vis ? 1 : 0,
         transform:      vis ? "translateY(0) scale(1)" : "translateY(8px) scale(0.97)",
-        transition:     "opacity 0.25s ease, transform 0.25s ease",
+        transition:     vis
+          ? `opacity ${ENTER_MS}ms var(--ease-out), transform ${ENTER_MS}ms var(--ease-out)`
+          : `opacity ${EXIT_MS}ms ease-out, transform ${EXIT_MS}ms ease-out`,
         cursor:         "default",
       }}
     >
@@ -57,7 +70,7 @@ function Toast({ id, type = "success", message, onDismiss }) {
         {message}
       </span>
       <button
-        onClick={() => { setVis(false); setTimeout(() => onDismiss(id), 300); }}
+        onClick={() => setVis(false)}
         style={{ background: "none", border: "none", cursor: "pointer", color: C.textSoft, display: "flex", flexShrink: 0, padding: 0 }}
       >
         <X size={12} />

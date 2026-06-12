@@ -23,12 +23,18 @@ export const C = {
   accent:       "#E8302A",
   accentDark:   "#c0201b",
   gold:         "#F59E0B",
+  goldBg:       "#FFFBEB",
+  goldDark:     "#D97706",
   green:        "#16A34A",
   greenBg:      "#DCFCE7",
   greenText:    "#15803D",
   greenBorder:  "#86EFAC",
   purple:       "#8B5CF6",
   purpleLight:  "#A78BFA",
+  whatsapp:     "#25D366",
+  whatsappDark: "#128C7E",
+  liveRed:      "#EF4444",
+  liveRedDark:  "#B91C1C",
 
   // ─── Semantic surface colours ─────────────────
   infoBg:       "#EEF3FF",
@@ -121,6 +127,17 @@ export const GLOBAL_CSS = `
   @import url('${FONTS_URL}');
 
   /* ═══════════════════════════════════════════════
+     EASING TOKENS
+     Use these instead of default CSS easings — the
+     built-in curves are too weak to feel intentional.
+  ════════════════════════════════════════════════ */
+  :root {
+    --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  /* ═══════════════════════════════════════════════
      GLOBAL RESET & BASE
   ════════════════════════════════════════════════ */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -153,9 +170,23 @@ export const GLOBAL_CSS = `
   @keyframes wc26-slide       { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
   @keyframes wc26-spin        { to{transform:rotate(360deg)} }
   @keyframes wc26-fadein      { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes wc26-fadeout     { from{opacity:1;transform:scale(1)} to{opacity:0;transform:scale(0.97);max-height:0;margin:0;padding:0} }
+  @keyframes wc26-card-in     { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes wc26-fadeout     { from{opacity:1;transform:scale(1)} to{opacity:0;transform:scale(0.97)} }
   @keyframes wc26-pulse-live  { 0%,100%{opacity:1} 50%{opacity:0.5} }
   @keyframes wc26-modal-in    { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes wc26-modal-out   { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(16px)} }
+
+  /* Respect reduced-motion preference: keep opacity/color transitions
+     for comprehension, drop continuous pulsing and position movement. */
+  @media (prefers-reduced-motion: reduce) {
+    .wc26-live-pulse, .wc26-status-pulse, .wc26-pulse-dot-glow, .wc26-soon-dot, .wc26-next-dot {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+    .wc26-card-hover:hover {
+      transform: none !important;
+    }
+  }
 
   /* ═══════════════════════════════════════════════
      TYPOGRAPHY
@@ -181,7 +212,9 @@ export const GLOBAL_CSS = `
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    transition: all 0.15s;
+    transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out),
+                background 0.15s var(--ease-out), border-color 0.15s var(--ease-out),
+                opacity 0.15s var(--ease-out);
     white-space: nowrap;
     line-height: 1;
   }
@@ -197,6 +230,14 @@ export const GLOBAL_CSS = `
   .wc26-btn-signout:hover { background: ${C.dangerBg}; color: ${C.accent}; border-color: ${C.dangerBorder}; }
   .wc26-btn-white     { background: #fff; color: ${C.blue}; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.20); }
   .wc26-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
+
+  /* Press feedback: every button variant compresses slightly on press,
+     and responds faster than it expands (80ms vs 150ms). */
+  .wc26-btn:active {
+    transform: scale(0.98);
+    transition-duration: 80ms;
+  }
+  .wc26-btn-white:active { transform: scale(0.98); }
 
   /* Button sizes */
   .wc26-btn-sm  { font-size: 12px; padding: 6px 12px; border-radius: 8px; min-height: 32px; }
@@ -218,8 +259,10 @@ export const GLOBAL_CSS = `
      CARDS
   ════════════════════════════════════════════════ */
   .wc26-card { background: ${C.bgCard}; border: 1px solid ${C.border}; border-radius: 14px; }
-  .wc26-card-hover { transition: box-shadow 0.2s, transform 0.2s; cursor: pointer; }
-  .wc26-card-hover:hover { box-shadow: ${C.shadowLg}; transform: translateY(-3px); }
+  .wc26-card-hover { transition: box-shadow 0.2s var(--ease-out), transform 0.2s var(--ease-out); cursor: pointer; }
+  @media (hover: hover) and (pointer: fine) {
+    .wc26-card-hover:hover { box-shadow: ${C.shadowLg}; transform: translateY(-3px); }
+  }
 
   /* ═══════════════════════════════════════════════
      STATUS PILLS
@@ -385,6 +428,51 @@ export const GLOBAL_CSS = `
       background: rgba(255,255,255,0.06);
       border-radius: 12px;
     }
+  }
+
+  /* ═══════════════════════════════════════════════
+     STAGGER ANIMATION UTILITY
+     Apply with style={{ '--i': index }} on each item
+     (capped at index 5 to keep stagger snappy).
+  ════════════════════════════════════════════════ */
+  .wc26-stagger-item {
+    opacity: 0;
+    animation: wc26-fadein 0.3s var(--ease-out) forwards;
+    animation-delay: calc(min(var(--i, 0), 5) * 50ms);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wc26-stagger-item { animation: none; opacity: 1; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     MATCH CARD — hover lift (CSS-driven, no JS state)
+  ════════════════════════════════════════════════ */
+  .wc26-match-card {
+    transition: box-shadow 0.2s var(--ease-out), border-color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wc26-match-card:not(.wc26-match-card-static):hover {
+      transform: translateY(-3px);
+      box-shadow: ${C.shadowLg};
+    }
+  }
+
+  /* ═══════════════════════════════════════════════
+     WHATSAPP CONTACT BUTTON
+  ════════════════════════════════════════════════ */
+  .wc26-whatsapp-btn {
+    transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
+    box-shadow: 0 3px 12px rgba(37,211,102,0.30);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wc26-whatsapp-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37,211,102,0.45);
+    }
+  }
+  .wc26-whatsapp-btn:active {
+    transform: scale(0.98);
+    transition-duration: 80ms;
   }
 
   /* ═══════════════════════════════════════════════
@@ -709,6 +797,15 @@ export const GLOBAL_CSS = `
     }
   }
 
+  /* Asymmetric modal timing: enter slower with the drawer curve,
+     exit faster and snappier (system responding to dismissal). */
+  .wc26-modal-entering {
+    animation: wc26-modal-in 0.25s var(--ease-drawer);
+  }
+  .wc26-modal-exiting {
+    animation: wc26-modal-out 0.15s ease-out forwards;
+  }
+
   /* ═══════════════════════════════════════════════
      TOAST
   ════════════════════════════════════════════════ */
@@ -771,13 +868,19 @@ export const GLOBAL_CSS = `
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), opacity 0.15s var(--ease-out);
     box-shadow: ${C.shadowBlue};
     font-family: 'DM Sans', sans-serif;
   }
-  .wc26-sell-btn:hover {
-    opacity: 0.92;
-    transform: translateY(-1px);
+  @media (hover: hover) and (pointer: fine) {
+    .wc26-sell-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+  }
+  .wc26-sell-btn:active {
+    transform: scale(0.98);
+    transition-duration: 80ms;
   }
 
   /* ═══════════════════════════════════════════════
