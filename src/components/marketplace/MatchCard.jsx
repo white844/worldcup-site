@@ -87,7 +87,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
       onClick={() => navigate(`/marketplace/${match.id}`)}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
-      aria-label={`${teamName(match.home)} vs ${teamName(match.away)}, ${match.date}, $${match.price} per ticket${isNext ? ", next upcoming match" : ""}${isStartingSoon ? ", starting within 24 hours" : ""}${countdown ? ", " + countdown : ""}`}
+      aria-label={`${teamName(match.home)} vs ${teamName(match.away)}, ${match.date}, ${match.price} per ticket${isNext ? ", next upcoming match" : ""}${isStartingSoon ? ", starting within 24 hours" : ""}${countdown ? ", " + countdown : ""}`}
       style={{
         borderRadius: 14, overflow: "hidden", cursor: isExpiring ? "default" : "pointer",
         transition: "box-shadow 0.2s, border-color 0.2s, transform 0.2s",
@@ -146,7 +146,11 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               fontVariantNumeric: "tabular-nums", letterSpacing: "0.04em",
             }}>
               {match.liveScore.home} – {match.liveScore.away}
-              {match.liveScore.minute ? <span style={{ fontSize: 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>{match.liveScore.minute}'</span> : null}
+              {match.isHalfTimeScore
+                ? <span style={{ fontSize: 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>HT</span>
+                : match.liveScore.minute
+                  ? <span style={{ fontSize: 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>{match.liveScore.minute}'</span>
+                  : null}
             </span>
           )}
         </div>
@@ -223,7 +227,9 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               <span style={{
                 padding:"2px 7px", borderRadius:999, fontSize:9, fontWeight:800,
                 background:"#EF4444", color:"#fff", letterSpacing:".06em",
-              }}>● LIVE {match.liveScore ? `${match.liveScore.home}–${match.liveScore.away}${match.liveScore.minute ? ` ${match.liveScore.minute}'` : ""}` : ""}</span>
+              }}>● LIVE {match.liveScore && match.liveScore.home != null
+                  ? `${match.liveScore.home}–${match.liveScore.away}${match.isHalfTimeScore ? " HT" : match.liveScore.minute ? ` ${match.liveScore.minute}'` : ""}`
+                  : ""}</span>
             )}
             <span className="wc26-pill wc26-pill-sm"
               style={{ background: statusPill.bg, color: statusPill.color, border: `1px solid ${statusPill.border}` }}>
@@ -249,11 +255,14 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, marginBottom: 6, ...dm }}>
           <Calendar size={11} color={C.blue} />{match.date} · {(() => {
             try {
+              if (!match.isoDate || !match.time) return match.time ?? "";
               const [y, mo, d] = match.isoDate.split("-").map(Number);
               const [h, m] = match.time.split(":").map(Number);
+              if ([y, mo, d, h, m].some(isNaN)) return match.time;
               const utcDate = new Date(Date.UTC(y, mo - 1, d, h, m));
+              if (isNaN(utcDate.getTime())) return match.time;
               return utcDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-            } catch { return match.time; }
+            } catch { return match.time ?? ""; }
           })()}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, marginBottom: 14, ...dm }}>
@@ -379,7 +388,17 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               {labelTeam(match.home)} vs {labelTeam(match.away)}
             </div>
             <div style={{ fontSize: 12, color: "#64748B", textAlign: "center", marginBottom: 20, fontFamily: "DM Sans,sans-serif" }}>
-              {match.date} · {match.venue}
+              {match.date} · {(() => {
+                try {
+                  if (!match.isoDate || !match.time) return match.time ?? "";
+                  const [y, mo, d] = match.isoDate.split("-").map(Number);
+                  const [h, m] = match.time.split(":").map(Number);
+                  if ([y, mo, d, h, m].some(isNaN)) return match.time;
+                  const utcDate = new Date(Date.UTC(y, mo - 1, d, h, m));
+                  if (isNaN(utcDate.getTime())) return match.time;
+                  return utcDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                } catch { return match.time ?? ""; }
+              })()} · {match.venue}
             </div>
             <div style={{ fontSize: 12, color: "#92400E", background: "#FFF7ED", border: "1px solid #FED7AA", borderRadius: 8, padding: "10px 12px", marginBottom: 20, fontFamily: "DM Sans,sans-serif", lineHeight: 1.5 }}>
               {t("wa.warning")}

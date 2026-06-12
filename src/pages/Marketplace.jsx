@@ -102,7 +102,7 @@ export default function Marketplace() {
       if (q && ![m.homeRaw, m.awayRaw, m.venue, m.city].some(s => s?.toLowerCase().includes(q))) return false;
       if (cities.length && !cities.includes(m.city))  return false;
       if (teams.length) {
-        const matched = teams.some(t => { const tn = teamName(t); return tn === m.homeRaw || tn === m.awayRaw; });
+        const matched = teams.some(teamFilter => { const tn = teamName(teamFilter); return tn === m.homeRaw || tn === m.awayRaw; });
         if (!matched) return false;
       }
       if (dates.length && !dates.includes(m.date))   return false;
@@ -294,7 +294,16 @@ export default function Marketplace() {
             <span style={{ fontSize: 14, color: C.textSoft, ...dm }}>
               <strong style={{ color: C.text }}>{displayResult.length}</strong> {displayResult.length !== 1 ? t("mkt.matchesFound") : t("mkt.matchFound")}
               {loading && <span style={{ marginLeft:8, fontSize:10, fontWeight:700, color:C.blue, background:C.infoBg, padding:"2px 7px", borderRadius:999, border:`1px solid ${C.infoBorder}` }}>{t("filter.updating")}</span>}
-              {!loading && usingLive && <span style={{ marginLeft:8, fontSize:10, fontWeight:700, color:C.green, background:C.greenBg, padding:"2px 7px", borderRadius:999, border:`1px solid ${C.greenBorder}` }}>{t("filter.liveData")}</span>}
+              {!loading && usingLive && (
+                <span style={{ marginLeft:8, fontSize:10, fontWeight:700, color:C.green, background:C.greenBg, padding:"2px 7px", borderRadius:999, border:`1px solid ${C.greenBorder}` }}>
+                  {t("filter.liveData")}
+                  {lastUpdated && (
+                    <span style={{ fontWeight:500, opacity:0.8, marginLeft:4 }}>
+                      · {lastUpdated.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" })}
+                    </span>
+                  )}
+                </span>
+              )}
               {chips.length > 0 && (
                 <span> · <button onClick={clearAll} style={{ background: "none", border: "none", cursor: "pointer", color: C.blue, fontWeight: 600, fontSize: 14, ...dm }}>
                   {t("mkt.clearFilters")}
@@ -360,11 +369,21 @@ export default function Marketplace() {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
                     <span style={{ ...sora, fontSize: "clamp(22px,4vw,32px)", fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>
-                      🇲🇽 Mexico vs South Africa 🇿🇦
+                      {opening.homeRaw} vs {opening.awayRaw}
                     </span>
                   </div>
                   <div style={{ ...dm, fontSize: 13, color: "rgba(255,255,255,0.72)", marginTop: 8 }}>
-                    Today · Estadio Azteca, Mexico City · Kickoff 19:00 UTC
+                    Today · {opening.venue}{(() => {
+                      try {
+                        if (!opening.isoDate || !opening.time) return "";
+                        const [y, mo, d] = opening.isoDate.split("-").map(Number);
+                        const [h, m] = opening.time.split(":").map(Number);
+                        if ([y, mo, d, h, m].some(isNaN)) return "";
+                        const utcDate = new Date(Date.UTC(y, mo - 1, d, h, m));
+                        if (isNaN(utcDate.getTime())) return "";
+                        return " · Kickoff " + utcDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                      } catch { return ""; }
+                    })()}
                   </div>
                 </div>
               </div>
@@ -496,12 +515,12 @@ export default function Marketplace() {
           {totalPages > 1 && (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 48 }}>
               <Button variant="secondary" size="sm" disabled={safePage === 1}
-                onClick={() => setPage(Math.max(1, safePage - 1))}
+                onClick={() => { if (safePage > 1) setPage(safePage - 1); }}
                 style={{ padding: "8px", borderRadius: 10 }}>
                 <ChevronLeft size={16} color={C.textMid} />
               </Button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-                <button key={p} onClick={() => setPage(p)}
+                <button key={p} onClick={() => { if (p !== safePage) setPage(p); }}
                   style={{
                     width: 36, height: 36, borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.15s", ...dm,
                     border: `1px solid ${p === safePage ? C.blue : C.border}`,
@@ -512,7 +531,7 @@ export default function Marketplace() {
                 </button>
               ))}
               <Button variant="secondary" size="sm" disabled={safePage === totalPages}
-                onClick={() => setPage(Math.min(totalPages, safePage + 1))}
+                onClick={() => { if (safePage < totalPages) setPage(safePage + 1); }}
                 style={{ padding: "8px", borderRadius: 10 }}>
                 <ChevronRight size={16} color={C.textMid} />
               </Button>
