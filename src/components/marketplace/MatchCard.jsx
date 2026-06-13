@@ -6,6 +6,8 @@
  *  urgency    — { tickets, viewers } from useUrgency
  *  isNext     — true when this match belongs to the next upcoming date group
  *  isExpiring — true when match just passed (triggers exit animation)
+ *  size       — "default" | "large". "large" is used for the pinned
+ *               Live Now hero card — bigger flags, price, and padding.
  */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -52,12 +54,13 @@ function FlagImg({ raw, size = 44 }) {
   );
 }
 
-export default function MatchCard({ match, urgency, isNext = false, isExpiring = false, isStartingSoon = false, isSaved = false, onToggleSave, alertPrice = null, onSetAlert }) {
+export default function MatchCard({ match, urgency, isNext = false, isExpiring = false, isStartingSoon = false, isSaved = false, onToggleSave, alertPrice = null, onSetAlert, size = "default" }) {
   const { t } = useI18n();
   const navigate      = useNavigate();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { tickets = 3, viewers = 20 } = urgency ?? {};
   const isLimited     = tickets <= 2;
+  const isLarge       = size === "large";
   // Live countdown — recalculated on each render (nowMs ticks every 60 s from context)
   // We import nowMs via a lightweight re-export of Date.now since MatchCard
   // doesn't need to subscribe to the full context — the parent re-renders it.
@@ -85,7 +88,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
     <div
       onClick={() => navigate(`/marketplace/${match.id}`)}
       aria-label={`${teamName(match.home)} vs ${teamName(match.away)}, ${match.date}, ${match.price} per ticket${isNext ? ", next upcoming match" : ""}${isStartingSoon ? ", starting within 24 hours" : ""}${countdown ? ", " + countdown : ""}`}
-      className={`wc26-match-card ${isExpiring ? "wc26-match-card-static" : ""}`}
+      className={`wc26-match-card ${isExpiring ? "wc26-match-card-static" : ""} ${isLarge ? "wc26-match-card-large" : ""}`}
       style={{
         borderRadius: 14, overflow: "hidden", cursor: isExpiring ? "default" : "pointer",
         background: C.bgCard,
@@ -115,37 +118,37 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
     >
       {/* Priority ribbon: Live > Opening Match > Starting Soon > Up Next > countdown */}
       {match.isLive ? (
-        <div style={{
+        <div className="wc26-live-pulse" style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "6px 14px",
+          padding: isLarge ? "10px 22px" : "6px 14px",
           background: `linear-gradient(90deg, ${C.liveRedDark}, ${C.liveRed})`,
-          fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
+          fontSize: isLarge ? 13 : 10, fontWeight: 800, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "#fff", ...dm,
           animation: "wc26-pulse-live 1s ease-in-out infinite",
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: isLarge ? 10 : 7 }}>
             <span className="wc26-live-pulse" style={{
-              width: 7, height: 7, borderRadius: "50%", background: "#fff",
+              width: isLarge ? 10 : 7, height: isLarge ? 10 : 7, borderRadius: "50%", background: "#fff",
               boxShadow: "0 0 0 2px rgba(255,255,255,0.4)", flexShrink: 0,
             }} />
             Live Now
             {match.isOpeningMatch && (
-              <span style={{ opacity: 0.85, fontWeight: 600, textTransform: "none", letterSpacing: 0, fontSize: 9 }}>
+              <span style={{ opacity: 0.85, fontWeight: 600, textTransform: "none", letterSpacing: 0, fontSize: isLarge ? 12 : 9 }}>
                 · Opening Match
               </span>
             )}
           </div>
           {match.liveScore && match.liveScore.home != null && (
             <span style={{
-              fontSize: 13, fontWeight: 900, background: "rgba(0,0,0,0.25)",
-              padding: "2px 10px", borderRadius: 6,
+              fontSize: isLarge ? 18 : 13, fontWeight: 900, background: "rgba(0,0,0,0.25)",
+              padding: isLarge ? "4px 14px" : "2px 10px", borderRadius: 6,
               fontVariantNumeric: "tabular-nums", letterSpacing: "0.04em",
             }}>
               {match.liveScore.home} – {match.liveScore.away}
               {match.isHalfTimeScore
-                ? <span style={{ fontSize: 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>HT</span>
+                ? <span style={{ fontSize: isLarge ? 12 : 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>HT</span>
                 : match.liveScore.minute
-                  ? <span style={{ fontSize: 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>{match.liveScore.minute}'</span>
+                  ? <span style={{ fontSize: isLarge ? 12 : 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>{match.liveScore.minute}'</span>
                   : null}
             </span>
           )}
@@ -213,43 +216,43 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
       ) : null}
 
       {/* Header */}
-      <div style={{ padding: "12px 14px", background: C.bgSubtle, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-          <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: C.textSoft, ...dm }}>
+      <div style={{ padding: isLarge ? "20px 24px" : "12px 14px", background: C.bgSubtle, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: isLarge ? 22 : 14 }}>
+          <span style={{ fontSize: isLarge ? 12 : 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: C.textSoft, ...dm }}>
             {match.group}
           </span>
           <div style={{ display:"flex", gap:6, alignItems:"center" }}>
             {match.isLive && !match.isOpeningMatch && (
               <span style={{
-                padding:"2px 7px", borderRadius:999, fontSize:9, fontWeight:800,
+                padding: isLarge ? "3px 10px" : "2px 7px", borderRadius:999, fontSize: isLarge ? 12 : 9, fontWeight:800,
                 background: C.liveRed, color:"#fff", letterSpacing:".06em",
               }}>● LIVE {match.liveScore && match.liveScore.home != null
                   ? `${match.liveScore.home}–${match.liveScore.away}${match.isHalfTimeScore ? " HT" : match.liveScore.minute ? ` ${match.liveScore.minute}'` : ""}`
                   : ""}</span>
             )}
             <span className="wc26-pill wc26-pill-sm"
-              style={{ background: statusPill.bg, color: statusPill.color, border: `1px solid ${statusPill.border}` }}>
+              style={{ background: statusPill.bg, color: statusPill.color, border: `1px solid ${statusPill.border}`, fontSize: isLarge ? 12 : undefined, padding: isLarge ? "4px 12px" : undefined }}>
               {statusPill.label}
             </span>
           </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: isLarge ? 16 : 8 }}>
           <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
-            <div style={{ marginBottom: 4, display: "flex", justifyContent: "center" }}><FlagImg raw={match.home} size={38} /></div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", ...dm }}>{labelTeam(match.home)}</div>
+            <div style={{ marginBottom: isLarge ? 8 : 4, display: "flex", justifyContent: "center" }}><FlagImg raw={match.home} size={isLarge ? 72 : 38} /></div>
+            <div style={{ fontSize: isLarge ? 16 : 12, fontWeight: 700, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", ...dm }}>{labelTeam(match.home)}</div>
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: C.textSoft, padding: "4px 8px", background: C.bgCard, borderRadius: 8, flexShrink: 0, ...dm }}>VS</div>
+          <div style={{ fontSize: isLarge ? 13 : 11, fontWeight: 700, color: C.textSoft, padding: isLarge ? "6px 12px" : "4px 8px", background: C.bgCard, borderRadius: 8, flexShrink: 0, ...dm }}>VS</div>
           <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
-            <div style={{ marginBottom: 4, display: "flex", justifyContent: "center" }}><FlagImg raw={match.away} size={38} /></div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", ...dm }}>{labelTeam(match.away)}</div>
+            <div style={{ marginBottom: isLarge ? 8 : 4, display: "flex", justifyContent: "center" }}><FlagImg raw={match.away} size={isLarge ? 72 : 38} /></div>
+            <div style={{ fontSize: isLarge ? 16 : 12, fontWeight: 700, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", ...dm }}>{labelTeam(match.away)}</div>
           </div>
         </div>
       </div>
 
       {/* Body */}
-      <div style={{ padding: "12px 14px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, marginBottom: 6, ...dm }}>
-          <Calendar size={11} color={C.blue} />{match.date} · {(() => {
+      <div style={{ padding: isLarge ? "20px 24px" : "12px 14px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: isLarge ? 14 : 12, color: C.textMid, marginBottom: isLarge ? 10 : 6, ...dm }}>
+          <Calendar size={isLarge ? 14 : 11} color={C.blue} />{match.date} · {(() => {
             try {
               if (!match.isoDate || !match.time) return match.time ?? "";
               const [y, mo, d] = match.isoDate.split("-").map(Number);
@@ -261,40 +264,40 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
             } catch { return match.time ?? ""; }
           })()}
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, marginBottom: 14, ...dm }}>
-          <MapPin size={11} color={C.blue} />
+        <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: isLarge ? 14 : 12, color: C.textMid, marginBottom: isLarge ? 20 : 14, ...dm }}>
+          <MapPin size={isLarge ? 14 : 11} color={C.blue} />
           <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{match.venue}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 10 }}>
-          <span style={{ ...sora, fontSize: 24, fontWeight: 800, color: C.text, letterSpacing: "-0.03em" }}>${match.price}</span>
-          <span style={{ fontSize: 12, color: C.textSoft, ...dm }}>/ticket</span>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: isLarge ? 14 : 10 }}>
+          <span style={{ ...sora, fontSize: isLarge ? 36 : 24, fontWeight: 800, color: C.text, letterSpacing: "-0.03em" }}>${match.price}</span>
+          <span style={{ fontSize: isLarge ? 14 : 12, color: C.textSoft, ...dm }}>/ticket</span>
         </div>
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 5,
-          padding: "4px 10px", borderRadius: 999,
+          padding: isLarge ? "6px 14px" : "4px 10px", borderRadius: 999,
           background: "#EFF6FF", border: "1px solid #BFDBFE",
-          fontSize: 11, fontWeight: 700, color: C.blue, ...dm,
+          fontSize: isLarge ? 13 : 11, fontWeight: 700, color: C.blue, ...dm,
         }}>
-          <ShieldCheck size={11} color={C.blue} /> Verified by Admin
+          <ShieldCheck size={isLarge ? 13 : 11} color={C.blue} /> Verified by Admin
         </div>
       </div>
 
       {/* Footer */}
-      <div style={{ padding: "10px 14px 14px", borderTop: `1px solid ${C.border}` }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+      <div style={{ padding: isLarge ? "16px 24px 24px" : "10px 14px 14px", borderTop: `1px solid ${C.border}` }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: isLarge ? 16 : 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <div style={{
-              width: 26, height: 26, borderRadius: "50%",
+              width: isLarge ? 32 : 26, height: isLarge ? 32 : 26, borderRadius: "50%",
               background: match.avatarBg, color: match.avatarColor || "#fff",
-              fontSize: 11, fontWeight: 700,
+              fontSize: isLarge ? 13 : 11, fontWeight: 700,
               display: "flex", alignItems: "center", justifyContent: "center", ...sora,
             }}>
               {match.avatar}
             </div>
-            <span style={{ fontSize: 12, fontWeight: 600, color: C.textMid, ...dm }}>{match.seller}</span>
-            <span style={{ fontSize: 11, color: C.gold, fontWeight: 700 }}>★ {match.rating}</span>
+            <span style={{ fontSize: isLarge ? 14 : 12, fontWeight: 600, color: C.textMid, ...dm }}>{match.seller}</span>
+            <span style={{ fontSize: isLarge ? 13 : 11, color: C.gold, fontWeight: 700 }}>★ {match.rating}</span>
           </div>
-          <span style={{ fontSize: 11, color: C.textSoft, ...dm }}>🕐 {timeAgo(match.listedAt)}</span>
+          <span style={{ fontSize: isLarge ? 13 : 11, color: C.textSoft, ...dm }}>🕐 {timeAgo(match.listedAt)}</span>
         </div>
         {/* Buyer action row */}
         {(onToggleSave || onSetAlert) && (
@@ -303,16 +306,16 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               <button
                 onClick={e => { e.stopPropagation(); onToggleSave(match.id, `${match.homeRaw} vs ${match.awayRaw}`); }}
                 style={{
-                  flex:1, padding:"7px 8px", borderRadius:8,
+                  flex:1, padding: isLarge ? "10px 12px" : "7px 8px", borderRadius:8,
                   border:`1.5px solid ${isSaved ? C.gold : C.border}`,
                   background: isSaved ? C.goldBg : C.bg,
                   color: isSaved ? C.goldDark : C.textMid,
-                  fontSize:11, fontWeight:700, cursor:"pointer",
+                  fontSize: isLarge ? 13 : 11, fontWeight:700, cursor:"pointer",
                   display:"flex", alignItems:"center", justifyContent:"center", gap:4,
                   transition:"background 0.15s var(--ease-out), border-color 0.15s var(--ease-out), color 0.15s var(--ease-out)", ...dm,
                 }}
               >
-                <Star size={11} fill={isSaved ? C.gold : "none"} color={isSaved ? C.goldDark : C.textMid} />
+                <Star size={isLarge ? 14 : 11} fill={isSaved ? C.gold : "none"} color={isSaved ? C.goldDark : C.textMid} />
                 {isSaved ? t("card.saved") : t("card.save")}
               </button>
             )}
@@ -320,16 +323,16 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               <button
                 onClick={e => { e.stopPropagation(); onSetAlert(match); }}
                 style={{
-                  flex:1, padding:"7px 8px", borderRadius:8,
+                  flex:1, padding: isLarge ? "10px 12px" : "7px 8px", borderRadius:8,
                   border:`1.5px solid ${alertPrice ? C.blue : C.border}`,
                   background: alertPrice ? C.infoBg : C.bg,
                   color: alertPrice ? C.blue : C.textMid,
-                  fontSize:11, fontWeight:700, cursor:"pointer",
+                  fontSize: isLarge ? 13 : 11, fontWeight:700, cursor:"pointer",
                   display:"flex", alignItems:"center", justifyContent:"center", gap:4,
                   transition:"background 0.15s var(--ease-out), border-color 0.15s var(--ease-out), color 0.15s var(--ease-out)", ...dm,
                 }}
               >
-                <Bell size={11} color={alertPrice ? C.blue : C.textMid} />
+                <Bell size={isLarge ? 14 : 11} color={alertPrice ? C.blue : C.textMid} />
                 {alertPrice ? `${t("card.alert")} $${alertPrice}` : t("card.alert")}
               </button>
             )}
@@ -341,9 +344,9 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           aria-label={`Contact seller for ${teamName(match.home)} vs ${teamName(match.away)}`}
           className="wc26-whatsapp-btn"
           style={{
-            width: "100%", padding: "10px", borderRadius: 10,
+            width: "100%", padding: isLarge ? "13px" : "10px", borderRadius: 10,
             background: `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
-            border: "none", color: "#fff", fontSize: 13, fontWeight: 700,
+            border: "none", color: "#fff", fontSize: isLarge ? 15 : 13, fontWeight: 700,
             cursor: "pointer",
             display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
             boxShadow: "0 3px 12px rgba(37,211,102,0.30)", ...dm,

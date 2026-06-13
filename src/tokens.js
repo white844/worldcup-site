@@ -457,6 +457,34 @@ export const GLOBAL_CSS = `
     }
   }
 
+  /* Live Now hero card — bigger on desktop, full-width on mobile */
+  .wc26-match-card-large {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wc26-match-card-large:not(.wc26-match-card-static):hover {
+      transform: translateY(-4px);
+    }
+  }
+
+  /* Live Now section wrapper */
+  .wc26-live-now-section {
+    margin-bottom: 28px;
+    padding: 18px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(239,68,68,0.06), rgba(239,68,68,0.02));
+    border: 1px solid rgba(239,68,68,0.18);
+  }
+  .wc26-live-now-label {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 14px;
+    font-family: 'Sora', sans-serif;
+    font-size: 13px; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: ${C.liveRedDark};
+  }
+
   /* ═══════════════════════════════════════════════
      WHATSAPP CONTACT BUTTON
   ════════════════════════════════════════════════ */
@@ -649,7 +677,13 @@ export const GLOBAL_CSS = `
   .wc26-cards-grid {
     display: grid;
     gap: 16px;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+  }
+  @media (max-width: 1100px) {
+    .wc26-cards-grid { grid-template-columns: repeat(min(var(--cols, 4), 3), minmax(0, 1fr)); }
+  }
+  @media (max-width: 800px) {
+    .wc26-cards-grid { grid-template-columns: repeat(min(var(--cols, 4), 2), minmax(0, 1fr)); }
   }
   @media (max-width: 400px) {
     .wc26-cards-grid { grid-template-columns: 1fr; gap: 12px; }

@@ -51,7 +51,7 @@ export default function Marketplace() {
   useEffect(() => setPageMeta("Browse Tickets | " + SITE_TITLE, "Browse verified World Cup 2026 tickets by team, city, date and price. All listings admin-reviewed."), []);
 
   // ── Live schedule from context (ticks every 60 s, already fed from live API) ─
-  const { liveMatches, nextIsoDate, expiredIds, startingSoonIds, liveIds, dateGroups, usingLive, lastUpdated, loading } = useSchedule();
+  const { liveMatches, nextIsoDate, expiredIds, startingSoonIds, dateGroups, usingLive, lastUpdated, loading } = useSchedule();
 
   // Buyer features — wishlist operates on the live matches from context
   const { savedIds, toggle: toggleSave, isSaved, savedMatches } = useWishlist(liveMatches);
@@ -134,6 +134,14 @@ export default function Marketplace() {
   );
   const nextIds = useMemo(() => new Set(nextMatches.map(m => m.id)), [nextMatches]);
 
+  // Matches currently being played — pinned to the very top of the page,
+  // pulled out of every date group below so they never appear twice and
+  // so nobody mistakes a live match for an upcoming/buyable one.
+  const liveNowMatches = useMemo(
+    () => result.filter(m => m.isLive),
+    [result]
+  );
+
   const urgencies  = useUrgency(result);
   const urgencyMap = useMemo(() => {
     const map = {};
@@ -154,9 +162,31 @@ export default function Marketplace() {
   // Wishlist filter overrides normal result when active
   const displayResult = showWishlist ? savedMatches : result;
 
-  const totalPages = Math.max(1, Math.ceil(displayResult.length / PAGE_SIZE));
-  const safePage   = Math.min(page, Math.max(1, Math.ceil(displayResult.length / PAGE_SIZE)));
-  const paged      = displayResult.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  // When no filters are active (and not viewing the wishlist), live matches
+  // are pulled into a pinned "Live Now" section shown above every page's
+  // results and shouldn't also count toward per-page totals — otherwise the
+  // page containing the live match would render fewer grouped cards than
+  // others, even though `displayResult.length` is the same across pages.
+  // Paginate over the non-live set in that case.
+  const noFiltersActive = !search && !cities.length && !teams.length && !dates.length && !quick;
+  const pullsOutLiveNow = !showWishlist && noFiltersActive && liveNowMatches.length > 0;
+  const paginatedResult = pullsOutLiveNow
+    ? displayResult.filter(m => !m.isLive)
+    : displayResult;
+
+  const totalPages = Math.max(1, Math.ceil(paginatedResult.length / PAGE_SIZE));
+  const safePage   = Math.min(page, totalPages);
+  const paged      = paginatedResult.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+  // Whether the "Live Now" hero section is shown. Live matches are excluded
+  // from `paginatedResult` above (on every page), so the section must also
+  // render on every page — otherwise a live match would be invisible to
+  // anyone past page 1.
+  const showLiveNowSection = pullsOutLiveNow;
+  const liveNowIds = useMemo(
+    () => showLiveNowSection ? new Set(liveNowMatches.map(m => m.id)) : new Set(),
+    [showLiveNowSection, liveNowMatches]
+  );
 
   const chips = [
     ...cities.map(c => ({ label: c, rm: () => setCities(p => p.filter(x => x !== c)) })),
@@ -229,23 +259,7 @@ export default function Marketplace() {
 
         {/* Sticky filter bar */}
         <div style={{ position: "sticky", top: 64, zIndex: 30, background: C.bgCard, borderBottom: `1px solid ${C.border}`, boxShadow: "0 2px 8px rgba(15,23,42,0.06)" }}>
-          {/* Always-visible search row — never hidden behind the filter toggle */}
-          <div className="wc26-persistent-search-row" style={{ padding: "10px 16px", borderBottom: `1px solid ${C.border}` }}>
-            <div style={{ display:"flex", alignItems:"center", gap:8, background:C.bg, borderRadius:10, padding:"9px 12px",
-              border:`1.5px solid ${search ? C.blue : C.border}`, transition:"border 0.15s", maxWidth: 480 }}>
-              <Search size={15} color={search ? C.blue : C.textSoft} />
-              <input value={search} onChange={e => setSearch(e.target.value)}
-                placeholder={t("filter.searchAll")}
-                style={{ flex:1, border:"none", outline:"none", fontSize:14, color:C.text, background:"transparent", ...dm }} />
-              {search && (
-                <button onClick={() => setSearch("")} style={{ background:"none", border:"none", cursor:"pointer", display:"flex" }}>
-                  <X size={14} color={C.textSoft} />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Mobile toggle row — for dropdown filters (city/team/date/price/sort), search is always visible above */}
+          {/* Mobile toggle row */}
           <div className="wc26-filters-toggle-row" style={{ display: "none", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: filtersOpen ? `1px solid ${C.border}` : "none" }}>
             <span style={{ fontSize: 13, fontWeight: 700, color: C.text, ...dm }}>
               {t("mkt.filters")} {chips.length > 0 && `(${chips.length})`}
@@ -348,6 +362,42 @@ export default function Marketplace() {
             </div>
           </div>
 
+          {/* Live Now — pinned above everything else. If a match is being
+              played right now, it's the first thing anyone sees, shown as
+              a single oversized card so it's unmissable even to someone
+              with no prior context. Tickets here are for entry to a match
+              already underway, not a future one — kept visually separate
+              from "buyable" upcoming listings below. */}
+          {showLiveNowSection && (
+            <div className="wc26-live-now-section">
+              <div className="wc26-live-now-label">
+                <span className="wc26-live-pulse" style={{
+                  width: 9, height: 9, borderRadius: "50%",
+                  background: C.liveRed,
+                  boxShadow: "0 0 0 3px rgba(239,68,68,0.25)",
+                }} />
+                {liveNowMatches.length > 1 ? `${liveNowMatches.length} Matches Live Now` : "Match Live Now"}
+              </div>
+              <div className="wc26-cards-grid" style={{ '--cols': Math.min(liveNowMatches.length, 2) }}>
+                {liveNowMatches.map(m => (
+                  <MatchCard
+                    key={`live-${m.id}`}
+                    match={m}
+                    urgency={urgencyMap[m.id] ?? { tickets: 3, viewers: 20 }}
+                    isNext={false}
+                    isStartingSoon={false}
+                    isExpiring={false}
+                    isSaved={isSaved(m.id)}
+                    onToggleSave={user.registered && user.role === "buyer" ? toggleSave : null}
+                    alertPrice={getAlert(m.id)}
+                    onSetAlert={user.registered && user.role === "buyer" ? (match) => { setAlertModal(match); setAlertInput(String(getAlert(match.id) ?? "")); } : null}
+                    size="large"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Opening Match hero banner — pinned above everything on match day */}
           {safePage === 1 && !search && !cities.length && !teams.length && !dates.length && !quick && (() => {
             const opening = liveMatches.find(m => m.isOpeningMatch);
@@ -389,7 +439,7 @@ export default function Marketplace() {
 
           {/* Next match banner — only on page 1, no active filters */}
           {safePage === 1 && !search && !cities.length && !teams.length && !dates.length && !quick && (
-            <NextMatchBanner nextIsoDate={nextIsoDate} nextMatches={nextMatches} liveIds={liveIds} />
+            <NextMatchBanner nextIsoDate={nextIsoDate} nextMatches={nextMatches} />
           )}
 
           {/* Empty state */}
@@ -431,9 +481,13 @@ export default function Marketplace() {
                 // Use result order (which may be price/rating sorted) — NOT dateGroups order.
                 const pagedIds = new Set(paged.map(m => m.id));
 
-                // Build a map from isoDate → matches, preserving result order
+                // Build a map from isoDate → matches, preserving result order.
+                // Live matches are excluded here — they're pinned in the
+                // dedicated "Live Now" section above and shouldn't be
+                // duplicated (or appear available to buy) in date groups.
                 const groupMap = new Map();
                 paged.forEach(m => {
+                  if (liveNowIds.has(m.id)) return;
                   if (!groupMap.has(m.isoDate)) groupMap.set(m.isoDate, []);
                   groupMap.get(m.isoDate).push(m);
                 });
@@ -467,13 +521,13 @@ export default function Marketplace() {
                     </div>
 
                     {/* Cards grid for this date */}
-                    <div className={gridView ? "wc26-cards-grid" : "wc26-cards-list"}>
+                    <div className={gridView ? "wc26-cards-grid" : "wc26-cards-list"} style={gridView ? { '--cols': Math.min(group.matches.length, 4) } : undefined}>
                       {group.matches.map((m) => (
                         <MatchCard
                           key={`card-${m.id}`}
                           match={m}
                           urgency={urgencyMap[m.id] ?? { tickets: 3, viewers: 20 }}
-                          isNext={nextIds.has(m.id) && !m.isLive}
+                          isNext={nextIds.has(m.id)}
                           isStartingSoon={startingSoonIds.has(m.id)}
                           isExpiring={false}
                           isSaved={isSaved(m.id)}
@@ -489,7 +543,7 @@ export default function Marketplace() {
 
               {/* Ghost cards: just-expired, playing fade-out animation */}
               {safePage === 1 && ghostMatches.length > 0 && (
-                <div className={gridView ? "wc26-cards-grid" : "wc26-cards-list"}>
+                <div className={gridView ? "wc26-cards-grid" : "wc26-cards-list"} style={gridView ? { '--cols': Math.min(ghostMatches.length, 4) } : undefined}>
                   {ghostMatches.map((m) => {
                     const s = m.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
                     return (
