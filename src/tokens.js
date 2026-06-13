@@ -682,10 +682,10 @@ export const GLOBAL_CSS = `
   @media (max-width: 1100px) {
     .wc26-cards-grid { grid-template-columns: repeat(min(var(--cols, 4), 3), minmax(0, 1fr)); }
   }
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     .wc26-cards-grid { grid-template-columns: repeat(min(var(--cols, 4), 2), minmax(0, 1fr)); }
   }
-  @media (max-width: 400px) {
+  @media (max-width: 640px) {
     .wc26-cards-grid { grid-template-columns: 1fr; gap: 12px; }
   }
 

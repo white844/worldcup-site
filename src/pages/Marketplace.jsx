@@ -137,8 +137,14 @@ export default function Marketplace() {
   // Matches currently being played — pinned to the very top of the page,
   // pulled out of every date group below so they never appear twice and
   // so nobody mistakes a live match for an upcoming/buyable one.
+  //
+  // `m.price == null` guards against a live API fixture that has no
+  // matching static listing (e.g. a knockout match not yet added to
+  // ALL_MATCHES) — such a match would render as "$undefined" with a
+  // blank seller, so it's excluded from the hero section rather than
+  // shown broken. It still appears in `result` for search/filtering.
   const liveNowMatches = useMemo(
-    () => result.filter(m => m.isLive),
+    () => result.filter(m => m.isLive && m.price != null),
     [result]
   );
 
@@ -163,30 +169,31 @@ export default function Marketplace() {
   const displayResult = showWishlist ? savedMatches : result;
 
   // When no filters are active (and not viewing the wishlist), live matches
-  // are pulled into a pinned "Live Now" section shown above every page's
-  // results and shouldn't also count toward per-page totals — otherwise the
-  // page containing the live match would render fewer grouped cards than
-  // others, even though `displayResult.length` is the same across pages.
-  // Paginate over the non-live set in that case.
+  // (with usable static data) are pulled into a pinned "Live Now" section
+  // shown above every page's results and shouldn't also count toward
+  // per-page totals — otherwise the page containing the live match would
+  // render fewer grouped cards than others, even though
+  // `displayResult.length` is the same across pages. Paginate over the set
+  // that excludes only the matches actually shown in that hero section —
+  // a live match with no static data (m.price == null, filtered out of
+  // liveNowMatches) stays in the normal grid rather than disappearing.
   const noFiltersActive = !search && !cities.length && !teams.length && !dates.length && !quick;
+  const liveNowIdSet = useMemo(() => new Set(liveNowMatches.map(m => m.id)), [liveNowMatches]);
   const pullsOutLiveNow = !showWishlist && noFiltersActive && liveNowMatches.length > 0;
   const paginatedResult = pullsOutLiveNow
-    ? displayResult.filter(m => !m.isLive)
+    ? displayResult.filter(m => !liveNowIdSet.has(m.id))
     : displayResult;
 
   const totalPages = Math.max(1, Math.ceil(paginatedResult.length / PAGE_SIZE));
   const safePage   = Math.min(page, totalPages);
   const paged      = paginatedResult.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
 
-  // Whether the "Live Now" hero section is shown. Live matches are excluded
-  // from `paginatedResult` above (on every page), so the section must also
-  // render on every page — otherwise a live match would be invisible to
-  // anyone past page 1.
+  // Whether the "Live Now" hero section is shown. Matches shown there are
+  // excluded from `paginatedResult` above (on every page), so the section
+  // must also render on every page — otherwise a live match would be
+  // invisible to anyone past page 1.
   const showLiveNowSection = pullsOutLiveNow;
-  const liveNowIds = useMemo(
-    () => showLiveNowSection ? new Set(liveNowMatches.map(m => m.id)) : new Set(),
-    [showLiveNowSection, liveNowMatches]
-  );
+  const liveNowIds = showLiveNowSection ? liveNowIdSet : new Set();
 
   const chips = [
     ...cities.map(c => ({ label: c, rm: () => setCities(p => p.filter(x => x !== c)) })),

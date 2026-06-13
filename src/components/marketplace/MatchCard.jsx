@@ -20,8 +20,11 @@ import { useI18n } from "../../context/I18nContext";
 
 // FlagImg: real flag SVG for known teams; styled TBD box for placeholders.
 // No white-flag emoji anywhere. Dimensions always match to prevent layout shift.
-function FlagImg({ raw, size = 44 }) {
+function FlagImg({ raw, size = 44, responsive = false }) {
   const code = teamFlagImg(raw);
+  const responsiveStyle = responsive
+    ? { width: `clamp(40px, 16vw, ${size}px)`, height: "auto", maxWidth: "100%" }
+    : {};
   if (!code) {
     return (
       <div style={{
@@ -30,6 +33,8 @@ function FlagImg({ raw, size = 44 }) {
         background: "linear-gradient(135deg,#E2E8F0,#CBD5E1)",
         display: "flex", alignItems: "center", justifyContent: "center",
         flexShrink: 0,
+        ...responsiveStyle,
+        ...(responsive ? { aspectRatio: "4 / 3" } : {}),
       }}>
         <span style={{
           fontSize: Math.max(8, Math.round(size * 0.22)),
@@ -48,7 +53,7 @@ function FlagImg({ raw, size = 44 }) {
       alt={teamName(raw)}
       width={size}
       height={Math.round(size * 0.67)}
-      style={{ objectFit: "contain", borderRadius: 3, display: "block", flexShrink: 0 }}
+      style={{ objectFit: "contain", borderRadius: 3, display: "block", flexShrink: 0, ...responsiveStyle }}
       onError={e => { e.currentTarget.style.display = "none"; }}
     />
   );
@@ -147,7 +152,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               {match.liveScore.home} – {match.liveScore.away}
               {match.isHalfTimeScore
                 ? <span style={{ fontSize: isLarge ? 12 : 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>HT</span>
-                : match.liveScore.minute
+                : match.liveScore.minute != null
                   ? <span style={{ fontSize: isLarge ? 12 : 9, fontWeight: 600, opacity: 0.85, marginLeft: 5 }}>{match.liveScore.minute}'</span>
                   : null}
             </span>
@@ -227,7 +232,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
                 padding: isLarge ? "3px 10px" : "2px 7px", borderRadius:999, fontSize: isLarge ? 12 : 9, fontWeight:800,
                 background: C.liveRed, color:"#fff", letterSpacing:".06em",
               }}>● LIVE {match.liveScore && match.liveScore.home != null
-                  ? `${match.liveScore.home}–${match.liveScore.away}${match.isHalfTimeScore ? " HT" : match.liveScore.minute ? ` ${match.liveScore.minute}'` : ""}`
+                  ? `${match.liveScore.home}–${match.liveScore.away}${match.isHalfTimeScore ? " HT" : match.liveScore.minute != null ? ` ${match.liveScore.minute}'` : ""}`
                   : ""}</span>
             )}
             <span className="wc26-pill wc26-pill-sm"
@@ -238,12 +243,12 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: isLarge ? 16 : 8 }}>
           <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
-            <div style={{ marginBottom: isLarge ? 8 : 4, display: "flex", justifyContent: "center" }}><FlagImg raw={match.home} size={isLarge ? 72 : 38} /></div>
+            <div style={{ marginBottom: isLarge ? 8 : 4, display: "flex", justifyContent: "center" }}><FlagImg raw={match.home} size={isLarge ? 72 : 38} responsive={isLarge} /></div>
             <div style={{ fontSize: isLarge ? 16 : 12, fontWeight: 700, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", ...dm }}>{labelTeam(match.home)}</div>
           </div>
           <div style={{ fontSize: isLarge ? 13 : 11, fontWeight: 700, color: C.textSoft, padding: isLarge ? "6px 12px" : "4px 8px", background: C.bgCard, borderRadius: 8, flexShrink: 0, ...dm }}>VS</div>
           <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
-            <div style={{ marginBottom: isLarge ? 8 : 4, display: "flex", justifyContent: "center" }}><FlagImg raw={match.away} size={isLarge ? 72 : 38} /></div>
+            <div style={{ marginBottom: isLarge ? 8 : 4, display: "flex", justifyContent: "center" }}><FlagImg raw={match.away} size={isLarge ? 72 : 38} responsive={isLarge} /></div>
             <div style={{ fontSize: isLarge ? 16 : 12, fontWeight: 700, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", ...dm }}>{labelTeam(match.away)}</div>
           </div>
         </div>
