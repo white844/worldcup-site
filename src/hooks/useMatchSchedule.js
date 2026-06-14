@@ -70,8 +70,9 @@ export function kickoffCountdown(match, nowMs) {
   // that the API confirms is FINISHED should never show "In progress",
   // and one that's still SCHEDULED shouldn't either, even if its listed
   // kickoff time has technically elapsed (stale/placeholder schedule data).
-  if (match.isFinished) return null;
-  if (match.isLive)     return null;
+  if (match.isFinished)    return null;
+  if (match.isLive)        return null;
+  if (match._likelyLive)   return null;
 
   const kickoff = kickoffUTC(match.isoDate, match.time);
   const diffMs  = kickoff - nowMs;
@@ -161,15 +162,40 @@ export function useMatchSchedule(allMatches) {
   const { liveMatches, nextIsoDate, startingSoonIds, dateGroups } = useMemo(() => {
     const live = allMatches.filter(m => !m.isFinished && !isMatchPast(m.isoDate, nowMs));
 
-    // Starting-soon set (kickoff within 24 h)
-    const soonIds = new Set(
-      live.filter(m => isStartingSoon(m, nowMs)).map(m => m.id)
+    // A match is "likely live" when:
+    //  - Its kickoff time has passed but the match day hasn't ended and
+    //    it isn't confirmed finished — covers the static-fallback case
+    //    where the API key is missing/wrong and isLive is always false.
+    //  - We assume a match lasts at most 130 min (90 + ET + injury time).
+    // Computed as a Set of IDs — never mutate the original match objects
+    // since they're shared references from allMatches / ALL_MATCHES.
+    const MATCH_DURATION_MS = 130 * 60_000;
+    const likelyLiveIds = new Set(
+      live
+        .filter(m => !m.isLive && !m.isFinished && m.isoDate && m.time)
+        .filter(m => {
+          const elapsed = nowMs - kickoffUTC(m.isoDate, m.time);
+          return elapsed >= 0 && elapsed < MATCH_DURATION_MS;
+        })
+        .map(m => m.id)
     );
 
-    // Sort: live matches first, then starting-soon, then soonest date, then stable ID order
-    live.sort((a, b) => {
-      const aLive = a.isLive ? 0 : 1;
-      const bLive = b.isLive ? 0 : 1;
+    // Build a new array of plain objects with _likelyLive injected,
+    // so downstream consumers (MatchCard, Marketplace) can read it
+    // without us touching the original data.
+    const liveWithFlags = live.map(m =>
+      likelyLiveIds.has(m.id) ? { ...m, _likelyLive: true } : m
+    );
+
+    // Starting-soon set (kickoff strictly in the future, within 24 h)
+    const soonIds = new Set(
+      liveWithFlags.filter(m => isStartingSoon(m, nowMs)).map(m => m.id)
+    );
+
+    // Sort: confirmed-live first, then likely-live, then starting-soon, then soonest date
+    liveWithFlags.sort((a, b) => {
+      const aLive = a.isLive ? 0 : (a._likelyLive ? 1 : 2);
+      const bLive = b.isLive ? 0 : (b._likelyLive ? 1 : 2);
       if (aLive !== bLive) return aLive - bLive;
       const aSoon = soonIds.has(a.id) ? 0 : 1;
       const bSoon = soonIds.has(b.id) ? 0 : 1;
@@ -178,11 +204,11 @@ export function useMatchSchedule(allMatches) {
       return diff !== 0 ? diff : a.id.localeCompare(b.id);
     });
 
-    const next   = live.length > 0 ? live[0].isoDate : null;
-    const groups = groupMatchesByDate(live, nowMs);
+    const next   = liveWithFlags.length > 0 ? liveWithFlags[0].isoDate : null;
+    const groups = groupMatchesByDate(liveWithFlags, nowMs);
 
     return {
-      liveMatches:     live,
+      liveMatches:     liveWithFlags,
       nextIsoDate:     next,
       startingSoonIds: soonIds,
       dateGroups:      groups,

@@ -109,7 +109,7 @@ export default function NextMatchBanner({ nextIsoDate, nextMatches }) {
   // If one of today's matches is live, this is a "Today's Matches" overview
   // rather than a "Next Matches" preview — avoids saying "next" about a
   // match that's already underway.
-  const hasLive = nextMatches.some(m => m.isLive);
+  const hasLive = nextMatches.some(m => m.isLive || m._likelyLive);
   const heading = hasLive ? "Today's Matches" : "Next Matches";
 
   // Preview: show up to 3 team pairs
@@ -176,13 +176,15 @@ export default function NextMatchBanner({ nextIsoDate, nextMatches }) {
               {labelTeam(m.away)}
             </span>
             <FlagImg raw={m.away} size={22} />
-            {m.isLive ? (
+            {(m.isLive || m._likelyLive) ? (
               <span style={{
                 ...dm, fontSize: 10, fontWeight: 800, color: "#fff",
                 background: C.liveRed, padding: "2px 8px", borderRadius: 999,
                 marginLeft: "auto", whiteSpace: "nowrap", letterSpacing: "0.04em",
               }}>
-                ● LIVE{m.liveScore && m.liveScore.home != null ? ` ${m.liveScore.home}–${m.liveScore.away}` : ""}
+                ● {m.isLive
+                  ? `LIVE${m.liveScore && m.liveScore.home != null ? ` ${m.liveScore.home}–${m.liveScore.away}` : ""}`
+                  : "IN PROGRESS"}
               </span>
             ) : (
               <span style={{ ...dm, fontSize: 11, color: C.textSoft, marginLeft: "auto", whiteSpace: "nowrap" }}>

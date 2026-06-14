@@ -134,17 +134,12 @@ export default function Marketplace() {
   );
   const nextIds = useMemo(() => new Set(nextMatches.map(m => m.id)), [nextMatches]);
 
-  // Matches currently being played — pinned to the very top of the page,
-  // pulled out of every date group below so they never appear twice and
-  // so nobody mistakes a live match for an upcoming/buyable one.
-  //
-  // `m.price == null` guards against a live API fixture that has no
-  // matching static listing (e.g. a knockout match not yet added to
-  // ALL_MATCHES) — such a match would render as "$undefined" with a
-  // blank seller, so it's excluded from the hero section rather than
-  // shown broken. It still appears in `result` for search/filtering.
+  // Matches currently being played (or likely being played based on kickoff
+  // time, when API live data isn't available). Pinned to the very top so
+  // nobody misses an in-progress match when browsing tickets.
+  // `m.price == null` guard excludes API fixtures with no static listing.
   const liveNowMatches = useMemo(
-    () => result.filter(m => m.isLive && m.price != null),
+    () => result.filter(m => (m.isLive || m._likelyLive) && m.price != null),
     [result]
   );
 

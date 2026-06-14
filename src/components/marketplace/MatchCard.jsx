@@ -92,12 +92,12 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
   return (
     <div
       onClick={() => navigate(`/marketplace/${match.id}`)}
-      aria-label={`${teamName(match.home)} vs ${teamName(match.away)}, ${match.date}, ${match.price} per ticket${isNext ? ", next upcoming match" : ""}${isStartingSoon ? ", starting within 24 hours" : ""}${countdown ? ", " + countdown : ""}`}
+      aria-label={`${teamName(match.home)} vs ${teamName(match.away)}, ${match.date}, ${match.price} per ticket${match.isLive ? ", live now" : match._likelyLive ? ", match in progress" : ""}${isNext ? ", next upcoming match" : ""}${isStartingSoon ? ", starting within 24 hours" : ""}${countdown ? ", " + countdown : ""}`}
       className={`wc26-match-card ${isExpiring ? "wc26-match-card-static" : ""} ${isLarge ? "wc26-match-card-large" : ""}`}
       style={{
         borderRadius: 14, overflow: "hidden", cursor: isExpiring ? "default" : "pointer",
         background: C.bgCard,
-        border: match.isLive
+        border: (match.isLive || match._likelyLive)
           ? `2px solid ${C.liveRed}`
           : match.isOpeningMatch
           ? `2px solid ${C.accent}`
@@ -106,7 +106,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           : isNext
           ? `1.5px solid ${C.blue}66`
           : `1px solid ${C.border}`,
-        boxShadow: match.isLive
+        boxShadow: (match.isLive || match._likelyLive)
           ? `${C.shadowLg}, 0 0 0 4px rgba(239,68,68,0.15)`
           : match.isOpeningMatch
           ? `${C.shadowLg}, 0 0 0 4px rgba(232,48,42,0.12)`
@@ -122,7 +122,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
       }}
     >
       {/* Priority ribbon: Live > Opening Match > Starting Soon > Up Next > countdown */}
-      {match.isLive ? (
+      {(match.isLive || match._likelyLive) ? (
         <div className="wc26-live-pulse" style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: isLarge ? "10px 22px" : "6px 14px",
@@ -136,7 +136,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               width: isLarge ? 10 : 7, height: isLarge ? 10 : 7, borderRadius: "50%", background: "#fff",
               boxShadow: "0 0 0 2px rgba(255,255,255,0.4)", flexShrink: 0,
             }} />
-            Live Now
+            {match.isLive ? "Live Now" : "In Progress"}
             {match.isOpeningMatch && (
               <span style={{ opacity: 0.85, fontWeight: 600, textTransform: "none", letterSpacing: 0, fontSize: isLarge ? 12 : 9 }}>
                 · Opening Match
@@ -227,7 +227,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
             {match.group}
           </span>
           <div style={{ display:"flex", gap:6, alignItems:"center" }}>
-            {match.isLive && !match.isOpeningMatch && (
+            {(match.isLive || match._likelyLive) && !match.isOpeningMatch && (
               <span style={{
                 padding: isLarge ? "3px 10px" : "2px 7px", borderRadius:999, fontSize: isLarge ? 12 : 9, fontWeight:800,
                 background: C.liveRed, color:"#fff", letterSpacing:".06em",
