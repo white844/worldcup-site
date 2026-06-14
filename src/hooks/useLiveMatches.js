@@ -7,7 +7,8 @@
  *  3. The free tier gives fixtures, results, and live scores
  *
  * Behaviour:
- *  - With a valid key: fetches real WC2026 fixtures, refreshes every 60 s,
+ *  - With a valid key: fetches real WC2026 fixtures, refreshes every 60 s
+ *    during live matches (1 min) or every 5 min when idle,
  *    shows LIVE badges with real scores
  *  - Without a key (or on error): falls back to static wc26Schedule.js silently
  *  - The ticket inventory (listings) stays separate — only the schedule feeds from the API
@@ -15,15 +16,15 @@
  * Returns the same shape as ALL_MATCHES so callers need zero changes.
  */
 import { useState, useEffect, useRef, useCallback } from "react";
-import { WC26_ALL_FIXTURES, WC26_FLAGS, WC26_VENUES } from "../data/wc26Schedule.js";
 import { ALL_MATCHES } from "../data/listingsData.js";
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 // API key must be set in .env as VITE_FOOTBALL_API_KEY (see .env.example)
 const API_KEY        = import.meta.env.VITE_FOOTBALL_API_KEY ?? "";
 const API_BASE       = "https://api.football-data.org/v4";
-const WC2026_ID      = 2000; // football-data.org competition ID for WC 2026
-const REFRESH_MS     = 60_000;
+const WC_CODE        = "WC"; // football-data.org competition code for FIFA World Cup
+const REFRESH_LIVE_MS  = 60_000;  // 1 min when a match is in progress
+const REFRESH_IDLE_MS  = 5 * 60_000; // 5 min when no live matches (saves quota)
 const HAS_KEY        = typeof API_KEY === "string" && API_KEY.length > 8 && API_KEY !== "YOUR_API_KEY_HERE";
 
 // ─── Status constants ─────────────────────────────────────────────────────────
@@ -129,58 +130,85 @@ export function useLiveMatches() {
   const [error, setError]         = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [usingLive, setUsingLive] = useState(false);
-  const timerRef                  = useRef(null);
+  const timerRef    = useRef(null);
+  const scheduleRef = useRef(null); // avoids circular dep between fetchMatches ↔ scheduleNext
 
   const fetchMatches = useCallback(async () => {
-    if (!HAS_KEY) return; // silently use static data
+    if (!HAS_KEY) return;
 
     try {
+      // Rolling 4-day window (yesterday → day after tomorrow).
+      // Without a date range the free tier returns a 400 for requesting
+      // the full tournament history.
+      const pad   = n => String(n).padStart(2, "0");
+      const toISO = d => `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`;
+      const now   = new Date();
+      const from  = new Date(now); from.setUTCDate(from.getUTCDate() - 1);
+      const to    = new Date(now); to.setUTCDate(to.getUTCDate() + 2);
+
+      const params = new URLSearchParams({ dateFrom: toISO(from), dateTo: toISO(to) });
+
       const res = await fetch(
-        `${API_BASE}/competitions/${WC2026_ID}/matches`,
+        `${API_BASE}/competitions/${WC_CODE}/matches?${params}`,
         { headers: { "X-Auth-Token": API_KEY } }
       );
 
-      if (!res.ok) {
-        throw new Error(`API error ${res.status}: ${res.statusText}`);
-      }
+      if (!res.ok) throw new Error(`API error ${res.status}: ${res.statusText}`);
 
-      const data = await res.json();
+      const data       = await res.json();
       const apiMatches = data.matches ?? [];
 
+      // Zero matches is valid on rest days — just keep existing data and
+      // schedule the next idle poll rather than falling back to static data.
       if (apiMatches.length === 0) {
-        throw new Error("API returned no matches — falling back to static data");
+        setUsingLive(true);
+        setLastUpdated(new Date());
+        scheduleRef.current?.(false);
+        return;
       }
 
-      // Merge API matches with our static listings (prices, sellers, seats)
-      const merged = apiMatches.map(apiMatch => {
-        const staticMatch = findStaticMatch(apiMatch);
-        return transformApiMatch(apiMatch, staticMatch);
-      });
+      const merged = apiMatches.map(am => transformApiMatch(am, findStaticMatch(am)));
 
-      // Include any static matches not returned by the API yet (TBD knockout rounds)
-      const apiIds = new Set(merged.map(m => m.id));
+      const apiIds     = new Set(merged.map(m => m.id));
       const staticOnly = ALL_MATCHES.filter(m => !apiIds.has(m.id));
 
       setMatches([...merged, ...staticOnly]);
       setUsingLive(true);
       setLastUpdated(new Date());
       setError(null);
+
+      // Poll faster when a match is actively in progress, slower otherwise
+      const hasLive = merged.some(m =>
+        m.apiStatus === MATCH_STATUS.IN_PLAY   ||
+        m.apiStatus === MATCH_STATUS.PAUSED    ||
+        m.apiStatus === MATCH_STATUS.EXTRA_TIME ||
+        m.apiStatus === MATCH_STATUS.PENALTY
+      );
+      scheduleRef.current?.(hasLive);
+
     } catch (err) {
       console.warn("[useLiveMatches] Falling back to static data:", err.message);
       setError(err.message);
       setUsingLive(false);
-      setMatches(ALL_MATCHES); // graceful fallback
+      setMatches(ALL_MATCHES);
+      scheduleRef.current?.(false);
     } finally {
       setLoading(false);
     }
   }, []);
 
+  // Adaptive interval: 1 min during live matches, 5 min otherwise.
+  // Using recursive setTimeout (not setInterval) so each fetch fully
+  // completes before the next one starts — no overlapping calls on a
+  // slow network, and the interval can vary per result.
   useEffect(() => {
-    fetchMatches();
-    if (HAS_KEY) {
-      timerRef.current = setInterval(fetchMatches, REFRESH_MS);
-    }
-    return () => clearInterval(timerRef.current);
+    scheduleRef.current = (hasLive) => {
+      clearTimeout(timerRef.current);
+      if (!HAS_KEY) return;
+      timerRef.current = setTimeout(fetchMatches, hasLive ? REFRESH_LIVE_MS : REFRESH_IDLE_MS);
+    };
+    fetchMatches(); // immediate fetch on mount
+    return () => clearTimeout(timerRef.current);
   }, [fetchMatches]);
 
   return {
