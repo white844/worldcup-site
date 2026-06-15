@@ -457,10 +457,9 @@ export const GLOBAL_CSS = `
     }
   }
 
-  /* Live Now hero card — bigger on desktop, full-width on mobile */
+  /* Live Now hero card — sizing handled by .wc26-live-now-card-wrap */
   .wc26-match-card-large {
-    max-width: 640px;
-    margin: 0 auto;
+    width: 100%;
   }
   @media (hover: hover) and (pointer: fine) {
     .wc26-match-card-large:not(.wc26-match-card-static):hover {
@@ -483,6 +482,45 @@ export const GLOBAL_CSS = `
     font-size: 13px; font-weight: 800;
     letter-spacing: 0.08em; text-transform: uppercase;
     color: ${C.liveRedDark};
+  }
+  /* Grid of live cards — centered, max 2 per row */
+  .wc26-live-now-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+  /* Each card wrapper: 50% wide (minus gap) on desktop, full-width on mobile */
+  .wc26-live-now-card-wrap {
+    width: calc(50% - 8px);
+    min-width: 280px;
+    max-width: 560px;
+  }
+  .wc26-live-now-card-wrap .wc26-match-card-large {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  /* Single card: center it at 50% */
+  .wc26-live-now-grid:has(.wc26-live-now-card-wrap:only-child) .wc26-live-now-card-wrap {
+    width: 50%;
+    min-width: 280px;
+    max-width: 560px;
+  }
+  @media (max-width: 900px) {
+    .wc26-live-now-card-wrap {
+      width: calc(50% - 8px);
+    }
+  }
+  @media (max-width: 640px) {
+    .wc26-live-now-card-wrap {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+    .wc26-live-now-grid:has(.wc26-live-now-card-wrap:only-child) .wc26-live-now-card-wrap {
+      width: 100%;
+    }
   }
 
   /* ═══════════════════════════════════════════════

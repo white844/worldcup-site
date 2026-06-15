@@ -380,21 +380,23 @@ export default function Marketplace() {
                 }} />
                 {liveNowMatches.length > 1 ? `${liveNowMatches.length} Matches Live Now` : "Match Live Now"}
               </div>
-              <div className="wc26-cards-grid" style={{ '--cols': Math.min(liveNowMatches.length, 2) }}>
+              <div className="wc26-live-now-grid">
                 {liveNowMatches.map(m => (
-                  <MatchCard
-                    key={`live-${m.id}`}
-                    match={m}
-                    urgency={urgencyMap[m.id] ?? { tickets: 3, viewers: 20 }}
-                    isNext={false}
-                    isStartingSoon={false}
-                    isExpiring={false}
-                    isSaved={isSaved(m.id)}
-                    onToggleSave={user.registered && user.role === "buyer" ? toggleSave : null}
-                    alertPrice={getAlert(m.id)}
-                    onSetAlert={user.registered && user.role === "buyer" ? (match) => { setAlertModal(match); setAlertInput(String(getAlert(match.id) ?? "")); } : null}
-                    size="large"
-                  />
+                  <div key={`live-wrap-${m.id}`} className="wc26-live-now-card-wrap">
+                    <MatchCard
+                      key={`live-${m.id}`}
+                      match={m}
+                      urgency={urgencyMap[m.id] ?? { tickets: 3, viewers: 20 }}
+                      isNext={false}
+                      isStartingSoon={false}
+                      isExpiring={false}
+                      isSaved={isSaved(m.id)}
+                      onToggleSave={user.registered && user.role === "buyer" ? toggleSave : null}
+                      alertPrice={getAlert(m.id)}
+                      onSetAlert={user.registered && user.role === "buyer" ? (match) => { setAlertModal(match); setAlertInput(String(getAlert(match.id) ?? "")); } : null}
+                      size="large"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
