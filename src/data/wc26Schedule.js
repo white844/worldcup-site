@@ -92,28 +92,28 @@ export const WC26_GROUP_STAGE = [
   // ── GROUP A ────────────────────────────────────────────────────────────────
   { id:"gs01",  date:"2026-06-11", time:"19:00", home:"Mexico",      away:"South Africa",         venue:"Estadio Azteca",           group:"A" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs02",  date:"2026-06-11", time:"02:00", home:"South Korea",      away:"Czech Republic",         venue:"Estadio Akron",           group:"A" },
-  // { id:"gs03",  date:"2026-06-18", time:"16:00", home:"Czech Republic",      away:"South Africa",         venue:"Mercedes-Benz Stadium",           group:"A" },
+  { id:"gs02",  date:"2026-06-11", time:"02:00", home:"South Korea",      away:"Czech Republic",         venue:"Estadio Akron",           group:"A" },
+  { id:"gs03",  date:"2026-06-18", time:"16:00", home:"Czech Republic",      away:"South Africa",         venue:"Mercedes-Benz Stadium",           group:"A" },
   { id:"gs04",  date:"2026-06-18", time:"01:00", home:"Mexico",      away:"South Korea",         venue:"Estadio Akron",           group:"A" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs05",  date:"2026-06-24", time:"01:00", home:"Czech Republic",      away:"Mexico",         venue:"Estadio Azteca",           group:"A" },
-  // { id:"gs06",  date:"2026-06-24", time:"01:00", home:"South Africa",      away:"South Korea",         venue:"Estadio BBVA",           group:"A" },
+  { id:"gs05",  date:"2026-06-24", time:"01:00", home:"Czech Republic",      away:"Mexico",         venue:"Estadio Azteca",           group:"A" },
+  { id:"gs06",  date:"2026-06-24", time:"01:00", home:"South Africa",      away:"South Korea",         venue:"Estadio BBVA",           group:"A" },
 
   // ── GROUP B ────────────────────────────────────────────────────────────────
   { id:"gs07",  date:"2026-06-12", time:"19:00", home:"Canada",      away:"Bosnia & Herzegovina",         venue:"BMO Field",           group:"B" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs08",  date:"2026-06-13", time:"19:00", home:"Qatar",      away:"Switzerland",         venue:"Levi's Stadium",           group:"B" },
-  // { id:"gs09",  date:"2026-06-18", time:"19:00", home:"Switzerland",      away:"Bosnia & Herzegovina",         venue:"SoFi Stadium",           group:"B" },
+  { id:"gs08",  date:"2026-06-13", time:"19:00", home:"Qatar",      away:"Switzerland",         venue:"Levi's Stadium",           group:"B" },
+  { id:"gs09",  date:"2026-06-18", time:"19:00", home:"Switzerland",      away:"Bosnia & Herzegovina",         venue:"SoFi Stadium",           group:"B" },
   { id:"gs10",  date:"2026-06-18", time:"22:00", home:"Canada",      away:"Qatar",         venue:"BC Place",           group:"B" },
   { id:"gs11",  date:"2026-06-24", time:"19:00", home:"Switzerland",      away:"Canada",         venue:"BC Place",           group:"B" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs12",  date:"2026-06-24", time:"19:00", home:"Bosnia & Herzegovina",      away:"Qatar",         venue:"Lumen Field",           group:"B" },
+  { id:"gs12",  date:"2026-06-24", time:"19:00", home:"Bosnia & Herzegovina",      away:"Qatar",         venue:"Lumen Field",           group:"B" },
 
   // ── GROUP C ────────────────────────────────────────────────────────────────
   { id:"gs13",  date:"2026-06-13", time:"22:00", home:"Brazil",      away:"Morocco",         venue:"MetLife Stadium",           group:"C" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs14",  date:"2026-06-13", time:"01:00", home:"Haiti",      away:"Scotland",         venue:"Gillette Stadium",           group:"C" },
-  // { id:"gs15",  date:"2026-06-19", time:"22:00", home:"Scotland",      away:"Morocco",         venue:"Gillette Stadium",           group:"C" },
+  { id:"gs14",  date:"2026-06-13", time:"01:00", home:"Haiti",      away:"Scotland",         venue:"Gillette Stadium",           group:"C" },
+  { id:"gs15",  date:"2026-06-19", time:"22:00", home:"Scotland",      away:"Morocco",         venue:"Gillette Stadium",           group:"C" },
   { id:"gs16",  date:"2026-06-19", time:"00:30", home:"Brazil",      away:"Haiti",         venue:"Lincoln Financial Field",           group:"C" },
   { id:"gs17",  date:"2026-06-24", time:"22:00", home:"Scotland",      away:"Brazil",         venue:"Hard Rock Stadium",           group:"C" },
   { id:"gs18",  date:"2026-06-24", time:"22:00", home:"Morocco",      away:"Haiti",         venue:"Mercedes-Benz Stadium",           group:"C" },
@@ -121,22 +121,22 @@ export const WC26_GROUP_STAGE = [
   // ── GROUP D ────────────────────────────────────────────────────────────────
   { id:"gs19",  date:"2026-06-12", time:"01:00", home:"USA",      away:"Paraguay",         venue:"SoFi Stadium",           group:"D" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs20",  date:"2026-06-13", time:"04:00", home:"Australia",      away:"Turkey",         venue:"BC Place",           group:"D" },
+  { id:"gs20",  date:"2026-06-13", time:"04:00", home:"Australia",      away:"Turkey",         venue:"BC Place",           group:"D" },
   { id:"gs21",  date:"2026-06-19", time:"19:00", home:"USA",      away:"Australia",         venue:"Lumen Field",           group:"D" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs22",  date:"2026-06-19", time:"03:00", home:"Turkey",      away:"Paraguay",         venue:"Levi's Stadium",           group:"D" },
+  { id:"gs22",  date:"2026-06-19", time:"03:00", home:"Turkey",      away:"Paraguay",         venue:"Levi's Stadium",           group:"D" },
   { id:"gs23",  date:"2026-06-25", time:"02:00", home:"Turkey",      away:"USA",         venue:"SoFi Stadium",           group:"D" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs24",  date:"2026-06-25", time:"02:00", home:"Paraguay",      away:"Australia",         venue:"Levi's Stadium",           group:"D" },
+  { id:"gs24",  date:"2026-06-25", time:"02:00", home:"Paraguay",      away:"Australia",         venue:"Levi's Stadium",           group:"D" },
 
   // ── GROUP E ────────────────────────────────────────────────────────────────
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs25",  date:"2026-06-14", time:"17:00", home:"Germany",      away:"Curaçao",         venue:"NRG Stadium",           group:"E" },
+  { id:"gs25",  date:"2026-06-14", time:"17:00", home:"Germany",      away:"Curaçao",         venue:"NRG Stadium",           group:"E" },
   { id:"gs26",  date:"2026-06-14", time:"23:00", home:"Ivory Coast",      away:"Ecuador",         venue:"Lincoln Financial Field",           group:"E" },
   { id:"gs27",  date:"2026-06-20", time:"20:00", home:"Germany",      away:"Ivory Coast",         venue:"BMO Field",           group:"E" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs28",  date:"2026-06-20", time:"00:00", home:"Ecuador",      away:"Curaçao",         venue:"Arrowhead Stadium",           group:"E" },
-  // { id:"gs29",  date:"2026-06-25", time:"20:00", home:"Curaçao",      away:"Ivory Coast",         venue:"Lincoln Financial Field",           group:"E" },
+  { id:"gs28",  date:"2026-06-20", time:"00:00", home:"Ecuador",      away:"Curaçao",         venue:"Arrowhead Stadium",           group:"E" },
+  { id:"gs29",  date:"2026-06-25", time:"20:00", home:"Curaçao",      away:"Ivory Coast",         venue:"Lincoln Financial Field",           group:"E" },
   { id:"gs30",  date:"2026-06-25", time:"20:00", home:"Ecuador",      away:"Germany",         venue:"MetLife Stadium",           group:"E" },
 
   // ── GROUP F ────────────────────────────────────────────────────────────────
@@ -150,13 +150,13 @@ export const WC26_GROUP_STAGE = [
   // ── GROUP G ────────────────────────────────────────────────────────────────
   { id:"gs37",  date:"2026-06-15", time:"19:00", home:"Belgium",      away:"Egypt",         venue:"Lumen Field",           group:"G" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs38",  date:"2026-06-15", time:"01:00", home:"Iran",      away:"New Zealand",         venue:"SoFi Stadium",           group:"G" },
+  { id:"gs38",  date:"2026-06-15", time:"01:00", home:"Iran",      away:"New Zealand",         venue:"SoFi Stadium",           group:"G" },
   { id:"gs39",  date:"2026-06-21", time:"19:00", home:"Belgium",      away:"Iran",         venue:"SoFi Stadium",           group:"G" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs40",  date:"2026-06-21", time:"01:00", home:"New Zealand",      away:"Egypt",         venue:"BC Place",           group:"G" },
+  { id:"gs40",  date:"2026-06-21", time:"01:00", home:"New Zealand",      away:"Egypt",         venue:"BC Place",           group:"G" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs41",  date:"2026-06-26", time:"03:00", home:"Egypt",      away:"Iran",         venue:"Lumen Field",           group:"G" },
-  // { id:"gs42",  date:"2026-06-26", time:"03:00", home:"New Zealand",      away:"Belgium",         venue:"BC Place",           group:"G" },
+  { id:"gs41",  date:"2026-06-26", time:"03:00", home:"Egypt",      away:"Iran",         venue:"Lumen Field",           group:"G" },
+  { id:"gs42",  date:"2026-06-26", time:"03:00", home:"New Zealand",      away:"Belgium",         venue:"BC Place",           group:"G" },
 
   // ── GROUP H ────────────────────────────────────────────────────────────────
   { id:"gs43",  date:"2026-06-15", time:"16:00", home:"Spain",      away:"Cape Verde",         venue:"Mercedes-Benz Stadium",           group:"H" },
@@ -177,7 +177,7 @@ export const WC26_GROUP_STAGE = [
   // ── GROUP J ────────────────────────────────────────────────────────────────
   { id:"gs55",  date:"2026-06-16", time:"01:00", home:"Argentina",      away:"Algeria",         venue:"Arrowhead Stadium",           group:"J" },
   // LOW VIEWERSHIP — uncomment to restore:
-  // { id:"gs56",  date:"2026-06-16", time:"04:00", home:"Austria",      away:"Jordan",         venue:"Levi's Stadium",           group:"J" },
+  { id:"gs56",  date:"2026-06-16", time:"04:00", home:"Austria",      away:"Jordan",         venue:"Levi's Stadium",           group:"J" },
   { id:"gs57",  date:"2026-06-22", time:"17:00", home:"Argentina",      away:"Austria",         venue:"AT&T Stadium",           group:"J" },
   { id:"gs58",  date:"2026-06-22", time:"03:00", home:"Jordan",      away:"Algeria",         venue:"Levi's Stadium",           group:"J" },
   { id:"gs59",  date:"2026-06-27", time:"02:00", home:"Algeria",      away:"Austria",         venue:"Arrowhead Stadium",           group:"J" },
