@@ -16,8 +16,14 @@ import {
 
 // ─── Sellers ──────────────────────────────────────
 // Power sellers (s01–s05): repeat frequently — ~30% of listings
-// Regular sellers (s06–s12): appear 2–3 times each
-// One-time sellers (s13–s23): appear once or twice
+// Regular sellers (s06–s11): appear 2–3 times each
+// One-time / occasional sellers (s13–s31): appear once or twice
+// Removed: s08 Connor Bradshaw, s10 Luca Ferretti, s12 Elena Vasquez,
+//          s14 Antoine Dubois, s16 Ingrid Holmberg, s19 Reuben Abramowitz,
+//          s23 Dmitri Volkov, s26 Mei-Ling Chen (1-ticket sellers, redistributed)
+//          s20 Valentina Cruz (tickets transferred to Yuna Park s09)
+//          s30 Lieselotte van den Berg, s31 Tariq Benali (tickets redistributed to Group B)
+// Excluded from pool: s17 Darius Okonkwo, s25 Olusegun Adeyemi
 export const SELLERS = [
 
   // ── Power sellers — show up repeatedly, high sales, slightly imperfect ──────
@@ -27,6 +33,8 @@ export const SELLERS = [
     avatar:"MD", avatarBg:"linear-gradient(135deg,#1B3C88,#4A62BC)",
     location:"Polanco, Mexico City",
     bio:"Been doing this since Russia 2018. Got allocation contacts for most group stage fixtures. Usually respond same day, sometimes takes till evening if I'm at work.",
+  ,
+    contactUrl:"https://t.me/Marcodelgadoo",
   },
   {
     sellerId:"s02", seller:"Sophie Whitfield",
@@ -34,6 +42,8 @@ export const SELLERS = [
     avatar:"SW", avatarBg:"linear-gradient(135deg,#7C3AED,#A78BFA)",
     location:"Islington, London",
     bio:"Full-time reseller, this is literally my job. 500+ sales, zero chargebacks. I over-communicate — you'll know exactly where your tickets are at every stage.",
+  ,
+    contactUrl:"https://t.me/SophieWhitefield",
   },
   {
     sellerId:"s03", seller:"Rafael Souza",
@@ -48,6 +58,8 @@ export const SELLERS = [
     avatar:"NF", avatarBg:"linear-gradient(135deg,#BE185D,#F472B6)",
     location:"Lyon, France",
     bio:"Football fan first, seller second. Got into reselling after Qatar when I ended up with more tickets than I could use. Prices are fair — I'm not here to rip anyone off.",
+  ,
+    contactUrl:"https://t.me/NadiaFontaine",
   },
   {
     sellerId:"s05", seller:"James Okafor",
@@ -71,28 +83,20 @@ export const SELLERS = [
     avatar:"AM", avatarBg:"linear-gradient(135deg,#0EA5E9,#38BDF8)",
     location:"Accra, Ghana",
     bio:"Selling a pair of tickets my brother can't use anymore. First time listing on here but I've bought on similar platforms before — know how it works. Happy to video call.",
+  ,
+    contactUrl:"https://t.me/AishaMensa",
   },
-  {
-    sellerId:"s08", seller:"Connor Bradshaw",
-    rating:4.5, response:14, sales:61, since:"Sep 2023",
-    avatar:"CB", avatarBg:"linear-gradient(135deg,#475569,#64748B)",
-    location:"Didsbury, Manchester",
-    bio:"Bought 4 tickets for the England group games, mate dropped out last minute. Selling 2. Not a professional seller so bear with me on response time — work shifts.",
-  },
+
   {
     sellerId:"s09", seller:"Yuna Park",
     rating:4.9, response:4, sales:203, since:"Jan 2023",
     avatar:"YP", avatarBg:"linear-gradient(135deg,#0F766E,#14B8A6)",
     location:"Gangnam, Seoul",
     bio:"Verified Korean seller. I handle mostly Asian fixtures but have tickets across multiple venues. All sourced through official Korean FA allocation. Fast transfer on payment.",
+  ,
+    contactUrl:"https://t.me/yunaaparkk",
   },
-  {
-    sellerId:"s10", seller:"Luca Ferretti",
-    rating:4.6, response:11, sales:87, since:"Jun 2023",
-    avatar:"LF", avatarBg:"linear-gradient(135deg,#1D4ED8,#3B82F6)",
-    location:"Trastevere, Rome",
-    bio:"Italian fan selling spares. Got more tickets than people in my group could make. Prices are what I paid plus a bit — not trying to make a killing, just recover costs.",
-  },
+
   {
     sellerId:"s11", seller:"Khalid Al-Rashidi",
     rating:4.7, response:8, sales:156, since:"Apr 2023",
@@ -100,13 +104,7 @@ export const SELLERS = [
     location:"Al Olaya, Riyadh",
     bio:"Saudi fan with tickets for the Saudi Arabia group matches plus a few others I picked up. All official. I know the transfer process well — smooth and straightforward.",
   },
-  {
-    sellerId:"s12", seller:"Elena Vasquez",
-    rating:4.8, response:5, sales:178, since:"Feb 2023",
-    avatar:"EV", avatarBg:"linear-gradient(135deg,#7C3AED,#8B5CF6)",
-    location:"Chamberí, Madrid",
-    bio:"Spanish football fan and occasional reseller. Mostly Spain and European fixtures. I reply quickly and have never had a complaint. All tickets are what I say they are.",
-  },
+
 
   // ── One-time / occasional sellers ───────────────────────────────────────
   {
@@ -116,13 +114,7 @@ export const SELLERS = [
     location:"Bandra, Mumbai",
     bio:"First time selling tickets. Got 2 for the India watch party fixture but can no longer travel. Tickets are genuine, bought through official channels. Happy to provide proof.",
   },
-  {
-    sellerId:"s14", seller:"Antoine Dubois",
-    rating:4.9, response:3, sales:34, since:"Nov 2025",
-    avatar:"AD", avatarBg:"linear-gradient(135deg,#059669,#10B981)",
-    location:"Bordeaux, France",
-    bio:"Selling 3 tickets from my company's allocation — event clash means none of us can go. Premium seats, proper section, will transfer same day on payment confirmed.",
-  },
+
   {
     sellerId:"s15", seller:"Mateus Costa",
     rating:4.3, response:18, sales:8, since:"Mar 2026",
@@ -130,34 +122,18 @@ export const SELLERS = [
     location:"Copacabana, Rio de Janeiro",
     bio:"Selling my Brazil vs Colombia pair. Got a family thing that weekend now, gutted about it. New to this platform but been selling on other sites. Take a look at what I've got.",
   },
-  {
-    sellerId:"s16", seller:"Ingrid Holmberg",
-    rating:4.7, response:9, sales:22, since:"Dec 2025",
-    avatar:"IH", avatarBg:"linear-gradient(135deg,#0EA5E9,#0284C7)",
-    location:"Södermalm, Stockholm",
-    bio:"Swedish fan who travels to every major tournament. Selling spare ticket — my travel partner found cheaper flights home and doesn't want to stay for the match.",
-  },
+
   {
     sellerId:"s18", seller:"Hannah Bergström",
     rating:5.0, response:2, sales:6, since:"Apr 2026",
     avatar:"HB", avatarBg:"linear-gradient(135deg,#DC2626,#EF4444)",
     location:"Gothenburg, Sweden",
     bio:"Only listing I have — selling 2 Category 3 seats I can't use. Bought through official Sweden allocation. Perfect reviews so far, I respond immediately.",
+  ,
+    contactUrl:"https://t.me/HannahBergstrom0",
   },
-  {
-    sellerId:"s19", seller:"Reuben Abramowitz",
-    rating:4.4, response:22, sales:41, since:"Aug 2025",
-    avatar:"RA", avatarBg:"linear-gradient(135deg,#475569,#94A3B8)",
-    location:"Brooklyn, New York",
-    bio:"Reseller based in NYC. Mostly US fixtures but I travel for the big ones. Bit slower to respond on weekdays — I work nights. But I always come through.",
-  },
-  {
-    sellerId:"s20", seller:"Valentina Cruz",
-    rating:4.8, response:6, sales:53, since:"Oct 2025",
-    avatar:"VC", avatarBg:"linear-gradient(135deg,#D97706,#FCD34D)",
-    location:"Palermo, Buenos Aires",
-    bio:"Argentine fan and part-time seller. Have a few pairs of tickets for Argentina fixtures that friends bailed on. Prices are fair, I'm easy to deal with.",
-  },
+
+
   {
     sellerId:"s21", seller:"Takeshi Mori",
     rating:4.7, response:8, sales:29, since:"Jan 2026",
@@ -171,34 +147,28 @@ export const SELLERS = [
     avatar:"FD", avatarBg:"linear-gradient(135deg,#1B3C88,#818CF8)",
     location:"Dakar, Senegal",
     bio:"Selling tickets for France vs Senegal — the dream fixture for us. Got 4, only need 2. All official. This is a once in a lifetime match and I want someone genuine to have them.",
+  ,
+    contactUrl:"https://t.me/FatouDiallo0",
   },
-  {
-    sellerId:"s23", seller:"Dmitri Volkov",
-    rating:4.5, response:16, sales:38, since:"Sep 2025",
-    avatar:"DV", avatarBg:"linear-gradient(135deg,#7C3AED,#A78BFA)",
-    location:"Prague, Czech Republic",
-    bio:"European reseller. Got tickets for a few matches across different venues. Not always the fastest to respond but I always deliver. Check my track record.",
-  },
+
   {
     sellerId:"s24", seller:"Camila Reyes",
     rating:4.8, response:7, sales:14, since:"Feb 2026",
     avatar:"CR", avatarBg:"linear-gradient(135deg,#DC2626,#F87171)",
     location:"Miraflores, Lima",
     bio:"Peruvian fan selling 2 tickets for the Peru fixture. Bought them when I thought I could go, work got in the way. Genuine tickets, can provide photos of confirmation email.",
+  ,
+    contactUrl:"https://t.me/Camilareyes00",
   },
-  {
-    sellerId:"s26", seller:"Mei-Ling Chen",
-    rating:4.9, response:4, sales:46, since:"Aug 2025",
-    avatar:"ML", avatarBg:"linear-gradient(135deg,#0EA5E9,#0284C7)",
-    location:"Xinyi, Taipei",
-    bio:"Regular football traveller. Been to every World Cup since 2014. Selling a pair from my allocation — my cousin can't make it from Taipei. Everything is above board.",
-  },
+
   {
     sellerId:"s27", seller:"Finn Gallagher",
     rating:4.4, response:19, sales:9, since:"Mar 2026",
     avatar:"FG", avatarBg:"linear-gradient(135deg,#1B3C88,#3B82F6)",
     location:"Rathmines, Dublin",
     bio:"Irish lad selling tickets for a couple of matches. Got more than I needed when I was going with a bigger group. Bit slow to reply sometimes, sorry in advance — I'll get back to you.",
+  ,
+    contactUrl:"https://t.me/finngallagher",
   },
   {
     sellerId:"s28", seller:"Amara Traoré",
@@ -206,6 +176,8 @@ export const SELLERS = [
     avatar:"AT", avatarBg:"linear-gradient(135deg,#B45309,#F59E0B)",
     location:"Plateau, Abidjan",
     bio:"Ivorian fan selling my Senegal and Morocco tickets — I follow African football more broadly, not just my own team. Both tickets are genuine, bought through the CAF allocation process.",
+  ,
+    contactUrl:"https://wa.me/13272158404",
   },
   {
     sellerId:"s29", seller:"Sebastián Mora",
@@ -214,20 +186,8 @@ export const SELLERS = [
     location:"Laureles, Medellín",
     bio:"Colombian fan and occasional reseller. Have tickets for a few fixtures including the Colombia group games. I know the process well and always make it easy for the buyer.",
   },
-  {
-    sellerId:"s30", seller:"Lieselotte van den Berg",
-    rating:4.9, response:5, sales:58, since:"Oct 2025",
-    avatar:"LV", avatarBg:"linear-gradient(135deg,#F97316,#FB923C)",
-    location:"Jordaan, Amsterdam",
-    bio:"Dutch fan selling a pair for Netherlands vs Belgium — the real final as far as I'm concerned. My partner doesn't want to go anymore. These are good seats, Sec 117 Category 2.",
-  },
-  {
-    sellerId:"s31", seller:"Tariq Benali",
-    rating:4.5, response:13, sales:22, since:"Jan 2026",
-    avatar:"TB", avatarBg:"linear-gradient(135deg,#7C3AED,#C4B5FD)",
-    location:"Agdal, Rabat",
-    bio:"Moroccan fan selling tickets I bought optimistically. Life got complicated. The tickets are real — I can share the original purchase confirmation. Prefer WhatsApp for questions.",
-  },
+
+
   {
     sellerId:"s32", seller:"Hana Kovářová",
     rating:4.7, response:9, sales:16, since:"Feb 2026",
@@ -908,11 +868,30 @@ export const ALL_MATCHES = WC26_ALL_FIXTURES.map((m, i) => {
         34: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
         35: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
         43: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
-        88: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine
-        89: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza
         44: SELLERS.find(s => s.sellerId === "s01"), // Marco Delgado
-        97: SELLERS.find(s => s.sellerId === "s05"), // James Okafor
-        98: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield
+        // ── Knockout round overrides (hidden until bracket resolves) ──
+        88: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine  — r16_01
+        89: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza    — r16_02
+        97: SELLERS.find(s => s.sellerId === "s05"), // James Okafor   — qf_02
+        98: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield — qf_03
+        // Redistributed from removed 1-ticket sellers
+         8: SELLERS.find(s => s.sellerId === "s07"), // Aisha Mensah (was Connor Bradshaw)
+        14: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Luca Ferretti)
+        20: SELLERS.find(s => s.sellerId === "s11"), // Khalid Al-Rashidi (was Elena Vasquez)
+        26: SELLERS.find(s => s.sellerId === "s13"), // Priya Nair (was Antoine Dubois)
+        32: SELLERS.find(s => s.sellerId === "s15"), // Mateus Costa (was Ingrid Holmberg)
+        50: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza (was Dmitri Volkov)
+        56: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine (was Mei-Ling Chen)
+        // Valentina Cruz tickets transferred to Yuna Park (s09)
+        38: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Valentina Cruz/Reuben Abramowitz)
+        40: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Valentina Cruz)
+        41: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Valentina Cruz)
+        // Lieselotte van den Berg tickets redistributed
+        67: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström (was Lieselotte)
+        68: SELLERS.find(s => s.sellerId === "s22"), // Fatou Diallo (was Lieselotte)
+        // Tariq Benali tickets redistributed
+        70: SELLERS.find(s => s.sellerId === "s24"), // Camila Reyes (was Tariq)
+        71: SELLERS.find(s => s.sellerId === "s27"), // Finn Gallagher (was Tariq)
       };
       if (SELLER_OVERRIDES[i]) return SELLER_OVERRIDES[i];
       const POWER   = SELLERS.filter(s => ["s01","s02","s03","s04","s05"].includes(s.sellerId));

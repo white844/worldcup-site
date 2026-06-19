@@ -272,11 +272,12 @@ export const WC26_HIGH_DEMAND = new Set([
 // ── All fixtures merged ────────────────────────────────────────────────────
 export const WC26_ALL_FIXTURES = [
   ...WC26_GROUP_STAGE,
-  ...WC26_R32,
-  ...WC26_R16,
-  ...WC26_QF,
-  ...WC26_SF,
-  ...WC26_FINAL,
+  // ── Knockout rounds — uncomment each stage as the bracket resolves ──
+  // ...WC26_R32,
+  // ...WC26_R16,
+  // ...WC26_QF,
+  // ...WC26_SF,
+  // ...WC26_FINAL,
 ];
 
 export const WC26_ISO2 = {

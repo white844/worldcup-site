@@ -80,13 +80,23 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
     setConfirmOpen(true);
   };
 
+  const isTelegram   = match.contactUrl && match.contactUrl.includes("t.me");
+  const isWhatsApp   = match.contactUrl && match.contactUrl.includes("wa.me");
+  const contactLabel = isTelegram ? "Open in Telegram" : "Open in WhatsApp";
+  const contactEmoji = isTelegram ? "✈️" : "💬";
+
   const handleConfirmContact = (e) => {
     e.stopPropagation();
     setConfirmOpen(false);
-    openContactWhatsApp(
-      `${labelTeam(match.home)} vs ${labelTeam(match.away)}`,
-      `${match.date} · ${match.venue}`
-    );
+    if (match.contactUrl) {
+      window.open(match.contactUrl, "_blank", "noopener,noreferrer");
+    } else {
+      // fallback to site owner WhatsApp for sellers without a personal link yet
+      openContactWhatsApp(
+        `${labelTeam(match.home)} vs ${labelTeam(match.away)}`,
+        `${match.date} · ${match.venue}`
+      );
+    }
   };
 
   return (
@@ -350,14 +360,19 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           className="wc26-whatsapp-btn"
           style={{
             width: "100%", padding: isLarge ? "13px" : "10px", borderRadius: 10,
-            background: `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
+            background: isTelegram
+              ? `linear-gradient(135deg,#2AABEE,#229ED9)`
+              : `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
             border: "none", color: "#fff", fontSize: isLarge ? 15 : 13, fontWeight: 700,
             cursor: "pointer",
             display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-            boxShadow: "0 3px 12px rgba(37,211,102,0.30)", ...dm,
+            boxShadow: isTelegram
+              ? "0 3px 12px rgba(42,171,238,0.30)"
+              : "0 3px 12px rgba(37,211,102,0.30)",
+            ...dm,
           }}
         >
-          <span>💬</span> {t("card.contact")}
+          <span>{contactEmoji}</span> {t("card.contact")}
         </button>
       </div>
 
@@ -420,9 +435,14 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               <button
                 onClick={handleConfirmContact}
                 className="wc26-whatsapp-btn"
-                style={{ flex: 2, padding: "11px", borderRadius: 10, border: "none", background: `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`, fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, ...dm }}
+                style={{ flex: 2, padding: "11px", borderRadius: 10, border: "none",
+                  background: isTelegram
+                    ? `linear-gradient(135deg,#2AABEE,#229ED9)`
+                    : `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
+                  fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6, ...dm }}
               >
-                <span>💬</span> {t("wa.open")}
+                <span>{contactEmoji}</span> {contactLabel}
               </button>
             </div>
           </div>

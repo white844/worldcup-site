@@ -104,7 +104,7 @@ export default function TicketDetail() {
     [liveMatches, matchId]
   );
   const urgency = useMatchUrgency(matchId ?? "");
-  const isExpired = match ? isMatchPast(match.isoDate, nowMs) : false;
+  const isExpired = match ? isMatchPast(match.isoDate, nowMs, match.time) : false;
 
   useEffect(() => {
     if (match) {
@@ -148,12 +148,20 @@ export default function TicketDetail() {
 
   const handleContact = () => setConfirmOpen(true);
 
+  const isTelegram   = match.contactUrl && match.contactUrl.includes("t.me");
+  const contactLabel = isTelegram ? "Open in Telegram" : "Open in WhatsApp";
+  const contactEmoji = isTelegram ? "✈️" : "💬";
+
   const handleConfirmContact = () => {
     setConfirmOpen(false);
-    openContactWhatsApp(
-      `${teamName(match.home)} vs ${teamName(match.away)}`,
-      `${match.date} at ${match.time} · ${match.venue} · ${match.category} Section ${match.section} Row ${match.row} · $${match.price}/ticket`
-    );
+    if (match.contactUrl) {
+      window.open(match.contactUrl, "_blank", "noopener,noreferrer");
+    } else {
+      openContactWhatsApp(
+        `${teamName(match.home)} vs ${teamName(match.away)}`,
+        `${match.date} at ${match.time} · ${match.venue} · ${match.category} Section ${match.section} Row ${match.row} · $${match.price}/ticket`
+      );
+    }
   };
 
   const TRUST_BADGES = [
@@ -349,19 +357,21 @@ export default function TicketDetail() {
                   onClick={handleContact}
                   style={{
                     width:"100%", padding:"14px", borderRadius:12, marginBottom:10,
-                    background:`linear-gradient(135deg,${C.blue},${C.blueDark})`,
+                    background: isTelegram
+                      ? `linear-gradient(135deg,#2AABEE,#229ED9)`
+                      : `linear-gradient(135deg,${C.blue},${C.blueDark})`,
                     border:"none", color:"#fff",
                     fontSize:15, fontWeight:700,
                     cursor:"pointer", transition:"all 0.15s",
                     display:"flex", alignItems:"center", justifyContent:"center", gap:8,
-                    boxShadow: C.shadowBlue,
+                    boxShadow: isTelegram ? "0 3px 12px rgba(42,171,238,0.35)" : C.shadowBlue,
                     ...dm,
                   }}
                   onMouseEnter={e => { e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.opacity="0.92"; }}
                   onMouseLeave={e => { e.currentTarget.style.transform="translateY(0)";    e.currentTarget.style.opacity="1"; }}
                 >
                   <MessageCircle size={18} />
-                  Contact
+                  {contactLabel}
                 </button>
                 <p style={{ textAlign:"center", fontSize:11, color:C.textSoft, ...dm }}>
                   Always verify tickets before making any payment.
@@ -391,8 +401,10 @@ export default function TicketDetail() {
           style={{ position:"fixed", inset:0, zIndex:600, background:"rgba(15,23,42,0.55)", display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}
         >
           <div onClick={e => e.stopPropagation()} style={{ background:"#fff", borderRadius:16, padding:28, maxWidth:400, width:"100%", boxShadow:"0 24px 60px rgba(15,23,42,0.25)" }}>
-            <div style={{ fontSize:32, marginBottom:12, textAlign:"center" }}>💬</div>
-            <div style={{ fontSize:18, fontWeight:800, color:C.text, marginBottom:8, textAlign:"center", ...sora }}>Contact Seller on WhatsApp</div>
+            <div style={{ fontSize:32, marginBottom:12, textAlign:"center" }}>{contactEmoji}</div>
+            <div style={{ fontSize:18, fontWeight:800, color:C.text, marginBottom:8, textAlign:"center", ...sora }}>
+              Contact Seller on {isTelegram ? "Telegram" : "WhatsApp"}
+            </div>
             <div style={{ fontSize:13, color:C.textSoft, marginBottom:6, textAlign:"center", ...dm, lineHeight:1.5 }}>You're about to enquire about:</div>
             <div style={{ fontSize:14, fontWeight:700, color:C.text, textAlign:"center", marginBottom:4, ...dm }}>
               {labelTeam(match.home)} vs {labelTeam(match.away)}
@@ -404,8 +416,10 @@ export default function TicketDetail() {
             </div>
             <div style={{ display:"flex", gap:10 }}>
               <button onClick={() => setConfirmOpen(false)} style={{ flex:1, padding:"12px", borderRadius:10, border:`1px solid ${C.border}`, background:C.bg, fontSize:13, fontWeight:600, color:C.textMid, cursor:"pointer", ...dm }}>Cancel</button>
-              <button onClick={handleConfirmContact} style={{ flex:2, padding:"12px", borderRadius:10, border:"none", background:"linear-gradient(135deg,#25D366,#128C7E)", fontSize:13, fontWeight:700, color:"#fff", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", gap:6, ...dm }}>
-                <span>💬</span> Open WhatsApp
+              <button onClick={handleConfirmContact} style={{ flex:2, padding:"12px", borderRadius:10, border:"none",
+                background: isTelegram ? "linear-gradient(135deg,#2AABEE,#229ED9)" : "linear-gradient(135deg,#25D366,#128C7E)",
+                fontSize:13, fontWeight:700, color:"#fff", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", gap:6, ...dm }}>
+                <span>{contactEmoji}</span> {contactLabel}
               </button>
             </div>
           </div>
