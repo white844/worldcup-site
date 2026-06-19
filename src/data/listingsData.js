@@ -33,7 +33,6 @@ export const SELLERS = [
     avatar:"MD", avatarBg:"linear-gradient(135deg,#1B3C88,#4A62BC)",
     location:"Polanco, Mexico City",
     bio:"Been doing this since Russia 2018. Got allocation contacts for most group stage fixtures. Usually respond same day, sometimes takes till evening if I'm at work.",
-  ,
     contactUrl:"https://t.me/Marcodelgadoo",
   },
   {
@@ -868,12 +867,11 @@ export const ALL_MATCHES = WC26_ALL_FIXTURES.map((m, i) => {
         34: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
         35: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
         43: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
+        88: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine
+        89: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza
         44: SELLERS.find(s => s.sellerId === "s01"), // Marco Delgado
-        // ── Knockout round overrides (hidden until bracket resolves) ──
-        88: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine  — r16_01
-        89: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza    — r16_02
-        97: SELLERS.find(s => s.sellerId === "s05"), // James Okafor   — qf_02
-        98: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield — qf_03
+        97: SELLERS.find(s => s.sellerId === "s05"), // James Okafor
+        98: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield
         // Redistributed from removed 1-ticket sellers
          8: SELLERS.find(s => s.sellerId === "s07"), // Aisha Mensah (was Connor Bradshaw)
         14: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Luca Ferretti)
