@@ -33,6 +33,7 @@ export const SELLERS = [
     avatar:"MD", avatarBg:"linear-gradient(135deg,#1B3C88,#4A62BC)",
     location:"Polanco, Mexico City",
     bio:"Been doing this since Russia 2018. Got allocation contacts for most group stage fixtures. Usually respond same day, sometimes takes till evening if I'm at work.",
+  ,
     contactUrl:"https://t.me/Marcodelgadoo",
   },
   {
@@ -41,6 +42,7 @@ export const SELLERS = [
     avatar:"SW", avatarBg:"linear-gradient(135deg,#7C3AED,#A78BFA)",
     location:"Islington, London",
     bio:"Full-time reseller, this is literally my job. 500+ sales, zero chargebacks. I over-communicate — you'll know exactly where your tickets are at every stage.",
+  ,
     contactUrl:"https://t.me/SophieWhitefield",
   },
   {
@@ -56,6 +58,7 @@ export const SELLERS = [
     avatar:"NF", avatarBg:"linear-gradient(135deg,#BE185D,#F472B6)",
     location:"Lyon, France",
     bio:"Football fan first, seller second. Got into reselling after Qatar when I ended up with more tickets than I could use. Prices are fair — I'm not here to rip anyone off.",
+  ,
     contactUrl:"https://t.me/NadiaFontaine",
   },
   {
@@ -80,6 +83,7 @@ export const SELLERS = [
     avatar:"AM", avatarBg:"linear-gradient(135deg,#0EA5E9,#38BDF8)",
     location:"Accra, Ghana",
     bio:"Selling a pair of tickets my brother can't use anymore. First time listing on here but I've bought on similar platforms before — know how it works. Happy to video call.",
+  ,
     contactUrl:"https://t.me/AishaMensa",
   },
 
@@ -89,6 +93,7 @@ export const SELLERS = [
     avatar:"YP", avatarBg:"linear-gradient(135deg,#0F766E,#14B8A6)",
     location:"Gangnam, Seoul",
     bio:"Verified Korean seller. I handle mostly Asian fixtures but have tickets across multiple venues. All sourced through official Korean FA allocation. Fast transfer on payment.",
+  ,
     contactUrl:"https://t.me/yunaaparkk",
   },
 
@@ -124,6 +129,7 @@ export const SELLERS = [
     avatar:"HB", avatarBg:"linear-gradient(135deg,#DC2626,#EF4444)",
     location:"Gothenburg, Sweden",
     bio:"Only listing I have — selling 2 Category 3 seats I can't use. Bought through official Sweden allocation. Perfect reviews so far, I respond immediately.",
+  ,
     contactUrl:"https://t.me/HannahBergstrom0",
   },
 
@@ -141,6 +147,7 @@ export const SELLERS = [
     avatar:"FD", avatarBg:"linear-gradient(135deg,#1B3C88,#818CF8)",
     location:"Dakar, Senegal",
     bio:"Selling tickets for France vs Senegal — the dream fixture for us. Got 4, only need 2. All official. This is a once in a lifetime match and I want someone genuine to have them.",
+  ,
     contactUrl:"https://t.me/FatouDiallo0",
   },
 
@@ -150,6 +157,7 @@ export const SELLERS = [
     avatar:"CR", avatarBg:"linear-gradient(135deg,#DC2626,#F87171)",
     location:"Miraflores, Lima",
     bio:"Peruvian fan selling 2 tickets for the Peru fixture. Bought them when I thought I could go, work got in the way. Genuine tickets, can provide photos of confirmation email.",
+  ,
     contactUrl:"https://t.me/Camilareyes00",
   },
 
@@ -159,6 +167,7 @@ export const SELLERS = [
     avatar:"FG", avatarBg:"linear-gradient(135deg,#1B3C88,#3B82F6)",
     location:"Rathmines, Dublin",
     bio:"Irish lad selling tickets for a couple of matches. Got more than I needed when I was going with a bigger group. Bit slow to reply sometimes, sorry in advance — I'll get back to you.",
+  ,
     contactUrl:"https://t.me/finngallagher",
   },
   {
@@ -167,6 +176,7 @@ export const SELLERS = [
     avatar:"AT", avatarBg:"linear-gradient(135deg,#B45309,#F59E0B)",
     location:"Plateau, Abidjan",
     bio:"Ivorian fan selling my Senegal and Morocco tickets — I follow African football more broadly, not just my own team. Both tickets are genuine, bought through the CAF allocation process.",
+  ,
     contactUrl:"https://wa.me/13272158404",
   },
   {
@@ -205,7 +215,7 @@ export const SELLERS = [
     avatar:"BT", avatarBg:"linear-gradient(135deg,#475569,#64748B)",
     location:"Plateau-Mont-Royal, Montreal",
     bio:"Canadian selling tickets for a couple of matches near home. Bought 4 for the Canada games, only need 2 now. Not a professional seller — just a fan trying to get face value back.",
-  }
+  },
 ];
 
 // ─── Seat pool ─────────────────────────────────────
@@ -717,6 +727,7 @@ const PRICE_OVERRIDES = {
   "gs25":  566, // Germany vs Curaçao            — Jun 14, NRG Stadium       [commented out — SeatGeek "Germany vs Curacao" $566]
   "gs26":  933, // Ivory Coast vs Ecuador        — Jun 14, Lincoln Financial Field
   "gs27":  985, // Germany vs Ivory Coast        — Jun 20, BMO Field         [SeatGeek $985]
+  "gs27b": 1084, // Germany vs Ivory Coast (Amara Traoré duplicate, +10%)
   "gs28":  500, // Ecuador vs Curaçao            — Jun 20, Arrowhead Stadium [commented out — SeatGeek $419]
   "gs29":  500, // Curaçao vs Ivory Coast        — Jun 25, Lincoln Financial Field [commented out — peer to gs28]
   "gs30":  933, // Ecuador vs Germany            — Jun 25, MetLife Stadium   [peer to gs26]
@@ -725,6 +736,7 @@ const PRICE_OVERRIDES = {
   "gs31":  987, // Netherlands vs Japan          — Jun 14, AT&T Stadium
   "gs32":  750, // Sweden vs Tunisia             — Jun 14, Estadio BBVA
   "gs33":  708, // Netherlands vs Sweden         — Jun 20, NRG Stadium       [SeatGeek $708]
+  "gs33b": 779, // Netherlands vs Sweden (Sophie Whitfield duplicate, +10%)
   "gs34":  704, // Tunisia vs Japan              — Jun 20, Estadio BBVA      [SeatGeek "Japan vs Tunisia" $704]
   "gs35":  987, // Japan vs Sweden               — Jun 25, AT&T Stadium      [peer to gs31]
   "gs36":  750, // Tunisia vs Netherlands        — Jun 25, Arrowhead Stadium [peer to gs32]
@@ -855,33 +867,32 @@ export const ALL_MATCHES = WC26_ALL_FIXTURES.map((m, i) => {
     // Explicit overrides applied for specific fixtures
     ...(() => {
       const SELLER_OVERRIDES = {
-        34: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
-        35: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
-        43: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström
-        44: SELLERS.find(s => s.sellerId === "s01"), // Marco Delgado
+        // ── Redistributed from removed 1-ticket sellers ──
+         8: SELLERS.find(s => s.sellerId === "s07"), // Aisha Mensah      — gs09
+        14: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs15
+        20: SELLERS.find(s => s.sellerId === "s11"), // Khalid Al-Rashidi — gs21
+        26: SELLERS.find(s => s.sellerId === "s13"), // Priya Nair        — gs27
+        27: SELLERS.find(s => s.sellerId === "s28"), // Amara Traoré      — gs27b (duplicate)
+        33: SELLERS.find(s => s.sellerId === "s15"), // Mateus Costa      — gs33
+        34: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield  — gs33b (duplicate)
+        36: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs35
+        37: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs36
+        40: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs38
+        42: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs40
+        43: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs41
+        45: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs43
+        46: SELLERS.find(s => s.sellerId === "s01"), // Marco Delgado     — gs44
+        52: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza      — gs50
+        58: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine    — gs56
+        69: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs67
+        70: SELLERS.find(s => s.sellerId === "s22"), // Fatou Diallo      — gs68
+        72: SELLERS.find(s => s.sellerId === "s24"), // Camila Reyes      — gs70
+        73: SELLERS.find(s => s.sellerId === "s27"), // Finn Gallagher    — gs71
         // ── Knockout round overrides (hidden until bracket resolves) ──
-        88: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine  — r16_01
-        89: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza    — r16_02
-        97: SELLERS.find(s => s.sellerId === "s05"), // James Okafor   — qf_02
-        98: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield — qf_03
-        // Redistributed from removed 1-ticket sellers
-         8: SELLERS.find(s => s.sellerId === "s07"), // Aisha Mensah (was Connor Bradshaw)
-        14: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Luca Ferretti)
-        20: SELLERS.find(s => s.sellerId === "s11"), // Khalid Al-Rashidi (was Elena Vasquez)
-        26: SELLERS.find(s => s.sellerId === "s13"), // Priya Nair (was Antoine Dubois)
-        32: SELLERS.find(s => s.sellerId === "s15"), // Mateus Costa (was Ingrid Holmberg)
-        50: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza (was Dmitri Volkov)
-        56: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine (was Mei-Ling Chen)
-        // Valentina Cruz tickets transferred to Yuna Park (s09)
-        38: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Valentina Cruz/Reuben Abramowitz)
-        40: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Valentina Cruz)
-        41: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park (was Valentina Cruz)
-        // Lieselotte van den Berg tickets redistributed
-        67: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström (was Lieselotte)
-        68: SELLERS.find(s => s.sellerId === "s22"), // Fatou Diallo (was Lieselotte)
-        // Tariq Benali tickets redistributed
-        70: SELLERS.find(s => s.sellerId === "s24"), // Camila Reyes (was Tariq)
-        71: SELLERS.find(s => s.sellerId === "s27"), // Finn Gallagher (was Tariq)
+        88: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine    — r16_01
+        89: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza      — r16_02
+        97: SELLERS.find(s => s.sellerId === "s05"), // James Okafor      — qf_02
+        98: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield  — qf_03
       };
       if (SELLER_OVERRIDES[i]) return SELLER_OVERRIDES[i];
       const POWER   = SELLERS.filter(s => ["s01","s02","s03","s04","s05"].includes(s.sellerId));

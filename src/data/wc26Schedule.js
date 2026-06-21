@@ -134,6 +134,7 @@ export const WC26_GROUP_STAGE = [
   { id:"gs25",  date:"2026-06-14", time:"17:00", home:"Germany",      away:"Curaçao",         venue:"NRG Stadium",           group:"E" },
   { id:"gs26",  date:"2026-06-14", time:"23:00", home:"Ivory Coast",      away:"Ecuador",         venue:"Lincoln Financial Field",           group:"E" },
   { id:"gs27",  date:"2026-06-20", time:"20:00", home:"Germany",      away:"Ivory Coast",         venue:"BMO Field",           group:"E" },
+  { id:"gs27b", date:"2026-06-20", time:"20:00", home:"Germany",      away:"Ivory Coast",         venue:"BMO Field",           group:"E" },
   // LOW VIEWERSHIP — uncomment to restore:
   { id:"gs28",  date:"2026-06-20", time:"00:00", home:"Ecuador",      away:"Curaçao",         venue:"Arrowhead Stadium",           group:"E" },
   { id:"gs29",  date:"2026-06-25", time:"20:00", home:"Curaçao",      away:"Ivory Coast",         venue:"Lincoln Financial Field",           group:"E" },
@@ -143,6 +144,7 @@ export const WC26_GROUP_STAGE = [
   { id:"gs31",  date:"2026-06-14", time:"20:00", home:"Netherlands",      away:"Japan",         venue:"AT&T Stadium",           group:"F" },
   { id:"gs32",  date:"2026-06-14", time:"02:00", home:"Sweden",      away:"Tunisia",         venue:"Estadio BBVA",           group:"F" },
   { id:"gs33",  date:"2026-06-20", time:"17:00", home:"Netherlands",      away:"Sweden",         venue:"NRG Stadium",           group:"F" },
+  { id:"gs33b", date:"2026-06-20", time:"17:00", home:"Netherlands",      away:"Sweden",         venue:"NRG Stadium",           group:"F" },
   { id:"gs34",  date:"2026-06-20", time:"04:00", home:"Tunisia",      away:"Japan",         venue:"Estadio BBVA",           group:"F" },
   { id:"gs35",  date:"2026-06-25", time:"23:00", home:"Japan",      away:"Sweden",         venue:"AT&T Stadium",           group:"F" },
   { id:"gs36",  date:"2026-06-25", time:"23:00", home:"Tunisia",      away:"Netherlands",         venue:"Arrowhead Stadium",           group:"F" },
