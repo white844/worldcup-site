@@ -82,16 +82,19 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
 
   const isTelegram   = match.contactUrl && match.contactUrl.includes("t.me");
   const isWhatsApp   = match.contactUrl && match.contactUrl.includes("wa.me");
+  const hasContact   = !!match.contactUrl;
   const contactLabel = isTelegram ? "Open in Telegram" : "Open in WhatsApp";
   const contactEmoji = isTelegram ? "✈️" : "💬";
 
   const handleConfirmContact = (e) => {
     e.stopPropagation();
     setConfirmOpen(false);
-    if (match.contactUrl) {
-      window.open(match.contactUrl, "_blank", "noopener,noreferrer");
-    } else {
-      // fallback to site owner WhatsApp for sellers without a personal link yet
+    if (isTelegram) {
+      const msg = encodeURIComponent(
+        `Hi, I saw your listing on Ticketeer for ${labelTeam(match.home)} vs ${labelTeam(match.away)} (${match.date} · ${match.venue}) and I'm interested in buying. Is it still available?`
+      );
+      window.open(`${match.contactUrl}?text=${msg}`, "_blank", "noopener,noreferrer");
+    } else if (isWhatsApp) {
       openContactWhatsApp(
         `${labelTeam(match.home)} vs ${labelTeam(match.away)}`,
         `${match.date} · ${match.venue}`
@@ -354,26 +357,43 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           </div>
         )}
 
-        <button
-          onClick={handleContact}
-          aria-label={`Contact seller for ${teamName(match.home)} vs ${teamName(match.away)}`}
-          className="wc26-whatsapp-btn"
-          style={{
-            width: "100%", padding: isLarge ? "13px" : "10px", borderRadius: 10,
-            background: isTelegram
-              ? `linear-gradient(135deg,#2AABEE,#229ED9)`
-              : `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
-            border: "none", color: "#fff", fontSize: isLarge ? 15 : 13, fontWeight: 700,
-            cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-            boxShadow: isTelegram
-              ? "0 3px 12px rgba(42,171,238,0.30)"
-              : "0 3px 12px rgba(37,211,102,0.30)",
-            ...dm,
-          }}
-        >
-          <span>{contactEmoji}</span> {t("card.contact")}
-        </button>
+        {hasContact ? (
+          <button
+            onClick={handleContact}
+            aria-label={`Contact seller for ${teamName(match.home)} vs ${teamName(match.away)}`}
+            className="wc26-whatsapp-btn"
+            style={{
+              width: "100%", padding: isLarge ? "13px" : "10px", borderRadius: 10,
+              background: isTelegram
+                ? `linear-gradient(135deg,#2AABEE,#229ED9)`
+                : `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
+              border: "none", color: "#fff", fontSize: isLarge ? 15 : 13, fontWeight: 700,
+              cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+              boxShadow: isTelegram
+                ? "0 3px 12px rgba(42,171,238,0.30)"
+                : "0 3px 12px rgba(37,211,102,0.30)",
+              ...dm,
+            }}
+          >
+            <span>{contactEmoji}</span> {t("card.contact")}
+          </button>
+        ) : (
+          <button
+            disabled
+            aria-label="Tickets sold out"
+            style={{
+              width: "100%", padding: isLarge ? "13px" : "10px", borderRadius: 10,
+              background: C.bgSubtle, border: `1px solid ${C.border}`,
+              color: C.textSoft, fontSize: isLarge ? 15 : 13, fontWeight: 700,
+              cursor: "not-allowed", opacity: 0.7,
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+              ...dm,
+            }}
+          >
+            🔒 Sold Out
+          </button>
+        )}
       </div>
 
       {/* WhatsApp confirm modal */}
@@ -398,9 +418,9 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               animation: "wc26-modal-in 0.25s var(--ease-drawer)",
             }}
           >
-            <div style={{ fontSize: 32, marginBottom: 12, textAlign: "center" }}>💬</div>
+            <div style={{ fontSize: 32, marginBottom: 12, textAlign: "center" }}>{contactEmoji}</div>
             <div style={{ fontSize: 17, fontWeight: 800, color: C.text, marginBottom: 8, textAlign: "center", ...sora }}>
-              {t("wa.title")}
+              {isTelegram ? "Contact Seller on Telegram" : t("wa.title")}
             </div>
             <div style={{ fontSize: 13, color: C.textSoft, marginBottom: 6, textAlign: "center", lineHeight: 1.5, ...dm }}>
               {t("wa.about")}

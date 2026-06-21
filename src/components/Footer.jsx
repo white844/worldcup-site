@@ -40,8 +40,8 @@ export default function Footer() {
       links: [
         { labelKey: "footer.protection", action: () => scrollTo("trust", navigate) },
         { labelKey: "footer.howitworks", action: () => scrollTo("trust", navigate) },
-        { labelKey: "footer.contact",    action: () => window.open("https://wa.me/15617108214", "_blank", "noopener,noreferrer") },
-        { labelKey: "footer.report",     action: () => window.open("https://wa.me/15617108214?text=I%20want%20to%20report%20a%20problem%20with%20a%20listing%20on%20Ticketeer.", "_blank", "noopener,noreferrer") },
+        { labelKey: "footer.contact",    action: () => window.open("https://m.me/Getticketeer", "_blank", "noopener,noreferrer") },
+        { labelKey: "footer.report",     action: () => window.open("https://m.me/Getticketeer", "_blank", "noopener,noreferrer") },
       ],
     },
     {

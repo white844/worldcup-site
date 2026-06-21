@@ -149,14 +149,19 @@ export default function TicketDetail() {
   const handleContact = () => setConfirmOpen(true);
 
   const isTelegram   = match.contactUrl && match.contactUrl.includes("t.me");
+  const isWhatsApp   = match.contactUrl && match.contactUrl.includes("wa.me");
+  const hasContact   = !!match.contactUrl;
   const contactLabel = isTelegram ? "Open in Telegram" : "Open in WhatsApp";
   const contactEmoji = isTelegram ? "✈️" : "💬";
 
   const handleConfirmContact = () => {
     setConfirmOpen(false);
-    if (match.contactUrl) {
-      window.open(match.contactUrl, "_blank", "noopener,noreferrer");
-    } else {
+    if (isTelegram) {
+      const msg = encodeURIComponent(
+        `Hi, I saw your listing on Ticketeer for ${teamName(match.home)} vs ${teamName(match.away)} (${match.date} at ${match.time} · ${match.venue} · ${match.category} · $${match.price}/ticket) and I'm interested in buying. Is it still available?`
+      );
+      window.open(`${match.contactUrl}?text=${msg}`, "_blank", "noopener,noreferrer");
+    } else if (isWhatsApp) {
       openContactWhatsApp(
         `${teamName(match.home)} vs ${teamName(match.away)}`,
         `${match.date} at ${match.time} · ${match.venue} · ${match.category} Section ${match.section} Row ${match.row} · $${match.price}/ticket`
@@ -353,26 +358,42 @@ export default function TicketDetail() {
 
               {/* CTA */}
               <div style={{ padding:"20px 22px" }}>
-                <button
-                  onClick={handleContact}
-                  style={{
-                    width:"100%", padding:"14px", borderRadius:12, marginBottom:10,
-                    background: isTelegram
-                      ? `linear-gradient(135deg,#2AABEE,#229ED9)`
-                      : `linear-gradient(135deg,${C.blue},${C.blueDark})`,
-                    border:"none", color:"#fff",
-                    fontSize:15, fontWeight:700,
-                    cursor:"pointer", transition:"all 0.15s",
-                    display:"flex", alignItems:"center", justifyContent:"center", gap:8,
-                    boxShadow: isTelegram ? "0 3px 12px rgba(42,171,238,0.35)" : C.shadowBlue,
-                    ...dm,
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.opacity="0.92"; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform="translateY(0)";    e.currentTarget.style.opacity="1"; }}
-                >
-                  <MessageCircle size={18} />
-                  {contactLabel}
-                </button>
+                {hasContact ? (
+                  <button
+                    onClick={handleContact}
+                    style={{
+                      width:"100%", padding:"14px", borderRadius:12, marginBottom:10,
+                      background: isTelegram
+                        ? `linear-gradient(135deg,#2AABEE,#229ED9)`
+                        : `linear-gradient(135deg,${C.blue},${C.blueDark})`,
+                      border:"none", color:"#fff",
+                      fontSize:15, fontWeight:700,
+                      cursor:"pointer", transition:"all 0.15s",
+                      display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+                      boxShadow: isTelegram ? "0 3px 12px rgba(42,171,238,0.35)" : C.shadowBlue,
+                      ...dm,
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.opacity="0.92"; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform="translateY(0)";    e.currentTarget.style.opacity="1"; }}
+                  >
+                    <MessageCircle size={18} />
+                    {contactLabel}
+                  </button>
+                ) : (
+                  <button
+                    disabled
+                    style={{
+                      width:"100%", padding:"14px", borderRadius:12, marginBottom:10,
+                      background: C.bgSubtle, border:`1px solid ${C.border}`,
+                      color: C.textSoft, fontSize:15, fontWeight:700,
+                      cursor:"not-allowed", opacity:0.7,
+                      display:"flex", alignItems:"center", justifyContent:"center", gap:8,
+                      ...dm,
+                    }}
+                  >
+                    🔒 Sold Out
+                  </button>
+                )}
                 <p style={{ textAlign:"center", fontSize:11, color:C.textSoft, ...dm }}>
                   Always verify tickets before making any payment.
                 </p>

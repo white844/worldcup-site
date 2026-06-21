@@ -1,49 +1,43 @@
 /**
- * whatsapp.js — Centralized WhatsApp logic
+ * contact.js (formerly whatsapp.js) — Centralized contact logic
  *
  * RULES:
- *  - ONE phone number, defined once here
- *  - No duplicate wa.me links anywhere in the codebase
- *  - Behavior: pre-filled message only — NO automation
+ *  - Seller registration notifications → Facebook Messenger (site owner inbox)
+ *  - Buyer→seller contact → per-seller contactUrl (Telegram or WhatsApp)
+ *  - Amara Traoré buyer contact → WhatsApp (her personal number)
+ *  - No duplicate links anywhere in the codebase
  */
 
-// ⚠️  UPDATE BEFORE GO-LIVE: replace with your production WhatsApp Business number
-// Format: country code + number, no spaces or +  (e.g. "447911123456" for UK)
-const WA_PHONE = "15617108214";
+const WA_PHONE       = "15617108214";    // Amara Traoré's WhatsApp (buyer contact only)
+const MESSENGER_PAGE = "Getticketeer";   // Facebook page username
 
 const CONTACT_MESSAGE = (match, teams) =>
   `Hi, I saw the listing on Ticketeer for "${match}" (${teams}) and I'm interested in buying. Is it still available?`;
 
 /**
- * Sends a seller registration notification to the owner via WhatsApp.
+ * Sends a seller registration notification to the owner via Facebook Messenger.
  * Returns true if the window.open call was made (best-effort indicator).
- * Called from the Register page after seller form submission.
+ * Called from SellerForm after seller form submission.
  */
-export function sendSellerRegistrationWhatsApp(data) {
-  const msg = `🎫 *New Seller Registration — Ticketeer*
+export function sendSellerRegistrationMessenger(data) {
+  // Messenger doesn't support pre-filled ?text= params (unlike WhatsApp/Telegram).
+  // We store the formatted submission in sessionStorage so SellerForm can display
+  // it for the site owner to copy, then open the Messenger inbox for the alert.
+  const summary = `🎫 New Seller Registration — Ticketeer\n\nFull Name: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nLocation / Country: ${data.location}\n\nTicket Match: ${data.teams}\nMatch Date: ${data.matchDate}\nSeat / Section: ${data.seat}\nAsking Price (USD): $${data.price}\nAdditional Info: ${data.notes || "N/A"}\n\n⚠️ Awaiting manual review and approval before listing goes live.`;
 
-*Full Name:* ${data.fullName}
-*Email:* ${data.email}
-*Phone:* ${data.phone}
-*Location / Country:* ${data.location}
+  try { sessionStorage.setItem("ticketeer_last_submission", summary); } catch {}
 
-*Ticket Match:* ${data.teams}
-*Match Date:* ${data.matchDate}
-*Seat / Section:* ${data.seat}
-*Asking Price (USD):* $${data.price}
-*Additional Info:* ${data.notes || "N/A"}
-
-⚠️ Awaiting manual review and approval before listing goes live.`;
-
-  const url = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(msg)}`;
-  const win = window.open(url, "_blank", "noopener,noreferrer");
-  // Returns false if popup was blocked or user had no chance to send
+  const win = window.open(`https://m.me/${MESSENGER_PAGE}`, "_blank", "noopener,noreferrer");
   return win !== null;
 }
 
+// Keep old name as alias so any missed references don't crash
+export const sendSellerRegistrationWhatsApp = sendSellerRegistrationMessenger;
+
 /**
- * Opens WhatsApp for a buyer interested in a specific listing.
- * Called from: MatchCard, TicketDetail
+ * Opens WhatsApp for a buyer — only used for Amara Traoré's listing
+ * (the one seller whose contactUrl is a wa.me link).
+ * Called from: MatchCard, TicketDetail, FeaturedMatches
  */
 export function openContactWhatsApp(matchLabel, teamsLabel) {
   const msg = CONTACT_MESSAGE(matchLabel, teamsLabel);

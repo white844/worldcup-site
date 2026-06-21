@@ -5,7 +5,7 @@
 import { useState, useEffect, useRef } from "react";
 import { AlertCircle, CheckCircle, ArrowRight, RefreshCw, Loader } from "lucide-react";
 import { C, sora, dm } from "../../tokens";
-import { sendSellerRegistrationWhatsApp } from "../../utils/whatsapp";
+import { sendSellerRegistrationMessenger } from "../../utils/whatsapp";
 import { Field, inputBase, sanitise, SESSION_KEY } from "./registerHelpers";
 import { WC26_ALL_FIXTURES, WC26_FLAGS } from "../../data/wc26Schedule.js";
 import { getMarketBenchmark } from "../../data/listingsData.js";
@@ -70,7 +70,7 @@ export default function SellerForm() {
     const e = validate();
     setErrors(e);
     if (Object.keys(e).length) return;
-    const opened = sendSellerRegistrationWhatsApp(clean());
+    const opened = sendSellerRegistrationMessenger(clean());
     setStatus("pending");
     setWaBlocked(!opened);
   };
@@ -83,30 +83,45 @@ export default function SellerForm() {
 
   const handleResend = () => {
     if (reopening) return;
-    const opened = sendSellerRegistrationWhatsApp(clean());
+    const opened = sendSellerRegistrationMessenger(clean());
     setWaBlocked(!opened);
     setReopening(true);
     reopenTimer.current = setTimeout(() => setReopening(false), 5000);
   };
 
   /* ── Pending state ── */
-  if (status === "pending") return (
+  if (status === "pending") {
+    const c = clean();
+    const summary = `Full Name: ${c.fullName}\nEmail: ${c.email}\nPhone: ${c.phone}\nLocation: ${c.location}\n\nMatch: ${c.teams}\nDate: ${c.matchDate}\nSeat: ${c.seat}\nPrice: $${c.price}\nNotes: ${c.notes || "N/A"}`;
+    return (
     <div style={{ textAlign: "center", padding: "32px 16px" }}>
       <div style={{ fontSize: 48, marginBottom: 16 }}>💬</div>
-      <h3 style={{ ...sora, fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 10 }}>WhatsApp should be open</h3>
+      <h3 style={{ ...sora, fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 10 }}>Messenger is open</h3>
 
       {waBlocked && (
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "12px 14px", borderRadius: 10, background: C.warnBg, border: "1px solid " + C.warnBorder, marginBottom: 16, textAlign: "left", maxWidth: 340, margin: "0 auto 16px" }}>
           <AlertCircle size={16} style={{ color: C.warnText, flexShrink: 0, marginTop: 1 }} />
           <span style={{ fontSize: 13, color: C.warnText, fontWeight: 600, ...dm }}>
-            Your browser may have blocked the popup. Tap "Reopen WhatsApp" below to try again, or allow popups for this site.
+            Popup was blocked. Tap "Reopen Messenger" below.
           </span>
         </div>
       )}
 
-      <p style={{ color: C.textSoft, fontSize: 14, ...dm, lineHeight: 1.65, maxWidth: 340, margin: "0 auto 24px" }}>
-        Your details are pre-filled. Please <strong style={{ color: C.text }}>send the message</strong> to complete your submission — then tap below.
+      <p style={{ color: C.textSoft, fontSize: 14, ...dm, lineHeight: 1.65, maxWidth: 340, margin: "0 auto 12px" }}>
+        Copy your submission details below and paste them into Messenger, then tap <strong style={{ color: C.text }}>Done</strong>.
       </p>
+
+      <div style={{ textAlign: "left", background: C.bgSubtle, border: "1px solid " + C.border, borderRadius: 10, padding: "12px 14px", maxWidth: 340, margin: "0 auto 16px", fontSize: 12, color: C.textMid, ...dm, whiteSpace: "pre-wrap", lineHeight: 1.7 }}>
+        {summary}
+      </div>
+
+      <button
+        onClick={() => { try { navigator.clipboard.writeText("🎫 New Seller Registration — Ticketeer\n\n" + summary + "\n\n⚠️ Awaiting manual review."); } catch {} }}
+        style={{ padding: "8px 18px", borderRadius: 8, border: "1px solid " + C.border, background: C.bg, fontSize: 13, fontWeight: 600, color: C.textMid, cursor: "pointer", marginBottom: 20, ...dm }}
+      >
+        📋 Copy Details
+      </button>
+
       <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 320, margin: "0 auto" }}>
         <button onClick={handleConfirm} style={{
           padding: "14px", borderRadius: 12,
@@ -115,7 +130,7 @@ export default function SellerForm() {
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
           boxShadow: "0 4px 16px rgba(22,163,74,0.35)", ...dm,
         }}>
-          <CheckCircle size={16} /> Yes, I sent the message
+          <CheckCircle size={16} /> Done
         </button>
         <button onClick={handleResend} disabled={reopening} style={{
           padding: "12px", borderRadius: 12,
@@ -129,12 +144,12 @@ export default function SellerForm() {
         }}>
           {reopening
             ? <><Loader size={14} style={{ animation: "wc26-spin 1s linear infinite" }} /> Opening…</>
-            : <><RefreshCw size={14} /> Reopen WhatsApp</>
+            : <><RefreshCw size={14} /> Reopen Messenger</>
           }
         </button>
       </div>
     </div>
-  );
+  );}
 
   /* ── Done state ── */
   if (status === "done") {

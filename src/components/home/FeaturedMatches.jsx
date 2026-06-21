@@ -37,7 +37,7 @@ function FlagImg({ raw, size = 44 }) {
   );
 }
 
-function FeaturedCard({ match, urgency }) {
+function FeaturedCard({ match, urgency, index = 0 }) {
   const navigate = useNavigate();
   const { t } = useI18n();
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -50,14 +50,25 @@ function FeaturedCard({ match, urgency }) {
       ? { bg: C.infoBg,   color: C.blue,       border: C.infoBorder,   label: t("featured.pill.demand") }
       : { bg: C.greenBg,  color: C.greenText,   border: C.greenBorder,  label: t("featured.pill.available") };
 
+  const isTelegram = match.contactUrl && match.contactUrl.includes("t.me");
+  const isWhatsApp = match.contactUrl && match.contactUrl.includes("wa.me");
+  const hasContact = !!match.contactUrl;
+
   const handleContact = (e) => { e.stopPropagation(); setConfirmOpen(true); };
   const handleConfirmContact = (e) => {
     e.stopPropagation();
     setConfirmOpen(false);
-    openContactWhatsApp(
-      `${labelTeam(match.home)} vs ${labelTeam(match.away)}`,
-      `${match.date} · ${match.venue}`
-    );
+    if (isTelegram) {
+      const msg = encodeURIComponent(
+        `Hi, I saw your listing on Ticketeer for ${labelTeam(match.home)} vs ${labelTeam(match.away)} (${match.date} · ${match.venue}) and I'm interested in buying. Is it still available?`
+      );
+      window.open(`${match.contactUrl}?text=${msg}`, "_blank", "noopener,noreferrer");
+    } else if (isWhatsApp) {
+      openContactWhatsApp(
+        `${labelTeam(match.home)} vs ${labelTeam(match.away)}`,
+        `${match.date} · ${match.venue}`
+      );
+    }
   };
 
   const urgencyText = isLimited
@@ -68,8 +79,8 @@ function FeaturedCard({ match, urgency }) {
     <>
       <div
         onClick={() => navigate(`/marketplace/${match.id}`)}
-        className="wc26-card wc26-card-hover"
-        style={{ overflow: "hidden", position: "relative", cursor: "pointer", border: `1px solid ${isLimited ? C.dangerBorder : C.border}` }}
+        className="wc26-card wc26-card-hover wc26-stagger-item"
+        style={{ overflow: "hidden", position: "relative", cursor: "pointer", border: `1px solid ${isLimited ? C.dangerBorder : C.border}`, '--i': index }}
       >
         {/* Verified badge */}
         <div style={{
@@ -138,21 +149,38 @@ function FeaturedCard({ match, urgency }) {
             <div className="wc26-label" style={{ marginBottom: 0 }}>{t("featured.from")}</div>
             <div style={{ ...sora, fontSize: 24, fontWeight: 800, color: C.text, letterSpacing: "-0.03em" }}>${match.price}</div>
           </div>
-          <button
-            onClick={handleContact}
-            style={{
-              padding: "9px 16px", borderRadius: 10,
-              background: "linear-gradient(135deg,#25D366,#128C7E)",
-              border: "none", color: "#fff", fontSize: 12, fontWeight: 700,
-              cursor: "pointer", transition: "all 0.15s",
-              display: "flex", alignItems: "center", gap: 6,
-              boxShadow: "0 3px 10px rgba(37,211,102,0.30)", ...dm,
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = "translateY(-1px)"}
-            onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
-          >
-            <span>💬</span> {t("featured.contact")}
-          </button>
+          {hasContact ? (
+            <button
+              onClick={handleContact}
+              style={{
+                padding: "9px 16px", borderRadius: 10,
+                background: isTelegram
+                  ? "linear-gradient(135deg,#2AABEE,#229ED9)"
+                  : "linear-gradient(135deg,#25D366,#128C7E)",
+                border: "none", color: "#fff", fontSize: 12, fontWeight: 700,
+                cursor: "pointer", transition: "all 0.15s",
+                display: "flex", alignItems: "center", gap: 6,
+                boxShadow: isTelegram ? "0 3px 10px rgba(42,171,238,0.30)" : "0 3px 10px rgba(37,211,102,0.30)", ...dm,
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = "translateY(-1px)"}
+              onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
+            >
+              <span>{isTelegram ? "✈️" : "💬"}</span> {t("featured.contact")}
+            </button>
+          ) : (
+            <button
+              disabled
+              style={{
+                padding: "9px 16px", borderRadius: 10,
+                background: C.bgSubtle, border: `1px solid ${C.border}`,
+                color: C.textSoft, fontSize: 12, fontWeight: 700,
+                cursor: "not-allowed", opacity: 0.7,
+                display: "flex", alignItems: "center", gap: 6, ...dm,
+              }}
+            >
+              🔒 Sold Out
+            </button>
+          )}
         </div>
       </div>
 
@@ -163,8 +191,8 @@ function FeaturedCard({ match, urgency }) {
           style={{ position: "fixed", inset: 0, zIndex: 600, background: "rgba(15,23,42,0.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
         >
           <div onClick={e => e.stopPropagation()} style={{ background: "#fff", borderRadius: 16, padding: 28, maxWidth: 360, width: "100%", boxShadow: "0 24px 60px rgba(15,23,42,0.25)" }}>
-            <div style={{ fontSize: 32, marginBottom: 12, textAlign: "center" }}>💬</div>
-            <div style={{ fontSize: 17, fontWeight: 800, color: "#0F172A", marginBottom: 8, textAlign: "center", fontFamily: "Sora,sans-serif" }}>{t("wa.title")}</div>
+            <div style={{ fontSize: 32, marginBottom: 12, textAlign: "center" }}>{isTelegram ? "✈️" : "💬"}</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "#0F172A", marginBottom: 8, textAlign: "center", fontFamily: "Sora,sans-serif" }}>{isTelegram ? "Contact Seller on Telegram" : t("wa.title")}</div>
             <div style={{ fontSize: 13, color: "#64748B", marginBottom: 6, textAlign: "center", lineHeight: 1.5, fontFamily: "DM Sans,sans-serif" }}>{t("wa.about")}</div>
             <div style={{ fontSize: 13, fontWeight: 700, color: "#0F172A", textAlign: "center", marginBottom: 4, fontFamily: "DM Sans,sans-serif" }}>{labelTeam(match.home)} vs {labelTeam(match.away)}</div>
             <div style={{ fontSize: 12, color: "#64748B", textAlign: "center", marginBottom: 20, fontFamily: "DM Sans,sans-serif" }}>{match.date} · {match.venue}</div>
@@ -173,8 +201,10 @@ function FeaturedCard({ match, urgency }) {
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={e => { e.stopPropagation(); setConfirmOpen(false); }} style={{ flex: 1, padding: "11px", borderRadius: 10, border: "1px solid #E2E8F0", background: "#F8FAFC", fontSize: 13, fontWeight: 600, color: "#64748B", cursor: "pointer", fontFamily: "DM Sans,sans-serif" }}>{t("wa.cancel")}</button>
-              <button onClick={handleConfirmContact} style={{ flex: 2, padding: "11px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#25D366,#128C7E)", fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontFamily: "DM Sans,sans-serif" }}>
-                <span>💬</span> {t("wa.open")}
+              <button onClick={handleConfirmContact} style={{ flex: 2, padding: "11px", borderRadius: 10, border: "none",
+                background: isTelegram ? "linear-gradient(135deg,#2AABEE,#229ED9)" : "linear-gradient(135deg,#25D366,#128C7E)",
+                fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontFamily: "DM Sans,sans-serif" }}>
+                <span>{isTelegram ? "✈️" : "💬"}</span> {isTelegram ? "Open in Telegram" : t("wa.open")}
               </button>
             </div>
           </div>
@@ -217,7 +247,7 @@ export default function FeaturedMatches() {
 
         <div className="wc26-featured-grid">
           {featured.map((m, i) => (
-            <FeaturedCard key={m.id} match={m} urgency={urgencies[i]} />
+            <FeaturedCard key={m.id} match={m} urgency={urgencies[i]} index={i} />
           ))}
         </div>
       </div>
