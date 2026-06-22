@@ -33,8 +33,7 @@ export const SELLERS = [
     avatar:"MD", avatarBg:"linear-gradient(135deg,#1B3C88,#4A62BC)",
     location:"Polanco, Mexico City",
     bio:"Been doing this since Russia 2018. Got allocation contacts for most group stage fixtures. Usually respond same day, sometimes takes till evening if I'm at work.",
-  ,
-    contactUrl:"https://t.me/Marcodelgadoo",
+         contactUrl:"https://t.me/Marcodelgadoo",
   },
   {
     sellerId:"s02", seller:"Sophie Whitfield",
@@ -42,7 +41,6 @@ export const SELLERS = [
     avatar:"SW", avatarBg:"linear-gradient(135deg,#7C3AED,#A78BFA)",
     location:"Islington, London",
     bio:"Full-time reseller, this is literally my job. 500+ sales, zero chargebacks. I over-communicate — you'll know exactly where your tickets are at every stage.",
-  ,
     contactUrl:"https://t.me/SophieWhitefield",
   },
   {
@@ -58,7 +56,6 @@ export const SELLERS = [
     avatar:"NF", avatarBg:"linear-gradient(135deg,#BE185D,#F472B6)",
     location:"Lyon, France",
     bio:"Football fan first, seller second. Got into reselling after Qatar when I ended up with more tickets than I could use. Prices are fair — I'm not here to rip anyone off.",
-  ,
     contactUrl:"https://t.me/NadiaFontaine",
   },
   {
@@ -83,7 +80,6 @@ export const SELLERS = [
     avatar:"AM", avatarBg:"linear-gradient(135deg,#0EA5E9,#38BDF8)",
     location:"Accra, Ghana",
     bio:"Selling a pair of tickets my brother can't use anymore. First time listing on here but I've bought on similar platforms before — know how it works. Happy to video call.",
-  ,
     contactUrl:"https://t.me/AishaMensa",
   },
 
@@ -93,7 +89,6 @@ export const SELLERS = [
     avatar:"YP", avatarBg:"linear-gradient(135deg,#0F766E,#14B8A6)",
     location:"Gangnam, Seoul",
     bio:"Verified Korean seller. I handle mostly Asian fixtures but have tickets across multiple venues. All sourced through official Korean FA allocation. Fast transfer on payment.",
-  ,
     contactUrl:"https://t.me/yunaaparkk",
   },
 
@@ -129,7 +124,6 @@ export const SELLERS = [
     avatar:"HB", avatarBg:"linear-gradient(135deg,#DC2626,#EF4444)",
     location:"Gothenburg, Sweden",
     bio:"Only listing I have — selling 2 Category 3 seats I can't use. Bought through official Sweden allocation. Perfect reviews so far, I respond immediately.",
-  ,
     contactUrl:"https://t.me/HannahBergstrom0",
   },
 
@@ -147,7 +141,6 @@ export const SELLERS = [
     avatar:"FD", avatarBg:"linear-gradient(135deg,#1B3C88,#818CF8)",
     location:"Dakar, Senegal",
     bio:"Selling tickets for France vs Senegal — the dream fixture for us. Got 4, only need 2. All official. This is a once in a lifetime match and I want someone genuine to have them.",
-  ,
     contactUrl:"https://t.me/FatouDiallo0",
   },
 
@@ -157,7 +150,6 @@ export const SELLERS = [
     avatar:"CR", avatarBg:"linear-gradient(135deg,#DC2626,#F87171)",
     location:"Miraflores, Lima",
     bio:"Peruvian fan selling 2 tickets for the Peru fixture. Bought them when I thought I could go, work got in the way. Genuine tickets, can provide photos of confirmation email.",
-  ,
     contactUrl:"https://t.me/Camilareyes00",
   },
 
@@ -167,7 +159,6 @@ export const SELLERS = [
     avatar:"FG", avatarBg:"linear-gradient(135deg,#1B3C88,#3B82F6)",
     location:"Rathmines, Dublin",
     bio:"Irish lad selling tickets for a couple of matches. Got more than I needed when I was going with a bigger group. Bit slow to reply sometimes, sorry in advance — I'll get back to you.",
-  ,
     contactUrl:"https://t.me/finngallagher",
   },
   {
@@ -176,7 +167,6 @@ export const SELLERS = [
     avatar:"AT", avatarBg:"linear-gradient(135deg,#B45309,#F59E0B)",
     location:"Plateau, Abidjan",
     bio:"Ivorian fan selling my Senegal and Morocco tickets — I follow African football more broadly, not just my own team. Both tickets are genuine, bought through the CAF allocation process.",
-  ,
     contactUrl:"https://wa.me/13272158404",
   },
   {
@@ -215,7 +205,7 @@ export const SELLERS = [
     avatar:"BT", avatarBg:"linear-gradient(135deg,#475569,#64748B)",
     location:"Plateau-Mont-Royal, Montreal",
     bio:"Canadian selling tickets for a couple of matches near home. Bought 4 for the Canada games, only need 2 now. Not a professional seller — just a fan trying to get face value back.",
-  },
+  }
 ];
 
 // ─── Seat pool ─────────────────────────────────────
