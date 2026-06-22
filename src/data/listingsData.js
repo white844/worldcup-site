@@ -33,6 +33,7 @@ export const SELLERS = [
     avatar:"MD", avatarBg:"linear-gradient(135deg,#1B3C88,#4A62BC)",
     location:"Polanco, Mexico City",
     bio:"Been doing this since Russia 2018. Got allocation contacts for most group stage fixtures. Usually respond same day, sometimes takes till evening if I'm at work.",
+  ,
     contactUrl:"https://t.me/Marcodelgadoo",
   },
   {
@@ -41,6 +42,7 @@ export const SELLERS = [
     avatar:"SW", avatarBg:"linear-gradient(135deg,#7C3AED,#A78BFA)",
     location:"Islington, London",
     bio:"Full-time reseller, this is literally my job. 500+ sales, zero chargebacks. I over-communicate — you'll know exactly where your tickets are at every stage.",
+  ,
     contactUrl:"https://t.me/SophieWhitefield",
   },
   {
@@ -56,6 +58,7 @@ export const SELLERS = [
     avatar:"NF", avatarBg:"linear-gradient(135deg,#BE185D,#F472B6)",
     location:"Lyon, France",
     bio:"Football fan first, seller second. Got into reselling after Qatar when I ended up with more tickets than I could use. Prices are fair — I'm not here to rip anyone off.",
+  ,
     contactUrl:"https://t.me/NadiaFontaine",
   },
   {
@@ -80,6 +83,7 @@ export const SELLERS = [
     avatar:"AM", avatarBg:"linear-gradient(135deg,#0EA5E9,#38BDF8)",
     location:"Accra, Ghana",
     bio:"Selling a pair of tickets my brother can't use anymore. First time listing on here but I've bought on similar platforms before — know how it works. Happy to video call.",
+  ,
     contactUrl:"https://t.me/AishaMensa",
   },
 
@@ -89,6 +93,7 @@ export const SELLERS = [
     avatar:"YP", avatarBg:"linear-gradient(135deg,#0F766E,#14B8A6)",
     location:"Gangnam, Seoul",
     bio:"Verified Korean seller. I handle mostly Asian fixtures but have tickets across multiple venues. All sourced through official Korean FA allocation. Fast transfer on payment.",
+  ,
     contactUrl:"https://t.me/yunaaparkk",
   },
 
@@ -124,6 +129,7 @@ export const SELLERS = [
     avatar:"HB", avatarBg:"linear-gradient(135deg,#DC2626,#EF4444)",
     location:"Gothenburg, Sweden",
     bio:"Only listing I have — selling 2 Category 3 seats I can't use. Bought through official Sweden allocation. Perfect reviews so far, I respond immediately.",
+  ,
     contactUrl:"https://t.me/HannahBergstrom0",
   },
 
@@ -141,6 +147,7 @@ export const SELLERS = [
     avatar:"FD", avatarBg:"linear-gradient(135deg,#1B3C88,#818CF8)",
     location:"Dakar, Senegal",
     bio:"Selling tickets for France vs Senegal — the dream fixture for us. Got 4, only need 2. All official. This is a once in a lifetime match and I want someone genuine to have them.",
+  ,
     contactUrl:"https://t.me/FatouDiallo0",
   },
 
@@ -150,6 +157,7 @@ export const SELLERS = [
     avatar:"CR", avatarBg:"linear-gradient(135deg,#DC2626,#F87171)",
     location:"Miraflores, Lima",
     bio:"Peruvian fan selling 2 tickets for the Peru fixture. Bought them when I thought I could go, work got in the way. Genuine tickets, can provide photos of confirmation email.",
+  ,
     contactUrl:"https://t.me/Camilareyes00",
   },
 
@@ -159,6 +167,7 @@ export const SELLERS = [
     avatar:"FG", avatarBg:"linear-gradient(135deg,#1B3C88,#3B82F6)",
     location:"Rathmines, Dublin",
     bio:"Irish lad selling tickets for a couple of matches. Got more than I needed when I was going with a bigger group. Bit slow to reply sometimes, sorry in advance — I'll get back to you.",
+  ,
     contactUrl:"https://t.me/finngallagher",
   },
   {
@@ -167,6 +176,7 @@ export const SELLERS = [
     avatar:"AT", avatarBg:"linear-gradient(135deg,#B45309,#F59E0B)",
     location:"Plateau, Abidjan",
     bio:"Ivorian fan selling my Senegal and Morocco tickets — I follow African football more broadly, not just my own team. Both tickets are genuine, bought through the CAF allocation process.",
+  ,
     contactUrl:"https://wa.me/13272158404",
   },
   {
@@ -205,7 +215,7 @@ export const SELLERS = [
     avatar:"BT", avatarBg:"linear-gradient(135deg,#475569,#64748B)",
     location:"Plateau-Mont-Royal, Montreal",
     bio:"Canadian selling tickets for a couple of matches near home. Bought 4 for the Canada games, only need 2 now. Not a professional seller — just a fan trying to get face value back.",
-  }
+  },
 ];
 
 // ─── Seat pool ─────────────────────────────────────
@@ -695,7 +705,9 @@ const PRICE_OVERRIDES = {
   "gs09":  500, // Switzerland vs Bosnia & Herz  — Jun 18, SoFi Stadium    [commented out — SeatGeek "Switzerland vs Bosnia" $434]
   "gs10": 500, // Canada vs Qatar               — Jun 18, BC Place
   "gs11":  588, // Switzerland vs Canada         — Jun 24, BC Place         [SeatGeek "Canada vs Switzerland" $588]
+  "gs11b": 647, // Switzerland vs Canada (Sophie Whitfield duplicate, +10%)
   "gs12":  500, // Bosnia & Herz vs Qatar        — Jun 24, Lumen Field      [commented out — SeatGeek "Qatar vs Bosnia" $253]
+  "gs12b": 550, // Bosnia & Herz vs Qatar (Amara Traoré duplicate, +10%)
 
   // ── GROUP C ──────────────────────────────────────────────────────────────
   "gs13": 1569, // Brazil vs Morocco             — Jun 13, MetLife Stadium
@@ -717,7 +729,6 @@ const PRICE_OVERRIDES = {
   "gs25":  566, // Germany vs Curaçao            — Jun 14, NRG Stadium       [commented out — SeatGeek "Germany vs Curacao" $566]
   "gs26":  933, // Ivory Coast vs Ecuador        — Jun 14, Lincoln Financial Field
   "gs27":  985, // Germany vs Ivory Coast        — Jun 20, BMO Field         [SeatGeek $985]
-  "gs27b": 1084, // Germany vs Ivory Coast (Amara Traoré duplicate, +10%)
   "gs28":  500, // Ecuador vs Curaçao            — Jun 20, Arrowhead Stadium [commented out — SeatGeek $419]
   "gs29":  500, // Curaçao vs Ivory Coast        — Jun 25, Lincoln Financial Field [commented out — peer to gs28]
   "gs30":  933, // Ecuador vs Germany            — Jun 25, MetLife Stadium   [peer to gs26]
@@ -726,7 +737,6 @@ const PRICE_OVERRIDES = {
   "gs31":  987, // Netherlands vs Japan          — Jun 14, AT&T Stadium
   "gs32":  750, // Sweden vs Tunisia             — Jun 14, Estadio BBVA
   "gs33":  708, // Netherlands vs Sweden         — Jun 20, NRG Stadium       [SeatGeek $708]
-  "gs33b": 779, // Netherlands vs Sweden (Sophie Whitfield duplicate, +10%)
   "gs34":  704, // Tunisia vs Japan              — Jun 20, Estadio BBVA      [SeatGeek "Japan vs Tunisia" $704]
   "gs35":  987, // Japan vs Sweden               — Jun 25, AT&T Stadium      [peer to gs31]
   "gs36":  750, // Tunisia vs Netherlands        — Jun 25, Arrowhead Stadium [peer to gs32]
@@ -760,8 +770,10 @@ const PRICE_OVERRIDES = {
   "gs56":  500, // Austria vs Jordan             — Jun 16, Levi's Stadium    [commented out — SeatGeek $244]
   "gs57": 1451, // Argentina vs Austria          — Jun 22, AT&T Stadium      [SeatGeek $1,451]
   "gs58": 500, // Jordan vs Algeria             — Jun 22, Levi's Stadium    [SeatGeek $263]
+  "gs58b": 550, // Jordan vs Algeria (Sophie Whitfield duplicate, +10%)
   "gs59": 500, // Algeria vs Austria            — Jun 27, Arrowhead Stadium [peer to gs56]
   "gs60":  831, // Jordan vs Argentina           — Jun 27, AT&T Stadium      [peer to gs55]
+  "gs60b": 914, // Jordan vs Argentina (Amara Traoré duplicate, +10%)
 
   // ── GROUP K ──────────────────────────────────────────────────────────────
   "gs61": 1044, // Portugal vs DR Congo          — Jun 17, NRG Stadium
@@ -857,27 +869,29 @@ export const ALL_MATCHES = WC26_ALL_FIXTURES.map((m, i) => {
     // Explicit overrides applied for specific fixtures
     ...(() => {
       const SELLER_OVERRIDES = {
-        // ── Redistributed from removed 1-ticket sellers ──
+        // ── Specific seller assignments ──
          8: SELLERS.find(s => s.sellerId === "s07"), // Aisha Mensah      — gs09
-        14: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs15
-        20: SELLERS.find(s => s.sellerId === "s11"), // Khalid Al-Rashidi — gs21
-        26: SELLERS.find(s => s.sellerId === "s13"), // Priya Nair        — gs27
-        27: SELLERS.find(s => s.sellerId === "s28"), // Amara Traoré      — gs27b (duplicate)
-        33: SELLERS.find(s => s.sellerId === "s15"), // Mateus Costa      — gs33
-        34: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield  — gs33b (duplicate)
+        11: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield  — gs11b (Priya dup 1, +10%)
+        13: SELLERS.find(s => s.sellerId === "s28"), // Amara Traoré      — gs12b (Priya dup 2, +10%)
+        16: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs15
+        22: SELLERS.find(s => s.sellerId === "s11"), // Khalid Al-Rashidi — gs21
+        28: SELLERS.find(s => s.sellerId === "s13"), // Priya Nair        — gs27
+        34: SELLERS.find(s => s.sellerId === "s15"), // Mateus Costa      — gs33
         36: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs35
         37: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs36
-        40: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs38
-        42: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs40
-        43: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs41
-        45: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs43
-        46: SELLERS.find(s => s.sellerId === "s01"), // Marco Delgado     — gs44
-        52: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza      — gs50
-        58: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine    — gs56
-        69: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs67
-        70: SELLERS.find(s => s.sellerId === "s22"), // Fatou Diallo      — gs68
-        72: SELLERS.find(s => s.sellerId === "s24"), // Camila Reyes      — gs70
-        73: SELLERS.find(s => s.sellerId === "s27"), // Finn Gallagher    — gs71
+        39: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs38
+        41: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs40
+        42: SELLERS.find(s => s.sellerId === "s09"), // Yuna Park         — gs41
+        45: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs44
+        46: SELLERS.find(s => s.sellerId === "s01"), // Marco Delgado     — gs45
+        52: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza      — gs51
+        58: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine    — gs57
+        60: SELLERS.find(s => s.sellerId === "s02"), // Sophie Whitfield  — gs58b (Priya dup 3, +10%)
+        63: SELLERS.find(s => s.sellerId === "s28"), // Amara Traoré      — gs60b (Mateus dup, +10%)
+        71: SELLERS.find(s => s.sellerId === "s18"), // Hannah Bergström  — gs68
+        72: SELLERS.find(s => s.sellerId === "s22"), // Fatou Diallo      — gs69
+        74: SELLERS.find(s => s.sellerId === "s24"), // Camila Reyes      — gs71
+        75: SELLERS.find(s => s.sellerId === "s27"), // Finn Gallagher    — gs72
         // ── Knockout round overrides (hidden until bracket resolves) ──
         88: SELLERS.find(s => s.sellerId === "s04"), // Nadia Fontaine    — r16_01
         89: SELLERS.find(s => s.sellerId === "s03"), // Rafael Souza      — r16_02
@@ -935,198 +949,162 @@ export const TRENDING_CITIES = [
 // ─── Live activity feed ────────────────────────────
 export const ACTIVITIES = [
   // ── Sales ──────────────────────────────────────────────────────────────────
-  { icon:"🛒", cls:"sale",    match:"Brazil 🇧🇷 vs Morocco 🇲🇦",        action:"Someone just grabbed the last 2 in Sec 104 Row 8 · $318 each",                    offsetMins:3   },
-  { icon:"🛒", cls:"sale",    match:"Spain 🇪🇸 vs Saudi Arabia 🇸🇦",    action:"5 gone in under 3 mins · Category 2 Sec 209 · $241/ea",                     offsetMins:7   },
-  { icon:"🛒", cls:"sale",    match:"Netherlands 🇳🇱 vs Japan 🇯🇵",     action:"7 sold · Sec 319 Row 22 · $265 each",                                       offsetMins:6   },
-  { icon:"🛒", cls:"sale",    match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs Croatia 🇭🇷",   action:"Pair of Category 3 seats snagged · Sec 429 Row 33 · $200 each",           offsetMins:19  },
-  { icon:"🛒", cls:"sale",    match:"USA 🇺🇸 vs Mexico 🇲🇽",             action:"3 tickets moved fast · Category 1 Sec 127 · $380 each",                    offsetMins:12  },
-  { icon:"🛒", cls:"sale",    match:"Argentina 🇦🇷 vs Chile 🇨🇱",       action:"Block buy — 4 seats · Sec 221 Row 12 · $295 each",                          offsetMins:31  },
-  { icon:"🛒", cls:"sale",    match:"France 🇫🇷 vs Senegal 🇸🇳",        action:"2 seats gone · Category 3 Sec 325 Row 14 · $278 each",                       offsetMins:58  },
-  { icon:"🛒", cls:"sale",    match:"Germany 🇩🇪 vs Colombia 🇨🇴",       action:"1 ticket sold · Sec 204 Row 12 · $204",                                     offsetMins:43  },
-  { icon:"🛒", cls:"sale",    match:"Portugal 🇵🇹 vs Poland 🇵🇱",        action:"Snagged — 2x Sec 112 Row 4 · $311 each, gone in 8 mins",                   offsetMins:17  },
-  { icon:"🛒", cls:"sale",    match:"Mexico 🇲🇽 vs Ecuador 🇪🇨",         action:"6 tickets sold this hour · Category 4 Sec 448 · $209 avg",                   offsetMins:83  },
-  { icon:"🛒", cls:"sale",    match:"Canada 🇨🇦 vs Uruguay 🇺🇾",         action:"2 seats moved · Sec 416 Row 31 · $200 each",                               offsetMins:55  },
-  { icon:"🛒", cls:"sale",    match:"Japan 🇯🇵 vs Germany 🇩🇪",           action:"4 sold · Category 2 Sec 209 · $226 each",                                 offsetMins:22  },
-  { icon:"🛒", cls:"sale",    match:"Italy 🇮🇹 vs Cameroon 🇨🇲",         action:"1 Front Category 1 sold · Sec FC-A Row 2 · $640",                                   offsetMins:47  },
-  { icon:"🛒", cls:"sale",    match:"Australia 🇦🇺 vs Peru 🇵🇪",         action:"2x Sec 104 Row 8 snagged · $289 each",                                    offsetMins:36  },
-  { icon:"🛒", cls:"sale",    match:"South Korea 🇰🇷 vs Iran 🇮🇷",       action:"3 tickets sold · Category 4 Sec 429 · $200 each",                         offsetMins:14  },
-  { icon:"🛒", cls:"sale",    match:"USA 🇺🇸 vs Panama 🇵🇦",             action:"5 seats bought in 2 transactions · Sec 231 · $198 each",                  offsetMins:67  },
-  { icon:"🛒", cls:"sale",    match:"Brazil 🇧🇷 vs Colombia 🇨🇴",        action:"2 Category 1 seats gone · Sec 144 Row 9 · $341 each",                     offsetMins:29  },
-  { icon:"🛒", cls:"sale",    match:"Morocco 🇲🇦 vs Belgium 🇧🇪",        action:"1 ticket · Sec 205 Row 3 · $263 — sold 4 mins after listing",              offsetMins:11  },
-  { icon:"🛒", cls:"sale",    match:"France 🇫🇷 vs Argentina 🇦🇷",       action:"4 Category 1 seats snagged · Sec 104 · $392 each",                     offsetMins:88  },
-  { icon:"🛒", cls:"sale",    match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs USA 🇺🇸",         action:"2x Sec 112 Row 6 · $274 each · both gone",                              offsetMins:23  },
-  { icon:"🛒", cls:"sale",    match:"Mexico 🇲🇽 vs Jamaica 🇯🇲",         action:"3 sold · Category 4 Sec 448 · $200 each",                                    offsetMins:141 },
-  { icon:"🛒", cls:"sale",    match:"Spain 🇪🇸 vs Germany 🇩🇪",          action:"1x Front Category 1 Sec FC-B Row 3 · $720 — reserved",                              offsetMins:52  },
-  { icon:"🛒", cls:"sale",    match:"Netherlands 🇳🇱 vs Belgium 🇧🇪",    action:"6 tickets sold this session · Sec 117 · avg $258",                        offsetMins:37  },
-  { icon:"🛒", cls:"sale",    match:"Portugal 🇵🇹 vs Uzbekistan 🇺🇿",    action:"2 Category 3 snagged · Sec 215 Row 14 · $200 each",                         offsetMins:16  },
-  { icon:"🛒", cls:"sale",    match:"Canada 🇨🇦 vs Chile 🇨🇱",            action:"2x Sec 416 Row 31 · $200 each",                                          offsetMins:74  },
-  { icon:"🛒", cls:"sale",    match:"Argentina 🇦🇷 vs Chile 🇨🇱",         action:"Buyer from Buenos Aires grabbed 4 · Sec 221 Row 12 · $295 each",                offsetMins:53  },
-  { icon:"🛒", cls:"sale",    match:"USA 🇺🇸 vs Mexico 🇲🇽",              action:"3 Category 1 gone · Sec 144 Row 9 · $380 each — quick one",               offsetMins:27  },
-  { icon:"🛒", cls:"sale",    match:"Spain 🇪🇸 vs Germany 🇩🇪",           action:"2 sold · Sec 117 Row 12 · $295 each · both to same buyer",                offsetMins:41  },
-  { icon:"🛒", cls:"sale",    match:"France 🇫🇷 vs Senegal 🇸🇳",          action:"Another pair gone · Sec 319 Row 22 · $267 each",                         offsetMins:118 },
-  { icon:"🛒", cls:"sale",    match:"Morocco 🇲🇦 vs Belgium 🇧🇪",         action:"1 ticket · Category 3 Sec 221 Row 12 · $263 — last one",                          offsetMins:9   },
-  { icon:"🛒", cls:"sale",    match:"Italy 🇮🇹 vs Cameroon 🇨🇲",          action:"Front Category 1 sold · Sec FC-A Row 2 · $640 · reserved by buyer",                offsetMins:66  },
-  { icon:"🛒", cls:"sale",    match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs USA 🇺🇸",         action:"5 seats gone this session · Sec 112 Row 6 · $274/ea",                   offsetMins:38  },
-  { icon:"🛒", cls:"sale",    match:"Brazil 🇧🇷 vs Colombia 🇨🇴",          action:"2 Category 1 moved · Sec 144 · $341 each",                               offsetMins:72  },
-  { icon:"🛒", cls:"sale",    match:"Portugal 🇵🇹 vs Poland 🇵🇱",          action:"4 sold in 1 transaction · Sec 112 Row 4 · $311 each",                         offsetMins:19  },
-  { icon:"🛒", cls:"sale",    match:"Netherlands 🇳🇱 vs Japan 🇯🇵",        action:"3 Category 2 gone · Sec 117 · $265 each · fast sale",                   offsetMins:55  },
-  { icon:"🛒", cls:"sale",    match:"Germany 🇩🇪 vs Colombia 🇨🇴",         action:"2x Sec 204 Row 12 · $204 each · buyer confirmed",                        offsetMins:84  },
-  { icon:"🛒", cls:"sale",    match:"Japan 🇯🇵 vs Germany 🇩🇪",            action:"4 Category 2 snagged · Sec 117 · $226 each",                             offsetMins:29  },
-  { icon:"🛒", cls:"sale",    match:"South Korea 🇰🇷 vs Iran 🇮🇷",         action:"3 Category 3 sold · Sec 429 Row 33 · $200 each",                               offsetMins:47  },
-  { icon:"🛒", cls:"sale",    match:"Canada 🇨🇦 vs Chile 🇨🇱",             action:"2x Sec 416 Row 31 · $200 each · both sold",                             offsetMins:93  },
+  { icon:"🛒", cls:"sale",    match:"Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿 vs Brazil 🇧🇷",           action:"Someone just grabbed the last 2 in Sec 104 Row 8 · $1869 each",                 offsetMins:3   },
+  { icon:"🛒", cls:"sale",    match:"Czech Republic 🇨🇿 vs Mexico 🇲🇽",       action:"5 gone in under 3 mins · Category 2 Sec 209 · $2159/ea",                          offsetMins:7   },
+  { icon:"🛒", cls:"sale",    match:"France 🇫🇷 vs Iraq 🇮🇶",                  action:"7 sold · Sec 319 Row 22 · $704 each",                                             offsetMins:6   },
+  { icon:"🛒", cls:"sale",    match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs Ghana 🇬🇭",             action:"Pair of Category 3 seats snagged · Sec 429 Row 33 · $763 each",                 offsetMins:19  },
+  { icon:"🛒", cls:"sale",    match:"Portugal 🇵🇹 vs Uzbekistan 🇺🇿",          action:"3 tickets moved fast · Category 1 Sec 127 · $1328 each",                         offsetMins:12  },
+  { icon:"🛒", cls:"sale",    match:"Argentina 🇦🇷 vs Austria 🇦🇹",            action:"Block buy — 4 seats · Sec 221 Row 12 · $1451 each",                               offsetMins:31  },
+  { icon:"🛒", cls:"sale",    match:"Norway 🇳🇴 vs France 🇫🇷",               action:"2 seats gone · Category 3 Sec 325 Row 14 · $864 each",                            offsetMins:58  },
+  { icon:"🛒", cls:"sale",    match:"Ecuador 🇪🇨 vs Germany 🇩🇪",              action:"1 ticket sold · Sec 204 Row 12 · $933",                                           offsetMins:43  },
+  { icon:"🛒", cls:"sale",    match:"Colombia 🇨🇴 vs Portugal 🇵🇹",            action:"Snagged — 2x Sec 112 Row 4 · $1044 each, gone in 8 mins",                        offsetMins:17  },
+  { icon:"🛒", cls:"sale",    match:"Japan 🇯🇵 vs Sweden 🇸🇪",                action:"6 tickets sold this hour · Category 4 Sec 448 · $987 avg",                       offsetMins:83  },
+  { icon:"🛒", cls:"sale",    match:"Switzerland 🇨🇭 vs Canada 🇨🇦",           action:"2 seats moved · Sec 416 Row 31 · $588 each",                                      offsetMins:55  },
+  { icon:"🛒", cls:"sale",    match:"Tunisia 🇹🇳 vs Netherlands 🇳🇱",          action:"4 sold · Category 2 Sec 209 · $750 each",                                         offsetMins:22  },
+  { icon:"🛒", cls:"sale",    match:"Uruguay 🇺🇾 vs Spain 🇪🇸",               action:"1 Front Category 1 sold · Sec FC-A Row 2 · $618",                                 offsetMins:47  },
+  { icon:"🛒", cls:"sale",    match:"Panama 🇵🇦 vs Croatia 🇭🇷",              action:"2x Sec 104 Row 8 snagged · $698 each",                                            offsetMins:36  },
+  { icon:"🛒", cls:"sale",    match:"Colombia 🇨🇴 vs DR Congo 🇨🇩",            action:"3 tickets sold · Category 4 Sec 429 · $704 each",                                 offsetMins:14  },
+  { icon:"🛒", cls:"sale",    match:"Norway 🇳🇴 vs Senegal 🇸🇳",              action:"5 seats bought in 2 transactions · Sec 231 · $565 each",                          offsetMins:67  },
+  { icon:"🛒", cls:"sale",    match:"Panama 🇵🇦 vs England 🏴󠁧󠁢󠁥󠁮󠁧󠁿",             action:"2 Category 1 seats gone · Sec 144 Row 9 · $969 each",                            offsetMins:29  },
+  { icon:"🛒", cls:"sale",    match:"Jordan 🇯🇴 vs Argentina 🇦🇷",             action:"1 ticket · Sec 205 Row 3 · $831 — sold 4 mins after listing",                    offsetMins:11  },
+  { icon:"🛒", cls:"sale",    match:"Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿 vs Brazil 🇧🇷",           action:"4 Category 1 seats snagged · Sec 104 · $1869 each",                              offsetMins:88  },
+  { icon:"🛒", cls:"sale",    match:"Czech Republic 🇨🇿 vs Mexico 🇲🇽",       action:"2x Sec 112 Row 6 · $2159 each · both gone",                                       offsetMins:23  },
+  { icon:"🛒", cls:"sale",    match:"Morocco 🇲🇦 vs Haiti 🇭🇹",               action:"3 sold · Category 4 Sec 448 · $500 each",                                         offsetMins:141 },
+  { icon:"🛒", cls:"sale",    match:"DR Congo 🇨🇩 vs Uzbekistan 🇺🇿",         action:"1x Front Category 1 Sec FC-B Row 3 · $821 — reserved",                           offsetMins:52  },
+  { icon:"🛒", cls:"sale",    match:"Algeria 🇩🇿 vs Austria 🇦🇹",             action:"6 tickets sold this session · Sec 117 · avg $500",                               offsetMins:37  },
+  { icon:"🛒", cls:"sale",    match:"Croatia 🇭🇷 vs Ghana 🇬🇭",               action:"2 Category 3 snagged · Sec 215 Row 14 · $500 each",                              offsetMins:16  },
+  { icon:"🛒", cls:"sale",    match:"New Zealand 🇳🇿 vs Belgium 🇧🇪",          action:"2x Sec 416 Row 31 · $500 each",                                                   offsetMins:74  },
+  { icon:"🛒", cls:"sale",    match:"Argentina 🇦🇷 vs Austria 🇦🇹",            action:"Buyer from Buenos Aires grabbed 4 · Sec 221 · $1451 each",                        offsetMins:53  },
+  { icon:"🛒", cls:"sale",    match:"Norway 🇳🇴 vs Senegal 🇸🇳",              action:"3 Category 1 gone · Sec 144 Row 9 · $565 each",                                  offsetMins:27  },
+  { icon:"🛒", cls:"sale",    match:"Uruguay 🇺🇾 vs Spain 🇪🇸",               action:"2 sold · Sec 117 Row 12 · $618 each · both to same buyer",                        offsetMins:41  },
+  { icon:"🛒", cls:"sale",    match:"Norway 🇳🇴 vs France 🇫🇷",               action:"Another pair gone · Sec 319 Row 22 · $864 each",                                  offsetMins:118 },
+  { icon:"🛒", cls:"sale",    match:"Jordan 🇯🇴 vs Argentina 🇦🇷",             action:"1 ticket · Category 3 Sec 221 Row 12 · $831 — last one",                         offsetMins:9   },
+  { icon:"🛒", cls:"sale",    match:"Senegal 🇸🇳 vs Iraq 🇮🇶",                action:"Front Category 1 sold · Sec FC-A Row 2 · $500 · reserved by buyer",              offsetMins:66  },
+  { icon:"🛒", cls:"sale",    match:"Portugal 🇵🇹 vs Uzbekistan 🇺🇿",          action:"5 seats gone this session · Sec 112 Row 6 · $1328/ea",                           offsetMins:38  },
+  { icon:"🛒", cls:"sale",    match:"Panama 🇵🇦 vs England 🏴󠁧󠁢󠁥󠁮󠁧󠁿",             action:"2 Category 1 moved · Sec 144 · $969 each",                                       offsetMins:72  },
+  { icon:"🛒", cls:"sale",    match:"Colombia 🇨🇴 vs Portugal 🇵🇹",            action:"4 sold in 1 transaction · Sec 112 Row 4 · $1044 each",                           offsetMins:19  },
+  { icon:"🛒", cls:"sale",    match:"France 🇫🇷 vs Iraq 🇮🇶",                  action:"3 Category 2 gone · Sec 117 · $704 each · fast sale",                             offsetMins:55  },
+  { icon:"🛒", cls:"sale",    match:"Ecuador 🇪🇨 vs Germany 🇩🇪",              action:"2x Sec 204 Row 12 · $933 each · buyer confirmed",                                  offsetMins:84  },
+  { icon:"🛒", cls:"sale",    match:"Japan 🇯🇵 vs Sweden 🇸🇪",                action:"4 Category 2 snagged · Sec 117 · $987 each",                                      offsetMins:29  },
+  { icon:"🛒", cls:"sale",    match:"Colombia 🇨🇴 vs DR Congo 🇨🇩",            action:"3 Category 3 sold · Sec 429 Row 33 · $704 each",                                  offsetMins:47  },
+  { icon:"🛒", cls:"sale",    match:"Cape Verde 🇨🇻 vs Saudi Arabia 🇸🇦",      action:"2x Sec 416 Row 31 · $500 each · both sold",                                       offsetMins:93  },
 
-  // ── Price drops (new price reflects stated % reduction) ────────────────────
-  // Original → drop % → new price embedded in action string
-  { icon:"💸", cls:"price",   match:"Portugal 🇵🇹 vs Uzbekistan 🇺🇿",   action:"Price dropped 8% · Category 3 Sec 325 now from $200",                       offsetMins:9   },
-  // $195 = original ~$212 × 0.92
-  { icon:"💸", cls:"price",   match:"Australia 🇦🇺 vs Peru 🇵🇪",         action:"Just dropped 6% · Sec 104 Row 8 now from $272",                          offsetMins:38  },
-  // $272 = original ~$289 × 0.94
-  { icon:"💸", cls:"price",   match:"South Korea 🇰🇷 vs Iran 🇮🇷",       action:"Seller lowered by 11% · Category 4 Sec 429 now from $200",               offsetMins:71  },
-  // $153 = original ~$172 × 0.89
-  { icon:"💸", cls:"price",   match:"Canada 🇨🇦 vs Uruguay 🇺🇾",          action:"Price cut 9% · Sec 220 now from $200",                                   offsetMins:44  },
-  // $144 = original ~$158 × 0.91
-  { icon:"💸", cls:"price",   match:"Mexico 🇲🇽 vs Ecuador 🇪🇨",          action:"Dropped 7% — Sec 318 now from $200",                                     offsetMins:18  },
-  // $129 = original ~$139 × 0.93
-  { icon:"💸", cls:"price",   match:"Japan 🇯🇵 vs Germany 🇩🇪",            action:"Seller reduced 5% · Category 2 Sec 209 now from $215",                  offsetMins:92  },
-  // $215 = original ~$226 × 0.95
-  { icon:"💸", cls:"price",   match:"Morocco 🇲🇦 vs Belgium 🇧🇪",         action:"13% off · Sec 205 Row 3 now from $229",                                  offsetMins:61  },
-  // $229 = original ~$263 × 0.87
-  { icon:"💸", cls:"price",   match:"Italy 🇮🇹 vs Cameroon 🇨🇲",          action:"Dropped 4% · Category 1 Sec 127 now from $492",                         offsetMins:26  },
-  // $492 = original ~$512 × 0.96
-  { icon:"💸", cls:"price",   match:"USA 🇺🇸 vs Panama 🇵🇦",              action:"Price just fell 10% · Sec 231 now from $200",                            offsetMins:53  },
-  // $179 = original ~$198 × 0.90
-  { icon:"💸", cls:"price",   match:"Germany 🇩🇪 vs Colombia 🇨🇴",        action:"Modest dip, 3% · Sec 204 Row 12 now from $198",                          offsetMins:34  },
-  // $198 = original ~$204 × 0.97
-  { icon:"💸", cls:"price",   match:"Brazil 🇧🇷 vs Colombia 🇨🇴",         action:"Down 6% · Category 1 Sec 127 now from $321",                            offsetMins:79  },
-  // $321 = original ~$341 × 0.94
-  { icon:"💸", cls:"price",   match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs Croatia 🇭🇷",    action:"Seller dropped price 8% · Category 3 now from $200",                    offsetMins:15  },
-  // $175 = original ~$190 × 0.92
+  // ── Price drops ────────────────────────────────────────────────────────────
+  { icon:"💸", cls:"price",   match:"Croatia 🇭🇷 vs Ghana 🇬🇭",               action:"Price dropped 8% · Category 3 Sec 325 now from $500",                            offsetMins:9   },
+  { icon:"💸", cls:"price",   match:"Egypt 🇪🇬 vs Iran 🇮🇷",                  action:"Just dropped 6% · Sec 104 Row 8 now from $500",                                  offsetMins:38  },
+  { icon:"💸", cls:"price",   match:"Cape Verde 🇨🇻 vs Saudi Arabia 🇸🇦",      action:"Seller lowered by 11% · Category 4 Sec 429 now from $500",                       offsetMins:71  },
+  { icon:"💸", cls:"price",   match:"New Zealand 🇳🇿 vs Belgium 🇧🇪",          action:"Price cut 9% · Sec 220 now from $500",                                            offsetMins:44  },
+  { icon:"💸", cls:"price",   match:"Curaçao 🇨🇼 vs Ivory Coast 🇨🇮",         action:"Dropped 7% — Sec 318 now from $500",                                              offsetMins:18  },
+  { icon:"💸", cls:"price",   match:"Japan 🇯🇵 vs Sweden 🇸🇪",                action:"Seller reduced 5% · Category 2 Sec 209 now from $938",                           offsetMins:92  },
+  { icon:"💸", cls:"price",   match:"Jordan 🇯🇴 vs Argentina 🇦🇷",             action:"13% off · Sec 205 Row 3 now from $723",                                           offsetMins:61  },
+  { icon:"💸", cls:"price",   match:"Uruguay 🇺🇾 vs Spain 🇪🇸",               action:"Dropped 4% · Category 1 Sec 127 now from $593",                                  offsetMins:26  },
+  { icon:"💸", cls:"price",   match:"Bosnia & Herzegovina 🇧🇦 vs Qatar 🇶🇦",   action:"Price just fell 10% · Sec 231 now from $500",                                    offsetMins:53  },
+  { icon:"💸", cls:"price",   match:"Ecuador 🇪🇨 vs Germany 🇩🇪",              action:"Modest dip, 3% · Sec 204 Row 12 now from $905",                                  offsetMins:34  },
+  { icon:"💸", cls:"price",   match:"Colombia 🇨🇴 vs Portugal 🇵🇹",            action:"Down 6% · Category 1 Sec 127 now from $980",                                     offsetMins:79  },
+  { icon:"💸", cls:"price",   match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs Ghana 🇬🇭",             action:"Seller dropped price 8% · Category 3 now from $702",                            offsetMins:15  },
 
   // ── Price rises ─────────────────────────────────────────────────────────────
-  { icon:"📈", cls:"price",   match:"France 🇫🇷 vs Senegal 🇸🇳",         action:"Price rose 5% · Category 3 Sec 319 now from $280",                       offsetMins:7   },
-  { icon:"📈", cls:"price",   match:"Brazil 🇧🇷 vs Morocco 🇲🇦",          action:"Up 12% since yesterday · Category 1 now from $357",                  offsetMins:167 },
-  { icon:"📈", cls:"price",   match:"Spain 🇪🇸 vs Germany 🇩🇪",           action:"Demand spike — up 9% · Sec 117 now from $304",                          offsetMins:48  },
-  { icon:"📈", cls:"price",   match:"USA 🇺🇸 vs Mexico 🇲🇽",               action:"Prices climbing · Category 1 now from $412 (+8%)",                      offsetMins:21  },
-  { icon:"📈", cls:"price",   match:"France 🇫🇷 vs Argentina 🇦🇷",         action:"Up 15% in 2h · Category 1 now from $451",                           offsetMins:103 },
-  { icon:"📈", cls:"price",   match:"Netherlands 🇳🇱 vs Belgium 🇧🇪",      action:"Rose 7% · Sec 117 now from $276",                                       offsetMins:33  },
-  { icon:"📈", cls:"price",   match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs USA 🇺🇸",          action:"Steady rise — up 6% since morning · now from $291",                   offsetMins:145 },
-  { icon:"📈", cls:"price",   match:"Portugal 🇵🇹 vs Poland 🇵🇱",           action:"Went up 11% · Sec 112 now from $345",                                  offsetMins:57  },
-  { icon:"📈", cls:"price",   match:"Argentina 🇦🇷 vs Chile 🇨🇱",            action:"Up 4% · Category 3 Sec 325 now from $307",                               offsetMins:82  },
-  { icon:"📈", cls:"price",   match:"South Korea 🇰🇷 vs Iran 🇮🇷",           action:"Rose 8% since last check · Category 3 now from $200",                  offsetMins:41  },
+  { icon:"📈", cls:"price",   match:"Norway 🇳🇴 vs France 🇫🇷",               action:"Price rose 5% · Category 3 Sec 319 now from $907",                               offsetMins:7   },
+  { icon:"📈", cls:"price",   match:"Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿 vs Brazil 🇧🇷",           action:"Up 12% since yesterday · Category 1 now from $2094",                           offsetMins:167 },
+  { icon:"📈", cls:"price",   match:"Argentina 🇦🇷 vs Austria 🇦🇹",            action:"Demand spike — up 9% · Sec 117 now from $1582",                                  offsetMins:48  },
+  { icon:"📈", cls:"price",   match:"Portugal 🇵🇹 vs Uzbekistan 🇺🇿",          action:"Prices climbing · Category 1 now from $1447 (+8%)",                              offsetMins:21  },
+  { icon:"📈", cls:"price",   match:"Colombia 🇨🇴 vs Portugal 🇵🇹",            action:"Up 15% in 2h · Category 1 now from $1201",                                       offsetMins:103 },
+  { icon:"📈", cls:"price",   match:"Czech Republic 🇨🇿 vs Mexico 🇲🇽",       action:"Rose 7% · Sec 117 now from $2310",                                               offsetMins:33  },
+  { icon:"📈", cls:"price",   match:"Panama 🇵🇦 vs England 🏴󠁧󠁢󠁥󠁮󠁧󠁿",             action:"Steady rise — up 6% since morning · now from $1027",                          offsetMins:145 },
+  { icon:"📈", cls:"price",   match:"DR Congo 🇨🇩 vs Uzbekistan 🇺🇿",         action:"Went up 11% · Sec 112 now from $911",                                            offsetMins:57  },
+  { icon:"📈", cls:"price",   match:"Norway 🇳🇴 vs France 🇫🇷",               action:"Up 4% · Category 3 Sec 325 now from $899",                                       offsetMins:82  },
+  { icon:"📈", cls:"price",   match:"Japan 🇯🇵 vs Sweden 🇸🇪",                action:"Rose 8% since last check · Category 3 now from $1066",                           offsetMins:41  },
 
   // ── Viewers ──────────────────────────────────────────────────────────────────
-  { icon:"👁",  cls:"viewers", match:"Argentina 🇦🇷 vs Algeria 🇩🇿",       action:"56 people viewing · Only 2 tickets left",                               offsetMins:4   },
-  { icon:"👁",  cls:"viewers", match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs Croatia 🇭🇷",     action:"34 viewing right now · prices rising fast",                            offsetMins:3   },
-  { icon:"👁",  cls:"viewers", match:"USA 🇺🇸 vs Mexico 🇲🇽",               action:"91 people on this listing · 4 left",                                   offsetMins:1   },
-  { icon:"👁",  cls:"viewers", match:"Brazil 🇧🇷 vs Morocco 🇲🇦",            action:"47 watching · Last few in Sec 104",                                   offsetMins:11  },
-  { icon:"👁",  cls:"viewers", match:"France 🇫🇷 vs Argentina 🇦🇷",          action:"78 viewing — 3 tickets left, moving fast",                             offsetMins:5   },
-  { icon:"👁",  cls:"viewers", match:"Spain 🇪🇸 vs Germany 🇩🇪",             action:"62 people on this right now · 1 Front Category seat left",                             offsetMins:2   },
-  { icon:"👁",  cls:"viewers", match:"Portugal 🇵🇹 vs Poland 🇵🇱",            action:"29 watching · Sec 112 Row 6 · stock low",                             offsetMins:13  },
-  { icon:"👁",  cls:"viewers", match:"Netherlands 🇳🇱 vs Belgium 🇧🇪",       action:"41 viewing · Category 2 almost gone",                                  offsetMins:8   },
-  { icon:"👁",  cls:"viewers", match:"Germany 🇩🇪 vs Colombia 🇨🇴",           action:"18 people browsing this match right now",                             offsetMins:25  },
-  { icon:"👁",  cls:"viewers", match:"Mexico 🇲🇽 vs Ecuador 🇪🇨",             action:"53 viewers · Sec 318 Row 22 · 5 left",                                offsetMins:17  },
-  { icon:"👁",  cls:"viewers", match:"Italy 🇮🇹 vs Cameroon 🇨🇲",             action:"22 watching · Front Category almost gone",                                       offsetMins:39  },
-  { icon:"👁",  cls:"viewers", match:"Japan 🇯🇵 vs Germany 🇩🇪",              action:"35 people on this listing · 2 pairs left",                            offsetMins:28  },
-  { icon:"👁",  cls:"viewers", match:"Morocco 🇲🇦 vs Belgium 🇧🇪",            action:"16 viewing · only 1 seat remaining",                                  offsetMins:64  },
-  { icon:"👁",  cls:"viewers", match:"Canada 🇨🇦 vs Chile 🇨🇱",               action:"44 people checking this out rn",                                      offsetMins:9   },
-  { icon:"👁",  cls:"viewers", match:"South Korea 🇰🇷 vs Iran 🇮🇷",           action:"27 watching · Sec 340 · 3 tickets left",                              offsetMins:46  },
+  { icon:"👁",  cls:"viewers", match:"Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿 vs Brazil 🇧🇷",           action:"56 people viewing · Only 2 tickets left",                                       offsetMins:4   },
+  { icon:"👁",  cls:"viewers", match:"England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 vs Ghana 🇬🇭",             action:"34 viewing right now · prices rising fast",                                    offsetMins:3   },
+  { icon:"👁",  cls:"viewers", match:"Argentina 🇦🇷 vs Austria 🇦🇹",            action:"91 people on this listing · 4 left",                                             offsetMins:1   },
+  { icon:"👁",  cls:"viewers", match:"DR Congo 🇨🇩 vs Uzbekistan 🇺🇿",            action:"47 watching · Last few in Sec 104",                                              offsetMins:11  },
+  { icon:"👁",  cls:"viewers", match:"New Zealand 🇳🇿 vs Belgium 🇧🇪",           action:"78 viewing — 3 tickets left, moving fast",                                       offsetMins:5   },
+  { icon:"👁",  cls:"viewers", match:"Czech Republic 🇨🇿 vs Mexico 🇲🇽",       action:"62 people on this right now · 1 Front Category seat left",                       offsetMins:2   },
+  { icon:"👁",  cls:"viewers", match:"Colombia 🇨🇴 vs DR Congo 🇨🇩",            action:"29 watching · Sec 112 Row 6 · stock low",                                        offsetMins:13  },
+  { icon:"👁",  cls:"viewers", match:"Portugal 🇵🇹 vs Uzbekistan 🇺🇿",          action:"41 viewing · Category 2 almost gone",                                            offsetMins:8   },
+  { icon:"👁",  cls:"viewers", match:"Ecuador 🇪🇨 vs Germany 🇩🇪",              action:"18 people browsing this match right now",                                        offsetMins:25  },
+  { icon:"👁",  cls:"viewers", match:"Cape Verde 🇨🇻 vs Saudi Arabia 🇸🇦",               action:"53 viewers · Sec 318 Row 22 · 5 left",                                           offsetMins:17  },
+  { icon:"👁",  cls:"viewers", match:"Uruguay 🇺🇾 vs Spain 🇪🇸",               action:"22 watching · Front Category almost gone",                                       offsetMins:39  },
+  { icon:"👁",  cls:"viewers", match:"Tunisia 🇹🇳 vs Netherlands 🇳🇱",                action:"35 people on this listing · 2 pairs left",                                       offsetMins:28  },
+  { icon:"👁",  cls:"viewers", match:"Jordan 🇯🇴 vs Argentina 🇦🇷",             action:"16 viewing · only 1 seat remaining",                                             offsetMins:64  },
+  { icon:"👁",  cls:"viewers", match:"Tunisia 🇹🇳 vs Netherlands 🇳🇱",          action:"44 people checking this out rn",                                                 offsetMins:9   },
+  { icon:"👁",  cls:"viewers", match:"France 🇫🇷 vs Iraq 🇮🇶",                  action:"27 watching · Sec 340 · 3 tickets left",                                         offsetMins:46  },
 
   // ── New listings ─────────────────────────────────────────────────────────────
-  { icon:"➕", cls:"listing",  match:"USA 🇺🇸 vs Paraguay 🇵🇾",            action:"New VIP Box listing · Sec VIP Row 1 · $520",                            offsetMins:1   },
-  { icon:"➕", cls:"listing",  match:"Brazil 🇧🇷 vs Colombia 🇨🇴",          action:"New pair listed · Category 1 Sec 127 Row 9 · $341 each",               offsetMins:6   },
-  { icon:"➕", cls:"listing",  match:"Germany 🇩🇪 vs Colombia 🇨🇴",          action:"Fresh listing · Sec 204 Row 12 · $204 · 2 available",                  offsetMins:14  },
-  { icon:"➕", cls:"listing",  match:"Italy 🇮🇹 vs Cameroon 🇨🇲",            action:"New Category 1 listing · Sec 144 · $497 · 1 ticket",                  offsetMins:22  },
-  { icon:"➕", cls:"listing",  match:"Morocco 🇲🇦 vs Belgium 🇧🇪",           action:"3 new Category 3 seats added · Sec 221 Row 12 · $263 each",                    offsetMins:35  },
-  { icon:"➕", cls:"listing",  match:"Australia 🇦🇺 vs Peru 🇵🇪",            action:"2x Category 2 just listed · Sec 104 · $289 each",                     offsetMins:51  },
-  { icon:"➕", cls:"listing",  match:"Canada 🇨🇦 vs Uruguay 🇺🇾",             action:"New listing · Sec 416 Row 31 · 2 seats · $200 each",                  offsetMins:27  },
-  { icon:"➕", cls:"listing",  match:"Japan 🇯🇵 vs Germany 🇩🇪",              action:"4 Category 2 added · Sec 117 · $226 each · just posted",              offsetMins:18  },
-  { icon:"➕", cls:"listing",  match:"Portugal 🇵🇹 vs Poland 🇵🇱",            action:"New pair listed in Sec 112 Row 4 · $311 each",                        offsetMins:42  },
-  { icon:"➕", cls:"listing",  match:"Spain 🇪🇸 vs Saudi Arabia 🇸🇦",        action:"Category 2 listing added · Sec 117 · $241/ea · 5 available",          offsetMins:63  },
-  { icon:"➕", cls:"listing",  match:"Mexico 🇲🇽 vs Jamaica 🇯🇲",            action:"6 General seats listed · Sec 448 Row 32 · $200 each",                        offsetMins:108 },
-  { icon:"➕", cls:"listing",  match:"South Korea 🇰🇷 vs Iran 🇮🇷",           action:"Fresh Category 3 listing · Sec 340 Row 25 · $172 · 3 tix",           offsetMins:31  },
+  { icon:"➕", cls:"listing",  match:"Bosnia & Herzegovina 🇧🇦 vs Qatar 🇶🇦",   action:"New VIP Box listing · Sec VIP Row 1 · $520",                                     offsetMins:1   },
+  { icon:"➕", cls:"listing",  match:"Panama 🇵🇦 vs England 🏴󠁧󠁢󠁥󠁮󠁧󠁿",             action:"New pair listed · Category 1 Sec 127 Row 9 · $969 each",                       offsetMins:6   },
+  { icon:"➕", cls:"listing",  match:"Paraguay 🇵🇾 vs Australia 🇦🇺",              action:"Fresh listing · Sec 204 Row 12 · $933 · 2 available",                            offsetMins:14  },
+  { icon:"➕", cls:"listing",  match:"Bosnia & Herzegovina 🇧🇦 vs Qatar 🇶🇦",               action:"New Category 1 listing · Sec 144 · $618 · 1 ticket",                             offsetMins:22  },
+  { icon:"➕", cls:"listing",  match:"Egypt 🇪🇬 vs Iran 🇮🇷",             action:"3 new Category 3 seats added · Sec 221 Row 12 · $831 each",                      offsetMins:35  },
+  { icon:"➕", cls:"listing",  match:"South Africa 🇿🇦 vs South Korea 🇰🇷",     action:"2x Category 2 just listed · Sec 104 · $500 each",                                offsetMins:51  },
+  { icon:"➕", cls:"listing",  match:"Egypt 🇪🇬 vs Iran 🇮🇷",                  action:"New listing · Sec 416 Row 31 · 2 seats · $500 each",                             offsetMins:27  },
+  { icon:"➕", cls:"listing",  match:"Algeria 🇩🇿 vs Austria 🇦🇹",                action:"4 Category 2 added · Sec 117 · $987 each · just posted",                         offsetMins:18  },
+  { icon:"➕", cls:"listing",  match:"Curaçao 🇨🇼 vs Ivory Coast 🇨🇮",            action:"New pair listed in Sec 112 Row 4 · $1044 each",                                  offsetMins:42  },
+  { icon:"➕", cls:"listing",  match:"South Africa 🇿🇦 vs South Korea 🇰🇷",       action:"Category 2 listing added · Sec 117 · $2159/ea · 3 available",                    offsetMins:63  },
+  { icon:"➕", cls:"listing",  match:"Curaçao 🇨🇼 vs Ivory Coast 🇨🇮",         action:"6 General seats listed · Sec 448 Row 32 · $500 each",                            offsetMins:108 },
+  { icon:"➕", cls:"listing",  match:"Algeria 🇩🇿 vs Austria 🇦🇹",             action:"Fresh Category 3 listing · Sec 340 Row 25 · $500 · 3 tix",                      offsetMins:31  },
 
-  // ── Quiet / no-activity entries ───────────────────────────────────────────
-  { icon:"🔔", cls:"listing",  match:"Portugal 🇵🇹 vs Uzbekistan 🇺🇿",    action:"Price updated — no change in stock · Sec 215 · $195",                  offsetMins:77  },
-  { icon:"🔔", cls:"listing",  match:"Canada 🇨🇦 vs Chile 🇨🇱",             action:"Listing refreshed · no new activity",                                 offsetMins:122 },
-  { icon:"🔔", cls:"listing",  match:"Australia 🇦🇺 vs Peru 🇵🇪",           action:"No activity in last 15 minutes on this listing",                      offsetMins:156 },
-  { icon:"🔔", cls:"listing",  match:"Mexico 🇲🇽 vs Ecuador 🇪🇨",            action:"Seller updated availability note · Sec 318 still listed",             offsetMins:88  },
-  { icon:"🔔", cls:"listing",  match:"Japan 🇯🇵 vs Germany 🇩🇪",              action:"Listing info corrected — Sec 117, was Row 6 now Row 15",             offsetMins:44  },
-  { icon:"🔔", cls:"listing",  match:"Germany 🇩🇪 vs Colombia 🇨🇴",           action:"Seller updated notes · tickets still available",                     offsetMins:33  },
-  { icon:"🔔", cls:"listing",  match:"South Korea 🇰🇷 vs Iran 🇮🇷",           action:"Match details verified · listing unchanged",                         offsetMins:101 },
-  { icon:"🔔", cls:"listing",  match:"Morocco 🇲🇦 vs Belgium 🇧🇪",            action:"No bids in the past hour · listing active",                          offsetMins:69  },
+  // ── Updates ───────────────────────────────────────────────────────────────
+  { icon:"🔔", cls:"listing",  match:"Croatia 🇭🇷 vs Ghana 🇬🇭",               action:"Price updated — no change in stock · Sec 215 · $500",                            offsetMins:77  },
+  { icon:"🔔", cls:"listing",  match:"Cape Verde 🇨🇻 vs Saudi Arabia 🇸🇦",      action:"Listing refreshed · no new activity",                                            offsetMins:122 },
+  { icon:"🔔", cls:"listing",  match:"South Africa 🇿🇦 vs South Korea 🇰🇷",     action:"No activity in last 15 minutes on this listing",                                 offsetMins:156 },
+  { icon:"🔔", cls:"listing",  match:"Curaçao 🇨🇼 vs Ivory Coast 🇨🇮",         action:"Seller updated availability note · Sec 318 still listed",                        offsetMins:88  },
+  { icon:"🔔", cls:"listing",  match:"Senegal 🇸🇳 vs Iraq 🇮🇶",                action:"Listing info corrected — Sec 117, was Row 6 now Row 15",                         offsetMins:44  },
+  { icon:"🔔", cls:"listing",  match:"Morocco 🇲🇦 vs Haiti 🇭🇹",              action:"Seller updated notes · tickets still available",                                  offsetMins:33  },
+  { icon:"🔔", cls:"listing",  match:"Paraguay 🇵🇾 vs Australia 🇦🇺",           action:"Match details verified · listing unchanged",                                     offsetMins:101 },
+  { icon:"🔔", cls:"listing",  match:"Morocco 🇲🇦 vs Haiti 🇭🇹",               action:"No bids in the past hour · listing active",                                      offsetMins:69  },
 ];
 
 export const RECENT_PURCHASES = [
-  // USA
-  { initials:"JW", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"Jake Williams",       city:"Houston, TX",       match:"England vs Croatia",           cat:"Category 3 · Sec 231",    offsetMins:3   },
-  { initials:"AT", bg:"linear-gradient(135deg,#7C3AED,#A78BFA)", name:"Ashley Torres",       city:"Miami, FL",         match:"2x Brazil vs Morocco",         cat:"Category 1 · Sec 104", offsetMins:7   },
-  { initials:"DM", bg:"linear-gradient(135deg,#059669,#10B981)", name:"Devon Mitchell",      city:"Los Angeles, CA",   match:"USA vs Mexico",                cat:"Category 1 · Sec 144",    offsetMins:11  },
-  { initials:"SS", bg:"linear-gradient(135deg,#DC2626,#F87171)", name:"Stephanie Sanchez",   city:"Dallas, TX",        match:"3x Spain vs Germany",          cat:"Category 2 · Sec 117",    offsetMins:19  },
-  { initials:"RJ", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Ryan Johnson",        city:"Chicago, IL",       match:"Argentina vs Chile",           cat:"Category 3 · Sec 205",      offsetMins:23  },
-  { initials:"LG", bg:"linear-gradient(135deg,#0EA5E9,#7DD3FC)", name:"Lauren Garcia",       city:"New York, NY",      match:"France vs Argentina",          cat:"VIP Box · Sec VIP",       offsetMins:31  },
-  { initials:"MH", bg:"linear-gradient(135deg,#BE185D,#F472B6)", name:"Marcus Harris",       city:"Atlanta, GA",       match:"2x Netherlands vs Japan",      cat:"Category 2 · Sec 117",    offsetMins:38  },
-  { initials:"CN", bg:"linear-gradient(135deg,#475569,#94A3B8)", name:"Chloe Nguyen",        city:"Seattle, WA",       match:"Portugal vs Poland",           cat:"Sec 112 Row 6",           offsetMins:47  },
-  { initials:"BL", bg:"linear-gradient(135deg,#1B3C88,#818CF8)", name:"Brandon Lee",         city:"Phoenix, AZ",       match:"4x Mexico vs Ecuador",         cat:"General · Sec 318",       offsetMins:52  },
-  { initials:"AM", bg:"linear-gradient(135deg,#059669,#34D399)", name:"Amanda Martinez",     city:"San Antonio, TX",   match:"Germany vs Colombia",          cat:"Sec 204 Row 12",           offsetMins:60  },
+  // USA / North America
+  { initials:"JW", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"Jake Williams",       city:"Houston, TX",        match:"England vs Ghana",             cat:"Category 3 · Sec 231",    offsetMins:3   },
+  { initials:"AT", bg:"linear-gradient(135deg,#7C3AED,#A78BFA)", name:"Ashley Torres",       city:"Miami, FL",          match:"2x Scotland vs Brazil",        cat:"Category 1 · Sec 104",    offsetMins:7   },
+  { initials:"DM", bg:"linear-gradient(135deg,#059669,#10B981)", name:"Devon Mitchell",      city:"Los Angeles, CA",    match:"Norway vs Senegal",            cat:"Category 1 · Sec 144",    offsetMins:11  },
+  { initials:"SS", bg:"linear-gradient(135deg,#DC2626,#F87171)", name:"Stephanie Sanchez",   city:"Dallas, TX",         match:"3x Argentina vs Austria",      cat:"Category 2 · Sec 117",    offsetMins:19  },
+  { initials:"RJ", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Ryan Johnson",        city:"Chicago, IL",        match:"Jordan vs Argentina",          cat:"Category 3 · Sec 205",    offsetMins:23  },
+  { initials:"LG", bg:"linear-gradient(135deg,#0EA5E9,#7DD3FC)", name:"Lauren Garcia",       city:"New York, NY",       match:"Colombia vs Portugal",         cat:"VIP Box · Sec VIP",       offsetMins:31  },
+  { initials:"MH", bg:"linear-gradient(135deg,#BE185D,#F472B6)", name:"Marcus Harris",       city:"Atlanta, GA",        match:"2x Czech Republic vs Mexico",  cat:"Category 2 · Sec 117",    offsetMins:38  },
+  { initials:"CN", bg:"linear-gradient(135deg,#475569,#94A3B8)", name:"Chloe Nguyen",        city:"Seattle, WA",        match:"Colombia vs Portugal",         cat:"Sec 112 Row 6",           offsetMins:47  },
+  { initials:"BL", bg:"linear-gradient(135deg,#1B3C88,#818CF8)", name:"Brandon Lee",         city:"Phoenix, AZ",        match:"4x Ecuador vs Germany",        cat:"General · Sec 318",       offsetMins:52  },
+  { initials:"AM", bg:"linear-gradient(135deg,#059669,#34D399)", name:"Amanda Martinez",     city:"San Antonio, TX",    match:"Norway vs France",             cat:"Sec 204 Row 12",          offsetMins:60  },
   // Mexico
-  { initials:"JH", bg:"linear-gradient(135deg,#DC2626,#FCA5A5)", name:"Jorge Hernández",     city:"Mexico City",       match:"2x Mexico vs Ecuador",         cat:"Category 2 · Sec 117",    offsetMins:58  },
-  { initials:"LR", bg:"linear-gradient(135deg,#7C3AED,#C4B5FD)", name:"Lucía Ramírez",       city:"Guadalajara",       match:"Spain vs Saudi Arabia",        cat:"Sec 117 Row 12",          offsetMins:64  },
-  { initials:"CM", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"Carlos Mendoza",      city:"Monterrey",         match:"3x USA vs Mexico",             cat:"Category 1 · Sec 144",    offsetMins:72  },
-  { initials:"VG", bg:"linear-gradient(135deg,#059669,#6EE7B7)", name:"Valentina González",  city:"Puebla",            match:"Mexico vs Jamaica",            cat:"General · Sec 318",       offsetMins:83  },
-  { initials:"AG", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Alejandro García",    city:"Tijuana",           match:"2x Argentina vs Chile",        cat:"Category 3 · Sec 215",      offsetMins:91  },
+  { initials:"JH", bg:"linear-gradient(135deg,#DC2626,#FCA5A5)", name:"Jorge Hernández",     city:"Mexico City",        match:"2x Czech Republic vs Mexico",  cat:"Category 2 · Sec 117",    offsetMins:58  },
+  { initials:"LR", bg:"linear-gradient(135deg,#7C3AED,#C4B5FD)", name:"Lucía Ramírez",       city:"Guadalajara",        match:"Portugal vs Uzbekistan",       cat:"Sec 117 Row 12",          offsetMins:64  },
+  { initials:"CM", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"Carlos Mendoza",      city:"Monterrey",          match:"3x Czech Republic vs Mexico",  cat:"Category 1 · Sec 144",    offsetMins:72  },
+  { initials:"VG", bg:"linear-gradient(135deg,#059669,#6EE7B7)", name:"Valentina González",  city:"Puebla",             match:"Morocco vs Haiti",             cat:"General · Sec 318",       offsetMins:83  },
+  { initials:"AG", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Alejandro García",    city:"Tijuana",            match:"2x Uruguay vs Spain",          cat:"Category 3 · Sec 215",    offsetMins:91  },
   // Spain
-  { initials:"PM", bg:"linear-gradient(135deg,#BE123C,#FDA4AF)", name:"Pablo Martínez",      city:"Madrid",            match:"Spain vs Germany",             cat:"Category 2 · Sec 117",    offsetMins:43  },
-  { initials:"IS", bg:"linear-gradient(135deg,#0F766E,#2DD4BF)", name:"Isabel Sánchez",      city:"Barcelona",         match:"2x France vs Senegal",         cat:"Sec 319 Row 22",          offsetMins:77  },
-  { initials:"JL", bg:"linear-gradient(135deg,#7C3AED,#A78BFA)", name:"Javier López",        city:"Valencia",          match:"Portugal vs Poland",           cat:"Sec 112 Row 6",           offsetMins:99  },
-  { initials:"AP", bg:"linear-gradient(135deg,#1D4ED8,#60A5FA)", name:"Ana Pérez",           city:"Seville",           match:"3x Netherlands vs Belgium",    cat:"Category 2 · Sec 117",    offsetMins:123 },
-  { initials:"DR", bg:"linear-gradient(135deg,#DC2626,#F87171)", name:"Diego Ruiz",          city:"Bilbao",            match:"Spain vs Saudi Arabia",        cat:"Sec 117 · 2 tickets",     offsetMins:139 },
+  { initials:"PM", bg:"linear-gradient(135deg,#BE123C,#FDA4AF)", name:"Pablo Martínez",      city:"Madrid",             match:"Uruguay vs Spain",             cat:"Category 2 · Sec 117",    offsetMins:43  },
+  { initials:"IS", bg:"linear-gradient(135deg,#0F766E,#2DD4BF)", name:"Isabel Sánchez",      city:"Barcelona",          match:"2x Norway vs France",          cat:"Sec 319 Row 22",          offsetMins:77  },
+  { initials:"JL", bg:"linear-gradient(135deg,#7C3AED,#A78BFA)", name:"Javier López",        city:"Valencia",           match:"Colombia vs Portugal",         cat:"Sec 112 Row 6",           offsetMins:99  },
+  { initials:"AP", bg:"linear-gradient(135deg,#1D4ED8,#60A5FA)", name:"Ana Pérez",           city:"Seville",            match:"3x Czech Republic vs Mexico",  cat:"Category 2 · Sec 117",    offsetMins:123 },
+  { initials:"DR", bg:"linear-gradient(135deg,#DC2626,#F87171)", name:"Diego Ruiz",          city:"Bilbao",             match:"Uruguay vs Spain",             cat:"Sec 117 · 2 tickets",     offsetMins:139 },
   // France
-  { initials:"TM", bg:"linear-gradient(135deg,#059669,#10B981)", name:"Thomas Martin",       city:"Paris",             match:"4x France vs Argentina",       cat:"Category 1 · Sec 104", offsetMins:29  },
-  { initials:"CB", bg:"linear-gradient(135deg,#0EA5E9,#7DD3FC)", name:"Camille Bernard",     city:"Lyon",              match:"2x France vs Senegal",         cat:"Category 3 · Sec 231",    offsetMins:68  },
-  { initials:"JD", bg:"linear-gradient(135deg,#BE185D,#F472B6)", name:"Jean-Pierre Dubois",  city:"Marseille",         match:"France vs Argentina",          cat:"VIP Box · Sec VIP",       offsetMins:104 },
-  { initials:"LS", bg:"linear-gradient(135deg,#475569,#94A3B8)", name:"Louise Simon",        city:"Toulouse",          match:"2x Brazil vs Morocco",         cat:"Sec 104 Row 8",           offsetMins:131 },
-  { initials:"PR", bg:"linear-gradient(135deg,#1B3C88,#818CF8)", name:"Pierre Rousseau",     city:"Nice",              match:"Netherlands vs Japan",         cat:"Category 2 · Sec 117",    offsetMins:167 },
+  { initials:"TM", bg:"linear-gradient(135deg,#059669,#10B981)", name:"Thomas Martin",       city:"Paris",              match:"4x Norway vs France",          cat:"Category 1 · Sec 104",    offsetMins:29  },
+  { initials:"CB", bg:"linear-gradient(135deg,#0EA5E9,#7DD3FC)", name:"Camille Bernard",     city:"Lyon",               match:"2x Norway vs Senegal",         cat:"Category 3 · Sec 231",    offsetMins:68  },
+  { initials:"JD", bg:"linear-gradient(135deg,#BE185D,#F472B6)", name:"Jean-Pierre Dubois",  city:"Marseille",          match:"France vs Iraq",               cat:"VIP Box · Sec VIP",       offsetMins:104 },
+  { initials:"LS", bg:"linear-gradient(135deg,#475569,#94A3B8)", name:"Louise Simon",        city:"Toulouse",           match:"2x Norway vs France",          cat:"Sec 104 Row 8",           offsetMins:131 },
+  { initials:"PR", bg:"linear-gradient(135deg,#1B3C88,#818CF8)", name:"Pierre Rousseau",     city:"Nice",               match:"France vs Iraq",               cat:"Category 2 · Sec 117",    offsetMins:167 },
   // Canada
-  { initials:"ET", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Emma Thompson",       city:"Toronto",           match:"2x Canada vs Uruguay",         cat:"Sec 416 Row 31",          offsetMins:16  },
-  { initials:"NP", bg:"linear-gradient(135deg,#059669,#6EE7B7)", name:"Noah Patel",          city:"Vancouver",         match:"3x Canada vs Chile",           cat:"Category 2 · Sec 117",    offsetMins:62  },
-  { initials:"OL", bg:"linear-gradient(135deg,#DC2626,#FCA5A5)", name:"Olivia Leblanc",      city:"Montreal",          match:"USA vs Mexico",                cat:"Sec 144 Row 9",           offsetMins:89  },
-  { initials:"LC", bg:"linear-gradient(135deg,#7C3AED,#C4B5FD)", name:"Liam Chen",           city:"Calgary",           match:"2x Canada vs Uruguay",         cat:"Sec 220 · 2 tickets",     offsetMins:117 },
-  { initials:"AF", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"Ava Fournier",        city:"Ottawa",            match:"France vs Argentina",          cat:"Category 3 · Sec 231",    offsetMins:153 },
+  { initials:"ET", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Emma Thompson",       city:"Toronto",            match:"2x Switzerland vs Canada",     cat:"Sec 416 Row 31",          offsetMins:16  },
+  { initials:"NP", bg:"linear-gradient(135deg,#059669,#6EE7B7)", name:"Noah Patel",          city:"Vancouver",          match:"Switzerland vs Canada",        cat:"Category 2 · Sec 117",    offsetMins:62  },
+  { initials:"OL", bg:"linear-gradient(135deg,#DC2626,#FCA5A5)", name:"Olivia Leblanc",      city:"Montreal",           match:"Norway vs Senegal",            cat:"Sec 144 Row 9",           offsetMins:89  },
+  { initials:"LC", bg:"linear-gradient(135deg,#7C3AED,#C4B5FD)", name:"Liam Chen",           city:"Calgary",            match:"2x Switzerland vs Canada",     cat:"Sec 220 · 2 tickets",     offsetMins:117 },
+  { initials:"AF", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"Ava Fournier",        city:"Ottawa",             match:"Norway vs France",             cat:"Category 3 · Sec 231",    offsetMins:153 },
   // Brazil
-  { initials:"MF", bg:"linear-gradient(135deg,#059669,#34D399)", name:"Maria Fernanda",      city:"São Paulo",         match:"4x Brazil vs Morocco",         cat:"Premium · Sec 104",       offsetMins:14  },
-  { initials:"GS", bg:"linear-gradient(135deg,#1D4ED8,#60A5FA)", name:"Gabriel Santos",      city:"Rio de Janeiro",    match:"2x Brazil vs Colombia",        cat:"Category 1 · Sec 144",    offsetMins:66  },
-  { initials:"BS", bg:"linear-gradient(135deg,#BE123C,#FDA4AF)", name:"Beatriz Souza",       city:"Belo Horizonte",    match:"Brazil vs Morocco",            cat:"Category 1 · Sec 104", offsetMins:95  },
-  { initials:"PO", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Pedro Oliveira",      city:"Brasília",          match:"3x Brazil vs Colombia",        cat:"Sec 104 Row 8",           offsetMins:128 },
-  { initials:"AL", bg:"linear-gradient(135deg,#0EA5E9,#7DD3FC)", name:"Ana Lima",            city:"Salvador",          match:"2x Brazil vs Morocco",         cat:"Category 2 · Sec 117",    offsetMins:171 },
+  { initials:"MF", bg:"linear-gradient(135deg,#059669,#34D399)", name:"Maria Fernanda",      city:"São Paulo",          match:"4x Scotland vs Brazil",        cat:"Premium · Sec 104",       offsetMins:14  },
+  { initials:"GS", bg:"linear-gradient(135deg,#1D4ED8,#60A5FA)", name:"Gabriel Santos",      city:"Rio de Janeiro",     match:"2x Jordan vs Argentina",       cat:"Category 1 · Sec 144",    offsetMins:66  },
+  { initials:"BS", bg:"linear-gradient(135deg,#BE123C,#FDA4AF)", name:"Beatriz Souza",       city:"Belo Horizonte",     match:"Scotland vs Brazil",           cat:"Category 1 · Sec 104",    offsetMins:95  },
+  { initials:"PO", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Pedro Oliveira",      city:"Brasília",           match:"3x Scotland vs Brazil",        cat:"Sec 104 Row 8",           offsetMins:128 },
+  { initials:"AL", bg:"linear-gradient(135deg,#0EA5E9,#7DD3FC)", name:"Ana Lima",            city:"Salvador",           match:"Scotland vs Brazil",           cat:"Category 2 · Sec 117",    offsetMins:171 },
   // UK
-  { initials:"JR", bg:"linear-gradient(135deg,#7C3AED,#A78BFA)", name:"James Robertson",     city:"London",            match:"2x England vs Croatia",        cat:"Category 3 · Sec 231",    offsetMins:7   },
-  { initials:"SE", bg:"linear-gradient(135deg,#DC2626,#F87171)", name:"Sophie Evans",        city:"Manchester",        match:"England vs USA",               cat:"Sec 112 Row 6",           offsetMins:44  },
-  { initials:"OB", bg:"linear-gradient(135deg,#059669,#10B981)", name:"Oliver Brown",        city:"Birmingham",        match:"3x England vs Croatia",        cat:"Category 2 · Sec 117",    offsetMins:78  },
-  { initials:"EW", bg:"linear-gradient(135deg,#475569,#94A3B8)", name:"Emily Wilson",        city:"Leeds",             match:"2x England vs USA",            cat:"Sec 319 Row 22",          offsetMins:109 },
-  { initials:"HT", bg:"linear-gradient(135deg,#1B3C88,#818CF8)", name:"Harry Taylor",        city:"Liverpool",         match:"England vs Croatia",           cat:"Category 1 · Sec 144",    offsetMins:142 },
-  // Argentina
-  { initials:"LM", bg:"linear-gradient(135deg,#0F766E,#2DD4BF)", name:"Luciano Morales",     city:"Buenos Aires",      match:"4x Argentina vs Chile",        cat:"Category 3 · Sec 205",      offsetMins:36  },
-  { initials:"VP", bg:"linear-gradient(135deg,#BE185D,#F472B6)", name:"Valentina Pérez",     city:"Córdoba",           match:"2x Argentina vs Algeria",      cat:"Sec 104 Row 8",           offsetMins:73  },
-  { initials:"MA", bg:"linear-gradient(135deg,#7C3AED,#A78BFA)", name:"Matías Acosta",       city:"Rosario",           match:"Argentina vs Chile",           cat:"Category 2 · Sec 117",    offsetMins:101 },
-  { initials:"FR", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Florencia Romero",    city:"Mendoza",           match:"3x France vs Argentina",       cat:"Category 1 · Sec 104", offsetMins:125 },
-  { initials:"JM", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"Joaquín Medina",      city:"Tucumán",           match:"2x Argentina vs Algeria",      cat:"Sec 205 Row 3",           offsetMins:158 },
-  // Germany
-  { initials:"MK", bg:"linear-gradient(135deg,#1D4ED8,#60A5FA)", name:"Maximilian Koch",     city:"Berlin",            match:"2x Germany vs Colombia",       cat:"Sec 204 Row 12",           offsetMins:21  },
-  { initials:"LW", bg:"linear-gradient(135deg,#059669,#6EE7B7)", name:"Laura Weiß",          city:"Munich",            match:"Spain vs Germany",             cat:"Category 2 · Sec 117",    offsetMins:86  },
-  { initials:"FK", bg:"linear-gradient(135deg,#DC2626,#FCA5A5)", name:"Felix Krause",        city:"Hamburg",           match:"3x Germany vs Colombia",       cat:"Category 1 · Sec 144",    offsetMins:113 },
-  { initials:"HB", bg:"linear-gradient(135deg,#BE123C,#FDA4AF)", name:"Hannah Bauer",        city:"Frankfurt",         match:"2x Japan vs Germany",          cat:"Sec 117 Row 12",          offsetMins:137 },
-  { initials:"JS", bg:"linear-gradient(135deg,#0EA5E9,#7DD3FC)", name:"Jonas Schäfer",       city:"Cologne",           match:"Germany vs Colombia",          cat:"Sec 162 · 2 seats",       offsetMins:164 },
-  // Global
-  { initials:"AK", bg:"linear-gradient(135deg,#DC2626,#FCA5A5)", name:"Ahmed Khalil",        city:"Cairo",             match:"1x Spain vs Saudi Arabia",     cat:"Category 2 · Sec 117",    offsetMins:3   },
-  { initials:"YT", bg:"linear-gradient(135deg,#7C3AED,#C4B5FD)", name:"Yuki Tanaka",         city:"Tokyo",             match:"2x Japan vs Germany",          cat:"Category 2 · Sec 117",    offsetMins:56  },
-  { initials:"KA", bg:"linear-gradient(135deg,#059669,#34D399)", name:"Kwame Asante",        city:"Accra",             match:"Morocco vs Belgium",           cat:"Sec 205 Row 3",           offsetMins:81  },
-  { initials:"RS", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"Ravi Sharma", city:"Mumbai", match:"2x South Korea vs Iran", cat:"Category 3 · Sec 340", offsetMins:107 },
-  { initials:"FO", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Fatima Ouali",        city:"Casablanca",        match:"3x Morocco vs Belgium",        cat:"Category 3 · Sec 205",      offsetMins:134 },
-  { initials:"PJ", bg:"linear-gradient(135deg,#BE185D,#F472B6)", name:"Park Jinho",          city:"Seoul",             match:"4x South Korea vs Iran",       cat:"Category 3 · Sec 340",    offsetMins:159 },
-  { initials:"SK", bg:"linear-gradient(135deg,#0F766E,#2DD4BF)", name:"Sara Kowalski",       city:"Warsaw",            match:"2x Portugal vs Poland",        cat:"Sec 112 Row 6",           offsetMins:184 },
-  { initials:"OR", bg:"linear-gradient(135deg,#475569,#94A3B8)", name:"Omar Al-Rashid",      city:"Dubai",             match:"Spain vs Saudi Arabia",        cat:"Category 2 · Sec 117",    offsetMins:208 },
-  { initials:"IF", bg:"linear-gradient(135deg,#1D4ED8,#60A5FA)", name:"Ivan Fedorov",        city:"Moscow",            match:"2x Netherlands vs Belgium",    cat:"Category 2 · Sec 117",    offsetMins:231 },
-  { initials:"NG", bg:"linear-gradient(135deg,#DC2626,#F87171)", name:"Nina Grabowski",      city:"Vienna",            match:"Germany vs Colombia",          cat:"Sec 162 · 1 seat",        offsetMins:257 },
+  { initials:"OH", bg:"linear-gradient(135deg,#7C3AED,#A78BFA)", name:"Oliver Hughes",       city:"London",             match:"England vs Ghana",             cat:"Category 2 · Sec 319",    offsetMins:21  },
+  { initials:"ES", bg:"linear-gradient(135deg,#059669,#10B981)", name:"Emma Sutton",         city:"Manchester",         match:"2x Panama vs England",         cat:"Category 3 · Sec 231",    offsetMins:54  },
+  { initials:"JB", bg:"linear-gradient(135deg,#DC2626,#F87171)", name:"James Blackwell",     city:"Birmingham",         match:"Panama vs England",            cat:"VIP Box · Sec VIP",       offsetMins:78  },
+  { initials:"SH", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Sophie Harrison",     city:"Leeds",              match:"2x England vs Ghana",          cat:"Sec 112 Row 4",           offsetMins:112 },
+  { initials:"WT", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"William Taylor",      city:"Liverpool",          match:"Panama vs England",            cat:"Category 1 · Sec 144",    offsetMins:148 },
 ];
 
 // ─── Testimonials ──────────────────────────────────
