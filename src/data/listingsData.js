@@ -33,7 +33,7 @@ export const SELLERS = [
     avatar:"MD", avatarBg:"linear-gradient(135deg,#1B3C88,#4A62BC)",
     location:"Polanco, Mexico City",
     bio:"Been doing this since Russia 2018. Got allocation contacts for most group stage fixtures. Usually respond same day, sometimes takes till evening if I'm at work.",
-         contactUrl:"https://t.me/Marcodelgadoo",
+    contactUrl:"https://t.me/Marcodelgadoo",
   },
   {
     sellerId:"s02", seller:"Sophie Whitfield",
@@ -1096,6 +1096,7 @@ export const RECENT_PURCHASES = [
   { initials:"SH", bg:"linear-gradient(135deg,#D97706,#FCD34D)", name:"Sophie Harrison",     city:"Leeds",              match:"2x England vs Ghana",          cat:"Sec 112 Row 4",           offsetMins:112 },
   { initials:"WT", bg:"linear-gradient(135deg,#1B3C88,#4A62BC)", name:"William Taylor",      city:"Liverpool",          match:"Panama vs England",            cat:"Category 1 · Sec 144",    offsetMins:148 },
 ];
+
 
 // ─── Testimonials ──────────────────────────────────
 export const TESTIMONIALS = [
