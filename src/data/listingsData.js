@@ -850,9 +850,9 @@ const PRICE_OVERRIDES = {
 // TO CHANGE PRICE CAPS LATER: edit KNOCKOUT_CATEGORY_CAPS only — nothing
 // else needs to change, the formula re-scales automatically.
 const KNOCKOUT_CATEGORY_CAPS = {
-  "Category 1": { floor: 320, cap: 859 },
-  "Category 2": { floor: 180, cap: 500 },
-  "Category 3": { floor: 110, cap: 350 },
+  "Category 1": { floor: 650, cap: 859 },
+  "Category 2": { floor: 450, cap: 500 },
+  "Category 3": { floor: 300, cap: 350 },
 };
 
 // Relative demand input — same numbers used previously as flat market
@@ -1077,30 +1077,47 @@ export const ALL_MATCHES = WC26_ALL_FIXTURES.flatMap((m, i) => {
     }];
   }
 
-  // ── Knockout: THREE listings per fixture, one per category ───────────
-  // Each listing is a fully independent, uniquely-keyed entry that still
-  // points back at the same match (same id prefix, date, teams, venue) —
-  // only the category, seat, and price differ.
+  // ── Knockout: ONE listing per fixture, carrying all 3 category prices ──
+  // Single card per match (same as group stage), but instead of a flat
+  // `price` it exposes `categoryPricing` — { "Category 1": {price, ...seat},
+  // "Category 2": {...}, "Category 3": {...} } — so the UI can render a
+  // category selector on one card rather than three separate cards.
+  // `defaultCategory` / `price` / seat fields are pre-filled from
+  // Category 2 (the typical "from" price shown on a closed card before
+  // the buyer picks a tier) so existing card UI keeps working unchanged.
   const counts = [1, 2, 2, 3, 3, 4, 5, 6, 8];
-  return ["Category 1", "Category 2", "Category 3"].map((category, catIdx) => {
-    const price   = getKnockoutCategoryPrice(m.id, category);
+  const categoryPricing = {};
+  ["Category 1", "Category 2", "Category 3"].forEach((category, catIdx) => {
+    const price    = getKnockoutCategoryPrice(m.id, category);
     const catSeats = R32_SEAT_POOL.filter(s => s.category === category);
     const seat     = catSeats[(i + catIdx) % catSeats.length];
     const tickets  = counts[(i * 3 + catIdx) % counts.length];
-
-    return {
-      id: `${m.id}-${category.replace("Category ", "cat")}`, // e.g. "r32_05-cat1"
-      matchId: m.id, // shared key tying all 3 category listings back to the same event
-      ...base,
-      category,
+    categoryPricing[category] = {
       price,
       tickets,
       status: tickets <= 2 ? "limited" : "available",
-      listedAt,
-      ...seller,
       ...seat,
     };
   });
+
+  const defaultCategory = "Category 2";
+  const defaultEntry    = categoryPricing[defaultCategory];
+
+  return [{
+    id: m.id,
+    matchId: m.id,
+    ...base,
+    categoryPricing,        // full per-category breakdown for the selector UI
+    category: defaultCategory,
+    price: defaultEntry.price,
+    tickets: defaultEntry.tickets,
+    status: defaultEntry.status,
+    section: defaultEntry.section,
+    row: defaultEntry.row,
+    seats: defaultEntry.seats,
+    listedAt,
+    ...seller,
+  }];
 });
 
 // ─── Filter options ────────────────────────────────
