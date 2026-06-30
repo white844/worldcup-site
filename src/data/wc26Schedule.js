@@ -204,22 +204,22 @@ export const WC26_GROUP_STAGE = [
 
 // ── Round of 32 (16 matches) ──────────────────────────────────────────────
 export const WC26_R32 = [
-  { id:"r32_01", date:"2026-06-28", time:"19:00", home:"2A", away:"2B", venue:"SoFi Stadium", round:"Round of 32" },
-  { id:"r32_02", date:"2026-06-29", time:"20:30", home:"1E", away:"3A/B/C/D/F", venue:"Gillette Stadium", round:"Round of 32" },
-  { id:"r32_03", date:"2026-06-29", time:"01:00", home:"1F", away:"2C", venue:"Estadio BBVA", round:"Round of 32" },
-  { id:"r32_04", date:"2026-06-29", time:"17:00", home:"1C", away:"2F", venue:"NRG Stadium", round:"Round of 32" },
-  { id:"r32_05", date:"2026-06-30", time:"21:00", home:"1I", away:"3C/D/F/G/H", venue:"MetLife Stadium", round:"Round of 32" },
-  { id:"r32_06", date:"2026-06-30", time:"17:00", home:"2E", away:"2I", venue:"AT&T Stadium", round:"Round of 32" },
-  { id:"r32_07", date:"2026-06-30", time:"01:00", home:"1A", away:"3C/E/F/H/I", venue:"Estadio Azteca", round:"Round of 32" },
-  { id:"r32_08", date:"2026-07-01", time:"16:00", home:"1L", away:"3E/H/I/J/K", venue:"Mercedes-Benz Stadium", round:"Round of 32" },
-  { id:"r32_09", date:"2026-07-01", time:"00:00", home:"1D", away:"3B/E/F/I/J", venue:"Levi's Stadium", round:"Round of 32" },
-  { id:"r32_10", date:"2026-07-01", time:"20:00", home:"1G", away:"3A/E/H/I/J", venue:"Lumen Field", round:"Round of 32" },
-  { id:"r32_11", date:"2026-07-02", time:"23:00", home:"2K", away:"2L", venue:"BMO Field", round:"Round of 32" },
-  { id:"r32_12", date:"2026-07-02", time:"19:00", home:"1H", away:"2J", venue:"SoFi Stadium", round:"Round of 32" },
-  { id:"r32_13", date:"2026-07-02", time:"03:00", home:"1B", away:"3E/F/G/I/J", venue:"BC Place", round:"Round of 32" },
-  { id:"r32_14", date:"2026-07-03", time:"22:00", home:"1J", away:"2H", venue:"Hard Rock Stadium", round:"Round of 32" },
-  { id:"r32_15", date:"2026-07-03", time:"01:30", home:"1K", away:"3D/E/I/J/L", venue:"Arrowhead Stadium", round:"Round of 32" },
-  { id:"r32_16", date:"2026-07-03", time:"18:00", home:"2D", away:"2G", venue:"AT&T Stadium", round:"Round of 32" },
+  { id:"r32_01", date:"2026-06-28", time:"19:00", home:"Germany", away:"Uruguay", venue:"SoFi Stadium", round:"Round of 32" },
+  { id:"r32_02", date:"2026-06-29", time:"20:30", home:"France", away:"Sweden", venue:"Gillette Stadium", round:"Round of 32" },
+  { id:"r32_03", date:"2026-06-29", time:"01:00", home:"South Africa", away:"Canada", venue:"Estadio BBVA", round:"Round of 32" },
+  { id:"r32_04", date:"2026-06-29", time:"17:00", home:"Netherlands", away:"Morocco", venue:"NRG Stadium", round:"Round of 32" },
+  { id:"r32_05", date:"2026-06-30", time:"21:00", home:"Portugal", away:"Croatia", venue:"MetLife Stadium", round:"Round of 32" },
+  { id:"r32_06", date:"2026-06-30", time:"17:00", home:"Spain", away:"Turkey", venue:"AT&T Stadium", round:"Round of 32" },
+  { id:"r32_07", date:"2026-06-30", time:"01:00", home:"USA", away:"Bosnia & Herzegovina", venue:"Estadio Azteca", round:"Round of 32" },
+  { id:"r32_08", date:"2026-07-01", time:"16:00", home:"Belgium", away:"Senegal", venue:"Mercedes-Benz Stadium", round:"Round of 32" },
+  { id:"r32_09", date:"2026-07-01", time:"00:00", home:"Brazil", away:"Japan", venue:"Levi's Stadium", round:"Round of 32" },
+  { id:"r32_10", date:"2026-07-01", time:"20:00", home:"Ivory Coast", away:"Norway", venue:"Lumen Field", round:"Round of 32" },
+  { id:"r32_11", date:"2026-07-02", time:"23:00", home:"Mexico", away:"Ecuador", venue:"BMO Field", round:"Round of 32" },
+  { id:"r32_12", date:"2026-07-02", time:"19:00", home:"England", away:"DR Congo", venue:"SoFi Stadium", round:"Round of 32" },
+  { id:"r32_13", date:"2026-07-02", time:"03:00", home:"Argentina", away:"Cape Verde", venue:"BC Place", round:"Round of 32" },
+  { id:"r32_14", date:"2026-07-03", time:"22:00", home:"Australia", away:"Colombia", venue:"Hard Rock Stadium", round:"Round of 32" },
+  { id:"r32_15", date:"2026-07-03", time:"01:30", home:"Switzerland", away:"Algeria", venue:"Arrowhead Stadium", round:"Round of 32" },
+  { id:"r32_16", date:"2026-07-03", time:"18:00", home:"Colombia", away:"Ghana", venue:"AT&T Stadium", round:"Round of 32" },
 ];
 
 // ── Round of 16 ────────────────────────────────────────────────────────────
@@ -269,13 +269,23 @@ export const WC26_HIGH_DEMAND = new Set([
   "gs13",  // Brazil vs Morocco      — Jun 13 (Group C, MetLife Stadium)
   "gs55",  // Argentina vs Algeria   — Jun 16 (Group J, Arrowhead Stadium)
   "gs45",  // Spain vs Saudi Arabia  — Jun 21 (Group H, Mercedes-Benz Stadium)
+
+  // ── R32 high-demand ──
+  "r32_02",
+  "r32_05",
+  "r32_06",
+  "r32_07",
+  "r32_09",
+  "r32_11",
+  "r32_12",
+  "r32_13",
 ]);
 
 // ── All fixtures merged ────────────────────────────────────────────────────
 export const WC26_ALL_FIXTURES = [
   ...WC26_GROUP_STAGE,
   // ── Knockout rounds — uncomment each stage as the bracket resolves ──
-  // ...WC26_R32,
+  ...WC26_R32,
   // ...WC26_R16,
   // ...WC26_QF,
   // ...WC26_SF,

@@ -9,7 +9,7 @@
  */
 
 // ── Global toggle ──────────────────────────────────────────────────────────
-export const SHOW_KNOCKOUTS = false;
+export const SHOW_KNOCKOUTS = true;
 
 // All round labels that qualify as knockout stage
 const KNOCKOUT_ROUNDS = new Set([
