@@ -758,6 +758,7 @@ const PRICE_OVERRIDES = {
   "gs25":  566, // Germany vs Curaçao            — Jun 14, NRG Stadium       [commented out — SeatGeek "Germany vs Curacao" $566]
   "gs26":  933, // Ivory Coast vs Ecuador        — Jun 14, Lincoln Financial Field
   "gs27":  985, // Germany vs Ivory Coast        — Jun 20, BMO Field         [SeatGeek $985]
+  "gs27b": 1084, // Germany vs Ivory Coast (Amara Traoré duplicate, +10%)
   "gs28":  500, // Ecuador vs Curaçao            — Jun 20, Arrowhead Stadium [commented out — SeatGeek $419]
   "gs29":  500, // Curaçao vs Ivory Coast        — Jun 25, Lincoln Financial Field [commented out — peer to gs28]
   "gs30":  933, // Ecuador vs Germany            — Jun 25, MetLife Stadium   [peer to gs26]

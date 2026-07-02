@@ -106,6 +106,19 @@ export default function TicketDetail() {
   const urgency = useMatchUrgency(matchId ?? "");
   const isExpired = match ? isMatchPast(match.isoDate, nowMs, match.time) : false;
 
+  // ── Category selector (knockout matches only) ──────────────────────────
+  const hasCategories = Boolean(match?.categoryPricing);
+  const CATS = ["Category 1", "Category 2", "Category 3"];
+  const [selectedCat, setSelectedCat] = useState(
+    hasCategories ? "Category 2" : (match?.category ?? "Category 2")
+  );
+  const activeCat     = hasCategories ? match?.categoryPricing?.[selectedCat] : null;
+  const activePrice   = activeCat ? activeCat.price   : match?.price;
+  const activeTickets = activeCat ? activeCat.tickets : (urgency?.tickets ?? 3);
+  const activeSection = activeCat ? activeCat.section : match?.section;
+  const activeRow     = activeCat ? activeCat.row     : match?.row;
+  const activeSeats   = activeCat ? activeCat.seats   : match?.seats;
+
   useEffect(() => {
     if (match) {
       return setPageMeta(
@@ -158,13 +171,13 @@ export default function TicketDetail() {
     setConfirmOpen(false);
     if (isTelegram) {
       const msg = encodeURIComponent(
-        `Hi, I saw your listing on Ticketeer for ${teamName(match.home)} vs ${teamName(match.away)} (${match.date} at ${match.time} · ${match.venue} · ${match.category} · $${match.price}/ticket) and I'm interested in buying. Is it still available?`
+        `Hi, I saw your listing on Ticketeer for ${teamName(match.home)} vs ${teamName(match.away)} (${match.date} at ${match.time} · ${match.venue} · ${selectedCat} · $${activePrice}/ticket) and I'm interested in buying. Is it still available?`
       );
       window.open(`${match.contactUrl}?text=${msg}`, "_blank", "noopener,noreferrer");
     } else if (isWhatsApp) {
       openContactWhatsApp(
         `${teamName(match.home)} vs ${teamName(match.away)}`,
-        `${match.date} at ${match.time} · ${match.venue} · ${match.category} Section ${match.section} Row ${match.row} · $${match.price}/ticket`
+        `${match.date} at ${match.time} · ${match.venue} · ${selectedCat} Section ${activeSection} Row ${activeRow} · $${activePrice}/ticket`
       );
     }
   };
@@ -256,10 +269,10 @@ export default function TicketDetail() {
               <div className="wc26-detail-body-section" style={{ padding:"clamp(16px,3vw,20px) clamp(16px,3vw,24px)" }}>
                 <div className="wc26-label">Ticket Details</div>
                 <InfoRow label="Group"             value={match.group}                    />
-                <InfoRow label="Category"          value={match.category}       highlight />
-                <InfoRow label="Section"           value={match.section}                  />
-                <InfoRow label="Row"               value={match.row}                      />
-                <InfoRow label="Seats"             value={match.seats}                    />
+                <InfoRow label="Category"          value={selectedCat}       highlight />
+                <InfoRow label="Section"           value={activeSection}                  />
+                <InfoRow label="Row"               value={activeRow}                      />
+                <InfoRow label="Seats"             value={activeSeats}                    />
                 <InfoRow label="Ticket Type"       value="Resale — official transfer"     />
                 <InfoRow label="Delivery"          value="Instant digital delivery"       />
                 <InfoRow label="Listed"            value={timeAgo(match.listedAt)}        />
@@ -315,11 +328,47 @@ export default function TicketDetail() {
           {/* top = Navbar (64px) + TrustBar (~38px) + 8px breathing room */}
           <div className="wc26-sticky-panel" style={{ position:"sticky", top:"calc(64px + 38px + 8px)" }}>
             <div className="wc26-card" style={{ overflow:"hidden", boxShadow:C.shadowLg, borderRadius:16 }}>
+              {/* Category selector — knockout fixtures only */}
+              {hasCategories && (
+                <div style={{ padding:"16px 22px 0", borderBottom:`1px solid ${C.border}` }}>
+                  <div className="wc26-label" style={{ marginBottom:8 }}>Select Category</div>
+                  <div style={{ display:"flex", gap:8, paddingBottom:16 }}>
+                    {CATS.map(cat => {
+                      const catData = match.categoryPricing[cat];
+                      const isActive = selectedCat === cat;
+                      return (
+                        <button
+                          key={cat}
+                          onClick={() => setSelectedCat(cat)}
+                          style={{
+                            flex:1, padding:"10px 4px", borderRadius:10,
+                            border:`2px solid ${isActive ? C.blue : C.border}`,
+                            background: isActive ? C.infoBg : C.bgSubtle,
+                            cursor:"pointer", transition:"all 0.15s",
+                            display:"flex", flexDirection:"column", alignItems:"center", gap:3,
+                          }}
+                          aria-pressed={isActive}
+                        >
+                          <span style={{ fontSize:11, fontWeight:700, color: isActive ? C.blue : C.textSoft, ...dm, letterSpacing:"0.05em" }}>
+                            {cat.replace("Category ","Cat ")}
+                          </span>
+                          <span style={{ fontSize:16, fontWeight:800, color: isActive ? C.text : C.textSoft, ...sora }}>
+                            ${catData.price}
+                          </span>
+                          <span style={{ fontSize:10, color: isActive ? C.textSoft : C.border, ...dm }}>
+                            Sec {catData.section}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               {/* Price */}
               <div style={{ padding:"20px 22px 16px", borderBottom:`1px solid ${C.border}` }}>
                 <div className="wc26-label" style={{ marginBottom:6 }}>Price per ticket</div>
                 <div style={{ display:"flex", alignItems:"baseline", gap:6, marginBottom:8 }}>
-                  <span style={{ ...sora, fontSize:40, fontWeight:800, color:C.text, letterSpacing:"-0.03em", lineHeight:1 }}>${match.price}</span>
+                  <span style={{ ...sora, fontSize:40, fontWeight:800, color:C.text, letterSpacing:"-0.03em", lineHeight:1 }}>${activePrice}</span>
                   <span style={{ fontSize:14, color:C.textSoft, ...dm }}>/ticket</span>
                 </div>
                 <div style={{ display:"flex", alignItems:"center", gap:6, fontSize:12, color:C.textSoft, ...dm }}>
@@ -340,7 +389,7 @@ export default function TicketDetail() {
               {/* Seat summary */}
               <div style={{ padding:"16px 22px", borderBottom:`1px solid ${C.border}` }}>
                 <div className="wc26-label">Seat Summary</div>
-                {[["Category",match.category],["Section",match.section],["Row",match.row],["Seats",match.seats]].map(([k,v]) => (
+                {[["Category",selectedCat],["Section",activeSection],["Row",activeRow],["Seats",activeSeats]].map(([k,v]) => (
                   <div key={k} style={{ display:"flex", justifyContent:"space-between", padding:"6px 0", borderBottom:`1px solid ${C.border}` }}>
                     <span style={{ fontSize:12, color:C.textSoft, ...dm }}>{k}</span>
                     <span style={{ fontSize:12, fontWeight:700, color:C.text, ...dm }}>{v}</span>
@@ -431,7 +480,7 @@ export default function TicketDetail() {
               {labelTeam(match.home)} vs {labelTeam(match.away)}
             </div>
             <div style={{ fontSize:12, color:C.textSoft, textAlign:"center", marginBottom:8, ...dm }}>{match.date} at {match.time}</div>
-            <div style={{ fontSize:12, color:C.textSoft, textAlign:"center", marginBottom:20, ...dm }}>{match.venue} · {match.category} · ${match.price}/ticket</div>
+            <div style={{ fontSize:12, color:C.textSoft, textAlign:"center", marginBottom:20, ...dm }}>{match.venue} · {selectedCat} · ${activePrice}/ticket</div>
             <div style={{ fontSize:12, color:C.warnText, background:C.warnBg, border:`1px solid ${C.warnBorder}`, borderRadius:8, padding:"10px 12px", marginBottom:20, ...dm, lineHeight:1.5 }}>
               ⚠️ Always verify tickets before making any payment. Never pay outside of an agreed, traceable method.
             </div>

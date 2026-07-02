@@ -64,15 +64,24 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
   const navigate      = useNavigate();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { tickets = 3, viewers = 20 } = urgency ?? {};
-  const isLimited     = tickets <= 2;
   const isLarge       = size === "large";
-  // Live countdown — recalculated on each render (nowMs ticks every 60 s from context)
-  // We import nowMs via a lightweight re-export of Date.now since MatchCard
-  // doesn't need to subscribe to the full context — the parent re-renders it.
   const countdown     = kickoffCountdown(match, Date.now());
 
+  // ── Category selector (knockout matches only) ─────────────────────────
+  const hasCategories = Boolean(match.categoryPricing);
+  const CATS = ["Category 1", "Category 2", "Category 3"];
+  const [selectedCat, setSelectedCat] = useState(
+    hasCategories ? "Category 2" : (match.category ?? "Category 2")
+  );
+  const activeCat     = hasCategories ? match.categoryPricing[selectedCat] : null;
+  const activePrice   = activeCat ? activeCat.price   : match.price;
+  const activeTickets = activeCat ? activeCat.tickets : (urgency?.tickets ?? 3);
+  const activeSection = activeCat ? activeCat.section : match.section;
+  const activeRow     = activeCat ? activeCat.row     : match.row;
+  const isLimited     = activeTickets <= 2;
+
   const statusPill = isLimited
-    ? { bg: C.dangerBg,  color: C.dangerText, border: C.dangerBorder, label: `🔥 ${tickets} left` }
+    ? { bg: C.dangerBg,  color: C.dangerText, border: C.dangerBorder, label: `🔥 ${activeTickets} left` }
     : { bg: C.greenBg,   color: C.greenText,  border: C.greenBorder,  label: "● Available" };
 
   const handleContact = (e) => {
@@ -105,7 +114,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
   return (
     <div
       onClick={() => navigate(`/marketplace/${match.id}`)}
-      aria-label={`${teamName(match.home)} vs ${teamName(match.away)}, ${match.date}, ${match.price} per ticket${match.isLive ? ", live now" : match._likelyLive ? ", match in progress" : ""}${isNext ? ", next upcoming match" : ""}${isStartingSoon ? ", starting within 24 hours" : ""}${countdown ? ", " + countdown : ""}`}
+      aria-label={`${teamName(match.home)} vs ${teamName(match.away)}, ${match.date}, ${activePrice} per ticket${match.isLive ? ", live now" : match._likelyLive ? ", match in progress" : ""}${isNext ? ", next upcoming match" : ""}${isStartingSoon ? ", starting within 24 hours" : ""}${countdown ? ", " + countdown : ""}`}
       className={`wc26-match-card ${isExpiring ? "wc26-match-card-static" : ""} ${isLarge ? "wc26-match-card-large" : ""}`}
       style={{
         borderRadius: 14, overflow: "hidden", cursor: isExpiring ? "default" : "pointer",
@@ -287,7 +296,39 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{match.venue}</span>
         </div>
         <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: isLarge ? 14 : 10 }}>
-          <span style={{ ...sora, fontSize: isLarge ? 36 : 24, fontWeight: 800, color: C.text, letterSpacing: "-0.03em" }}>${match.price}</span>
+          {/* Category selector tabs — only shown for knockout fixtures */}
+          {hasCategories && (
+            <div style={{ display:"flex", gap:4, marginBottom:8 }} onClick={e => e.stopPropagation()}>
+              {CATS.map(cat => {
+                const catData = match.categoryPricing[cat];
+                const shortLabel = cat.replace("Category ", "Cat ");
+                const isActive = selectedCat === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={e => { e.stopPropagation(); setSelectedCat(cat); }}
+                    style={{
+                      flex: 1, padding: isLarge ? "7px 4px" : "5px 2px",
+                      borderRadius: 8, border: `1.5px solid ${isActive ? C.blue : C.border}`,
+                      background: isActive ? C.infoBg : C.bgSubtle,
+                      cursor: "pointer", transition: "all 0.15s",
+                      display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                    }}
+                    aria-pressed={isActive}
+                    aria-label={`Select ${cat}, $${catData.price}`}
+                  >
+                    <span style={{ fontSize: isLarge ? 11 : 9, fontWeight: 700, color: isActive ? C.blue : C.textSoft, ...dm, letterSpacing:"0.04em" }}>
+                      {shortLabel}
+                    </span>
+                    <span style={{ fontSize: isLarge ? 13 : 10, fontWeight: 800, color: isActive ? C.text : C.textSoft, ...sora }}>
+                      ${catData.price}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          <span style={{ ...sora, fontSize: isLarge ? 36 : 24, fontWeight: 800, color: C.text, letterSpacing: "-0.03em" }}>${activePrice}</span>
           <span style={{ fontSize: isLarge ? 14 : 12, color: C.textSoft, ...dm }}>/ticket</span>
         </div>
         <div style={{
