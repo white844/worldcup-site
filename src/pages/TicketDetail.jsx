@@ -328,39 +328,49 @@ export default function TicketDetail() {
           {/* top = Navbar (64px) + TrustBar (~38px) + 8px breathing room */}
           <div className="wc26-sticky-panel" style={{ position:"sticky", top:"calc(64px + 38px + 8px)" }}>
             <div className="wc26-card" style={{ overflow:"hidden", boxShadow:C.shadowLg, borderRadius:16 }}>
-              {/* Category selector — knockout fixtures only */}
+              {/* Category dropdown — knockout fixtures only */}
               {hasCategories && (
-                <div style={{ padding:"16px 22px 0", borderBottom:`1px solid ${C.border}` }}>
-                  <div className="wc26-label" style={{ marginBottom:8 }}>Select Category</div>
-                  <div style={{ display:"flex", gap:8, paddingBottom:16 }}>
-                    {CATS.map(cat => {
-                      const catData = match.categoryPricing[cat];
-                      const isActive = selectedCat === cat;
-                      return (
-                        <button
-                          key={cat}
-                          onClick={() => setSelectedCat(cat)}
-                          style={{
-                            flex:1, padding:"10px 4px", borderRadius:10,
-                            border:`2px solid ${isActive ? C.blue : C.border}`,
-                            background: isActive ? C.infoBg : C.bgSubtle,
-                            cursor:"pointer", transition:"all 0.15s",
-                            display:"flex", flexDirection:"column", alignItems:"center", gap:3,
-                          }}
-                          aria-pressed={isActive}
-                        >
-                          <span style={{ fontSize:11, fontWeight:700, color: isActive ? C.blue : C.textSoft, ...dm, letterSpacing:"0.05em" }}>
-                            {cat.replace("Category ","Cat ")}
-                          </span>
-                          <span style={{ fontSize:16, fontWeight:800, color: isActive ? C.text : C.textSoft, ...sora }}>
-                            ${catData.price}
-                          </span>
-                          <span style={{ fontSize:10, color: isActive ? C.textSoft : C.border, ...dm }}>
-                            Sec {catData.section}
-                          </span>
-                        </button>
-                      );
-                    })}
+                <div style={{ padding:"16px 22px", borderBottom:`1px solid ${C.border}` }}>
+                  <div className="wc26-label" style={{ marginBottom:8 }}>Ticket Category</div>
+                  <div style={{ position:"relative" }}>
+                    <select
+                      value={selectedCat}
+                      onChange={e => setSelectedCat(e.target.value)}
+                      style={{
+                        width:"100%",
+                        padding:"12px 40px 12px 14px",
+                        borderRadius:10,
+                        border:`1.5px solid ${C.border}`,
+                        background:C.bg,
+                        color:C.text,
+                        fontSize:14,
+                        fontWeight:600,
+                        fontFamily:"DM Sans, sans-serif",
+                        cursor:"pointer",
+                        appearance:"none",
+                        WebkitAppearance:"none",
+                        outline:"none",
+                        boxShadow:C.shadowSm,
+                        transition:"border-color 0.15s",
+                      }}
+                      onFocus={e => e.target.style.borderColor = C.blue}
+                      onBlur={e => e.target.style.borderColor = C.border}
+                    >
+                      {CATS.map(cat => {
+                        const catData = match.categoryPricing[cat];
+                        return (
+                          <option key={cat} value={cat}>
+                            {cat} — ${catData.price}/ticket · Sec {catData.section}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    <div style={{
+                      position:"absolute", right:14, top:"50%",
+                      transform:"translateY(-50%)",
+                      pointerEvents:"none", color:C.textSoft,
+                      fontSize:16, lineHeight:1,
+                    }}>▾</div>
                   </div>
                 </div>
               )}
