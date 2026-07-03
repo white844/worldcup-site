@@ -284,7 +284,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{match.venue}</span>
         </div>
         <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: isLarge ? 14 : 10 }}>
-          <span style={{ ...sora, fontSize: isLarge ? 36 : 24, fontWeight: 800, color: C.text, letterSpacing: "-0.03em" }}>${activePrice}</span>
+          <span style={{ ...sora, fontSize: isLarge ? 36 : 24, fontWeight: 800, color: C.text, letterSpacing: "-0.03em" }}>${match.price}</span>
           <span style={{ fontSize: isLarge ? 14 : 12, color: C.textSoft, ...dm }}>/ticket</span>
         </div>
         <div style={{
