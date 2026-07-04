@@ -224,14 +224,14 @@ export const WC26_R32 = [
 
 // ── Round of 16 ────────────────────────────────────────────────────────────
 export const WC26_R16 = [
-  { id:"r16_01", date:"2026-07-04", time:"21:00", home:"W74", away:"W77", venue:"Lincoln Financial Field", round:"Round of 16" },
-  { id:"r16_02", date:"2026-07-04", time:"17:00", home:"W73", away:"W75", venue:"NRG Stadium", round:"Round of 16" },
-  { id:"r16_03", date:"2026-07-05", time:"20:00", home:"W76", away:"W78", venue:"MetLife Stadium", round:"Round of 16" },
-  { id:"r16_04", date:"2026-07-05", time:"00:00", home:"W79", away:"W80", venue:"Estadio Azteca", round:"Round of 16" },
-  { id:"r16_05", date:"2026-07-06", time:"19:00", home:"W83", away:"W84", venue:"AT&T Stadium", round:"Round of 16" },
-  { id:"r16_06", date:"2026-07-06", time:"00:00", home:"W81", away:"W82", venue:"Lumen Field", round:"Round of 16" },
-  { id:"r16_07", date:"2026-07-07", time:"16:00", home:"W86", away:"W88", venue:"Mercedes-Benz Stadium", round:"Round of 16" },
-  { id:"r16_08", date:"2026-07-07", time:"20:00", home:"W85", away:"W87", venue:"BC Place", round:"Round of 16" },
+  { id:"r16_01", date:"2026-07-04", time:"21:00", home:"Paraguay", away:"France", venue:"Lincoln Financial Field", round:"Round of 16" },
+  { id:"r16_02", date:"2026-07-04", time:"17:00", home:"Canada", away:"Morocco", venue:"NRG Stadium", round:"Round of 16" },
+  { id:"r16_03", date:"2026-07-05", time:"20:00", home:"Brazil", away:"Norway", venue:"MetLife Stadium", round:"Round of 16" },
+  { id:"r16_04", date:"2026-07-07", time:"00:00", home:"USA", away:"Belgium", venue:"Estadio Azteca", round:"Round of 16" },
+  { id:"r16_05", date:"2026-07-06", time:"19:00", home:"Mexico", away:"England", venue:"AT&T Stadium", round:"Round of 16" },
+  { id:"r16_06", date:"2026-07-06", time:"00:00", home:"Winner R32-M79", away:"Winner R32-M80", venue:"Lumen Field", round:"Round of 16" },
+  { id:"r16_07", date:"2026-07-07", time:"16:00", home:"Winner R32-M86", away:"Winner R32-M88", venue:"Mercedes-Benz Stadium", round:"Round of 16" },
+  { id:"r16_08", date:"2026-07-07", time:"20:00", home:"Winner R32-M85", away:"Winner R32-M87", venue:"BC Place", round:"Round of 16" },
 ];
 
 // ── Quarter-Finals ─────────────────────────────────────────────────────────
@@ -279,6 +279,12 @@ export const WC26_HIGH_DEMAND = new Set([
   "r32_11",
   "r32_12",
   "r32_13",
+
+  // ── R16 high-demand ──
+  "r16_01",
+  "r16_03",
+  "r16_04",
+  "r16_05",
 ]);
 
 // ── All fixtures merged ────────────────────────────────────────────────────
@@ -286,7 +292,7 @@ export const WC26_ALL_FIXTURES = [
   ...WC26_GROUP_STAGE,
   // ── Knockout rounds — uncomment each stage as the bracket resolves ──
   ...WC26_R32,
-  // ...WC26_R16,
+  ...WC26_R16,
   // ...WC26_QF,
   // ...WC26_SF,
   // ...WC26_FINAL,
