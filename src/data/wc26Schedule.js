@@ -224,14 +224,14 @@ export const WC26_R32 = [
 
 // ── Round of 16 ────────────────────────────────────────────────────────────
 export const WC26_R16 = [
-  { id:"r16_01", date:"2026-07-04", time:"21:00", home:"Paraguay", away:"France", venue:"Lincoln Financial Field", round:"Round of 16" },
-  { id:"r16_02", date:"2026-07-04", time:"17:00", home:"Canada", away:"Morocco", venue:"NRG Stadium", round:"Round of 16" },
+  { id:"r16_01", date:"2026-07-04", time:"17:00", home:"Canada", away:"Morocco", venue:"NRG Stadium", round:"Round of 16" },
+  { id:"r16_02", date:"2026-07-04", time:"21:00", home:"Paraguay", away:"France", venue:"Lincoln Financial Field", round:"Round of 16" },
   { id:"r16_03", date:"2026-07-05", time:"20:00", home:"Brazil", away:"Norway", venue:"MetLife Stadium", round:"Round of 16" },
-  { id:"r16_04", date:"2026-07-07", time:"00:00", home:"USA", away:"Belgium", venue:"Estadio Azteca", round:"Round of 16" },
-  { id:"r16_05", date:"2026-07-06", time:"19:00", home:"Mexico", away:"England", venue:"AT&T Stadium", round:"Round of 16" },
-  { id:"r16_06", date:"2026-07-06", time:"00:00", home:"Winner R32-M79", away:"Winner R32-M80", venue:"Lumen Field", round:"Round of 16" },
-  { id:"r16_07", date:"2026-07-07", time:"16:00", home:"Winner R32-M86", away:"Winner R32-M88", venue:"Mercedes-Benz Stadium", round:"Round of 16" },
-  { id:"r16_08", date:"2026-07-07", time:"20:00", home:"Winner R32-M85", away:"Winner R32-M87", venue:"BC Place", round:"Round of 16" },
+  { id:"r16_04", date:"2026-07-06", time:"00:00", home:"Mexico", away:"England", venue:"Estadio Azteca", round:"Round of 16" },
+  { id:"r16_05", date:"2026-07-06", time:"19:00", home:"Portugal", away:"Spain", venue:"AT&T Stadium", round:"Round of 16" },
+  { id:"r16_06", date:"2026-07-07", time:"00:00", home:"USA", away:"Belgium", venue:"Lumen Field", round:"Round of 16" },
+  { id:"r16_07", date:"2026-07-07", time:"16:00", home:"Argentina", away:"Egypt", venue:"Mercedes-Benz Stadium", round:"Round of 16" },
+  { id:"r16_08", date:"2026-07-07", time:"20:00", home:"Switzerland", away:"Colombia", venue:"BC Place", round:"Round of 16" },
 ];
 
 // ── Quarter-Finals ─────────────────────────────────────────────────────────
@@ -285,6 +285,8 @@ export const WC26_HIGH_DEMAND = new Set([
   "r16_03",
   "r16_04",
   "r16_05",
+  "r16_06",
+  "r16_07",
 ]);
 
 // ── All fixtures merged ────────────────────────────────────────────────────
