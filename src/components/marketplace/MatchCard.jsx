@@ -11,7 +11,7 @@
  */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, MapPin, ShieldCheck, Star, Bell } from "lucide-react";
+import { Calendar, MapPin, ShieldCheck, Star, Bell, Trophy, Clock, Send, MessageCircle, Lock, AlertTriangle } from "lucide-react";
 import { C, sora, dm } from "../../tokens";
 import { kickoffCountdown } from "../../hooks/useMatchSchedule";
 import { teamName, teamFlagImg, labelTeam, timeAgo } from "../../data";
@@ -30,7 +30,7 @@ function FlagImg({ raw, size = 44, responsive = false }) {
       <div style={{
         width: size, height: Math.round(size * 0.67),
         borderRadius: 3,
-        background: "linear-gradient(135deg,#E2E8F0,#CBD5E1)",
+        background: "#E2E8F0",
         display: "flex", alignItems: "center", justifyContent: "center",
         flexShrink: 0,
         ...responsiveStyle,
@@ -69,8 +69,8 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
 
   const isLimited = tickets <= 2;
   const statusPill = isLimited
-    ? { bg: C.dangerBg,  color: C.dangerText, border: C.dangerBorder, label: `🔥 ${tickets} left` }
-    : { bg: C.greenBg,   color: C.greenText,  border: C.greenBorder,  label: "● Available" };
+    ? { bg: C.dangerBg,  color: C.dangerText, border: C.dangerBorder, label: `${tickets} left` }
+    : { bg: C.greenBg,   color: C.greenText,  border: C.greenBorder,  label: "Available" };
 
   const handleContact = (e) => {
     e.stopPropagation();
@@ -81,7 +81,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
   const isWhatsApp   = match.contactUrl && match.contactUrl.includes("wa.me");
   const hasContact   = !!match.contactUrl;
   const contactLabel = isTelegram ? "Open in Telegram" : "Open in WhatsApp";
-  const contactEmoji = isTelegram ? "✈️" : "💬";
+  const ContactIcon = isTelegram ? Send : MessageCircle;
 
   const handleConfirmContact = (e) => {
     e.stopPropagation();
@@ -172,12 +172,12 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "6px 14px",
-          background: "linear-gradient(90deg, #1B3C88, #E8302A)",
+          background: C.navy,
           fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "#fff", ...dm,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ fontSize: 14 }}>🏆</span>
+            <Trophy size={13} style={{ color: C.gold }} />
             Opening Match · FIFA World Cup 2026
           </div>
         </div>
@@ -185,7 +185,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "5px 14px",
-          background: `linear-gradient(90deg, ${C.goldDark}, ${C.gold})`,
+          background: C.goldDark,
           fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "#fff", ...dm,
         }}>
@@ -207,7 +207,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
         <div style={{
           display: "flex", alignItems: "center", gap: 6,
           padding: "5px 14px",
-          background: `linear-gradient(90deg, ${C.blue}, ${C.blueDark})`,
+          background: C.blue,
           fontSize: 10, fontWeight: 800, letterSpacing: "0.08em",
           textTransform: "uppercase", color: "#fff", ...dm,
         }}>
@@ -225,8 +225,9 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           borderBottom: "1px solid rgba(245,158,11,0.15)",
           fontSize: 10, fontWeight: 700, color: C.warnText,
           fontVariantNumeric: "tabular-nums", ...dm,
+          display: "flex", alignItems: "center", gap: 4,
         }}>
-          ⏱ {countdown}
+          <Clock size={11} /> {countdown}
         </div>
       ) : null}
 
@@ -246,7 +247,8 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
                   : ""}</span>
             )}
             <span className="wc26-pill wc26-pill-sm"
-              style={{ background: statusPill.bg, color: statusPill.color, border: `1px solid ${statusPill.border}`, fontSize: isLarge ? 12 : undefined, padding: isLarge ? "4px 12px" : undefined }}>
+              style={{ display: "inline-flex", alignItems: "center", gap: 4, background: statusPill.bg, color: statusPill.color, border: `1px solid ${statusPill.border}`, fontSize: isLarge ? 12 : undefined, padding: isLarge ? "4px 12px" : undefined }}>
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: statusPill.color, flexShrink: 0 }} />
               {statusPill.label}
             </span>
           </div>
@@ -310,9 +312,13 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               {match.avatar}
             </div>
             <span style={{ fontSize: isLarge ? 14 : 12, fontWeight: 600, color: C.textMid, ...dm }}>{match.seller}</span>
-            <span style={{ fontSize: isLarge ? 13 : 11, color: C.gold, fontWeight: 700 }}>★ {match.rating}</span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 3, fontSize: isLarge ? 13 : 11, color: C.gold, fontWeight: 700 }}>
+              <Star size={isLarge ? 12 : 10} fill={C.gold} strokeWidth={0} /> {match.rating}
+            </span>
           </div>
-          <span style={{ fontSize: isLarge ? 13 : 11, color: C.textSoft, ...dm }}>🕐 {timeAgo(match.listedAt)}</span>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: isLarge ? 13 : 11, color: C.textSoft, ...dm }}>
+            <Clock size={isLarge ? 12 : 10} /> {timeAgo(match.listedAt)}
+          </span>
         </div>
         {/* Buyer action row */}
         {(onToggleSave || onSetAlert) && (
@@ -358,12 +364,10 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
           <button
             onClick={handleContact}
             aria-label={`Contact seller for ${teamName(match.home)} vs ${teamName(match.away)}`}
-            className="wc26-whatsapp-btn"
+            className="wc26-whatsapp-btn wc26-lift-btn"
             style={{
               width: "100%", padding: isLarge ? "13px" : "10px", borderRadius: 10,
-              background: isTelegram
-                ? `linear-gradient(135deg,#2AABEE,#229ED9)`
-                : `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
+              background: isTelegram ? "#229ED9" : C.whatsapp,
               border: "none", color: "#fff", fontSize: isLarge ? 15 : 13, fontWeight: 700,
               cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
@@ -373,7 +377,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               ...dm,
             }}
           >
-            <span>{contactEmoji}</span> {t("card.contact")}
+            <ContactIcon size={isLarge ? 15 : 13} /> {t("card.contact")}
           </button>
         ) : (
           <button
@@ -388,7 +392,7 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               ...dm,
             }}
           >
-            🔒 Sold Out
+            <Lock size={isLarge ? 14 : 12} /> Sold Out
           </button>
         )}
       </div>
@@ -415,7 +419,14 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
               animation: "wc26-modal-in 0.25s var(--ease-drawer)",
             }}
           >
-            <div style={{ fontSize: 32, marginBottom: 12, textAlign: "center" }}>{contactEmoji}</div>
+            <div style={{
+              width: 52, height: 52, borderRadius: "50%", margin: "0 auto 12px",
+              background: isTelegram ? "#E8F6FD" : "#E7F9EF",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: isTelegram ? "#229ED9" : C.whatsappDark,
+            }}>
+              <ContactIcon size={22} />
+            </div>
             <div style={{ fontSize: 17, fontWeight: 800, color: C.text, marginBottom: 8, textAlign: "center", ...sora }}>
               {isTelegram ? "Contact Seller on Telegram" : t("wa.title")}
             </div>
@@ -438,7 +449,8 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
                 } catch { return match.time ?? ""; }
               })()} · {match.venue}
             </div>
-            <div style={{ fontSize: 12, color: C.warnText, background: C.warnBg, border: `1px solid ${C.warnBorder}`, borderRadius: 8, padding: "10px 12px", marginBottom: 20, lineHeight: 1.5, ...dm }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 12, color: C.warnText, background: C.warnBg, border: `1px solid ${C.warnBorder}`, borderRadius: 8, padding: "10px 12px", marginBottom: 20, lineHeight: 1.5, ...dm }}>
+              <AlertTriangle size={14} style={{ flexShrink: 0, marginTop: 1 }} />
               {t("wa.warning")}
             </div>
             <div style={{ display: "flex", gap: 10 }}>
@@ -453,13 +465,11 @@ export default function MatchCard({ match, urgency, isNext = false, isExpiring =
                 onClick={handleConfirmContact}
                 className="wc26-whatsapp-btn"
                 style={{ flex: 2, padding: "11px", borderRadius: 10, border: "none",
-                  background: isTelegram
-                    ? `linear-gradient(135deg,#2AABEE,#229ED9)`
-                    : `linear-gradient(135deg,${C.whatsapp},${C.whatsappDark})`,
+                  background: isTelegram ? "#229ED9" : C.whatsapp,
                   fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 6, ...dm }}
               >
-                <span>{contactEmoji}</span> {contactLabel}
+                <ContactIcon size={14} /> {contactLabel}
               </button>
             </div>
           </div>

@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertCircle, CheckCircle, ArrowRight } from "lucide-react";
 import { C, sora, dm } from "../../tokens";
+import { Button } from "../../components/ui";
 import { Field, inputBase, sanitise, SESSION_KEY } from "./registerHelpers";
 import { useUser } from "../../context/UserContext";
 
@@ -85,18 +86,9 @@ export default function BuyerForm() {
         />
       </Field>
 
-      <button onClick={handleSubmit} style={{
-        marginTop: 8, padding: "14px", borderRadius: 12,
-        background: "linear-gradient(135deg," + C.blue + "," + C.blueDark + ")",
-        border: "none", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-        boxShadow: C.shadowBlue, transition: "opacity 0.15s", ...dm,
-      }}
-        onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
-        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-      >
+      <Button variant="primary" size="lg" onClick={handleSubmit} style={{ marginTop: 8 }}>
         Notify Me of New Listings <ArrowRight size={16} />
-      </button>
+      </Button>
       <p style={{ fontSize: 12, color: C.textSoft, textAlign: "center", ...dm }}>No spam. Unsubscribe any time.</p>
     </div>
   );

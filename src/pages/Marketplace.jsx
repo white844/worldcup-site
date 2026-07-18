@@ -31,7 +31,7 @@ import { useSchedule } from "../context/MatchScheduleContext";
 import { useWishlist, usePriceAlerts } from "../hooks/useBuyerFeatures";
 import { useUser } from "../context/UserContext";
 import { useI18n } from "../context/I18nContext";
-import { ShieldCheck, Search, X, LayoutGrid, AlignJustify, ChevronLeft, ChevronRight, Bell, Star } from "lucide-react";
+import { ShieldCheck, Search, X, LayoutGrid, AlignJustify, ChevronLeft, ChevronRight, Bell, Star, Trophy, SearchX } from "lucide-react";
 import { shouldShowMatch } from "../utils/knockoutVisibility";
 
 const PAGE_SIZE = 12;
@@ -206,7 +206,6 @@ export default function Marketplace() {
           background: `linear-gradient(135deg,${C.navy} 0%,${C.navyMid} 50%,${C.blue} 100%)`,
           padding: "clamp(32px,6vw,48px) 0 clamp(36px,7vw,56px)", position: "relative", overflow: "hidden",
         }}>
-          <div style={{ position: "absolute", inset: 0, opacity: 0.04, backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)", backgroundSize: "44px 44px" }} />
           <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 15% 0%,rgba(232,48,42,0.12) 0%,transparent 55%),radial-gradient(ellipse at 85% 100%,rgba(37,84,184,0.25) 0%,transparent 55%)" }} />
 
           <div style={{ position: "relative", maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
@@ -248,8 +247,8 @@ export default function Marketplace() {
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {[
                 { icon: <ShieldCheck size={12} color="#4ADE80" />, label: t("mkt.pill1") },
-                { icon: "🔍", label: t("mkt.pill2") },
-                { icon: "🛡️", label: t("mkt.pill3") },
+                { icon: <Search size={12} color="#fff" />, label: t("mkt.pill2") },
+                { icon: <ShieldCheck size={12} color="#fff" />, label: t("mkt.pill3") },
               ].map(({ icon, label }) => (
                 <div key={label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, color: "#fff", background: "rgba(255,255,255,0.1)", borderRadius: 999, padding: "6px 12px", ...dm }}>
                   {icon}{label}
@@ -303,7 +302,9 @@ export default function Marketplace() {
         {alertModal && (
           <div style={{ position:"fixed", inset:0, background:"rgba(15,23,42,.5)", zIndex:500, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={() => setAlertModal(null)}>
             <div style={{ background:C.bgCard, borderRadius:16, padding:28, maxWidth:380, width:"100%", boxShadow:"0 24px 60px rgba(15,23,42,.25)" }} onClick={e => e.stopPropagation()}>
-              <div style={{ fontSize:24, marginBottom:12 }}>🔔</div>
+              <div className="wc26-icon-tile wc26-icon-tile-blue" style={{ width: 40, height: 40, marginBottom: 12 }}>
+                <Bell size={19} />
+              </div>
               <div style={{ ...sora, fontWeight:800, fontSize:18, color:C.text, marginBottom:6 }}>{t("mkt.alertTitle")}</div>
               <div style={{ fontSize:13, color:C.textSoft, marginBottom:16, ...dm }}>
                 {t("mkt.alertNotify")} <strong style={{ color:C.text }}>{alertModal.homeRaw} vs {alertModal.awayRaw}</strong> {t("mkt.alertBelow")}:
@@ -313,7 +314,7 @@ export default function Marketplace() {
                 <input type="number" min="1" value={alertInput} onChange={e => setAlertInput(e.target.value)} placeholder={String(alertModal.price)} style={{ width:"100%", padding:"10px 12px 10px 26px", borderRadius:10, border:`1.5px solid ${C.border}`, fontSize:15, fontFamily:"'DM Sans',sans-serif", outline:"none" }} onFocus={e => e.target.style.borderColor=C.blue} onBlur={e => e.target.style.borderColor=C.border} />
               </div>
               <div style={{ display:"flex", gap:10 }}>
-                <button onClick={() => { if (alertInput) { setAlert(alertModal.id, Number(alertInput)); setAlertModal(null); setAlertInput(""); } }} style={{ flex:1, padding:"11px", borderRadius:10, background:`linear-gradient(135deg,${C.blue},${C.blueDark})`, border:"none", color:"#fff", fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>{t("mkt.alertSet")}</button>
+                <button onClick={() => { if (alertInput) { setAlert(alertModal.id, Number(alertInput)); setAlertModal(null); setAlertInput(""); } }} style={{ flex:1, padding:"11px", borderRadius:10, background:C.blue, border:"none", color:"#fff", fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>{t("mkt.alertSet")}</button>
                 <button onClick={() => setAlertModal(null)} style={{ padding:"11px 16px", borderRadius:10, border:`1px solid ${C.border}`, background:C.bg, fontSize:13, fontWeight:600, color:C.textMid, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>{t("wa.cancel")}</button>
               </div>
               {getAlert(alertModal.id) && <div style={{ marginTop:12, fontSize:12, color:C.textSoft, textAlign:"center", ...dm }}>{t("filter.currentAlert")}: ${getAlert(alertModal.id)} — <button onClick={() => { setAlert(alertModal.id, null); setAlertModal(null); }} style={{ color:C.dangerText, border:"none", background:"none", cursor:"pointer", fontFamily:"'DM Sans',sans-serif", fontSize:12 }}>{t("mkt.alertRemove")}</button></div>}
@@ -338,13 +339,14 @@ export default function Marketplace() {
               {/* Sell CTA in results bar */}
               <button
                 onClick={() => setShowSell(true)}
+                className="wc26-lift-btn"
                 style={{
                   display: "flex", alignItems: "center", gap: 6,
                   padding: "7px 14px", borderRadius: 10,
-                  background: `linear-gradient(135deg,${C.blue},${C.blueDark})`,
+                  background: C.blue,
                   border: "none", color: "#fff",
                   fontSize: 12, fontWeight: 700,
-                  cursor: "pointer", transition: "all 0.15s",
+                  cursor: "pointer",
                   boxShadow: C.shadowBlue,
                   ...dm,
                 }}
@@ -417,7 +419,7 @@ export default function Marketplace() {
               }}>
                 <div style={{ padding: "20px 24px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-                    <span style={{ fontSize: 22 }}>🏆</span>
+                    <Trophy size={19} style={{ color: "#FCD34D" }} />
                     <span style={{ ...sora, fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)" }}>
                       FIFA World Cup 2026 · Opening Match
                     </span>
@@ -450,7 +452,9 @@ export default function Marketplace() {
           {liveMatches.length === 0 ? (
             /* All matches have passed */
             <div style={{ textAlign: "center", padding: "clamp(48px,10vw,80px) 20px" }}>
-              <div style={{ fontSize: 56, marginBottom: 16 }}>🏆</div>
+              <div className="wc26-icon-tile wc26-icon-tile-gold" style={{ width: 64, height: 64, borderRadius: "50%", margin: "0 auto 16px" }}>
+                <Trophy size={28} />
+              </div>
               <h3 style={{ ...sora, fontSize: 24, fontWeight: 800, color: C.text, marginBottom: 10, letterSpacing: "-0.02em" }}>
                 {t("mkt.allPassed")}
               </h3>
@@ -462,7 +466,9 @@ export default function Marketplace() {
             showWishlist ? (
               /* Wishlist is empty */
               <div style={{ textAlign:"center", padding:"clamp(48px,10vw,80px) 0" }}>
-                <div style={{ fontSize:48, marginBottom:16 }}>★</div>
+                <div className="wc26-icon-tile wc26-icon-tile-gold" style={{ width: 56, height: 56, borderRadius: "50%", margin: "0 auto 16px" }}>
+                  <Star size={24} />
+                </div>
                 <h3 style={{ ...sora, fontSize:22, fontWeight:700, color:C.text, marginBottom:8 }}>{t("mkt.noWishlist")}</h3>
                 <p style={{ fontSize:15, color:C.textSoft, marginBottom:24, ...dm }}>{t("mkt.noWishlistSub")}</p>
                 <Button variant="primary" size="md" onClick={() => setShowWishlist(false)}>{t("mkt.browseAll")}</Button>
@@ -470,7 +476,9 @@ export default function Marketplace() {
             ) : (
               /* Filters returned nothing */
               <div style={{ textAlign: "center", padding: "clamp(48px,10vw,80px) 0" }}>
-                <div style={{ fontSize: 48, marginBottom: 16 }}>🔍</div>
+                <div className="wc26-icon-tile wc26-icon-tile-blue" style={{ width: 56, height: 56, borderRadius: "50%", margin: "0 auto 16px" }}>
+                  <SearchX size={24} />
+                </div>
                 <h3 style={{ ...sora, fontSize: 22, fontWeight: 700, color: C.text, marginBottom: 8 }}>{t("mkt.noResults")}</h3>
                 <p style={{ fontSize: 15, color: C.textSoft, marginBottom: 24, ...dm }}>{t("mkt.noResultsSub")}</p>
                 <Button variant="primary" size="md" onClick={clearAll}>{t("mkt.clearFilters")}</Button>
@@ -611,18 +619,17 @@ export default function Marketplace() {
             </div>
             <button
               onClick={() => setShowSell(true)}
+              className="wc26-lift-btn"
               style={{
                 padding: "14px 28px", borderRadius: 12,
-                background: `linear-gradient(135deg,${C.blue},${C.blueDark})`,
+                background: C.blue,
                 border: "none", color: "#fff",
                 fontSize: 15, fontWeight: 700,
-                cursor: "pointer", transition: "all 0.15s",
+                cursor: "pointer",
                 display: "flex", alignItems: "center", gap: 8,
                 boxShadow: C.shadowBlue,
                 ...dm,
               }}
-              onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
-              onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
             >
               {t("nav.sell")}
             </button>

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { ShieldCheck } from "lucide-react";
 import { C, sora, dm } from "../../tokens";
 import { Button } from "../ui";
 import { useI18n } from "../../context/I18nContext";
@@ -11,7 +12,9 @@ export default function GuaranteeBanner() {
     <div style={{ background: `linear-gradient(135deg,${C.blue} 0%,${C.navyMid} 100%)`, padding: "clamp(36px,6vw,56px) 0" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 28, flexWrap: "wrap" }}>
         <div style={{ flex: "1 1 280px", minWidth: 0 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.bluePale, marginBottom: 8, ...dm }}>{t("guarantee.label")}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.bluePale, marginBottom: 8, ...dm }}>
+            <ShieldCheck size={12} /> {t("guarantee.label")}
+          </div>
           <h3 style={{ ...sora, fontSize: "clamp(20px,3vw,28px)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", marginBottom: 10, lineHeight: 1.2 }}>{t("guarantee.title")}</h3>
           <p style={{ fontSize: "clamp(13px,2vw,16px)", color: "rgba(255,255,255,0.7)", maxWidth: 480, lineHeight: 1.6, ...dm }}>{t("guarantee.body")}</p>
         </div>

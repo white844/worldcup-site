@@ -4,6 +4,7 @@
  * Closes on outside click or Escape.
  */
 import { useState, useRef, useEffect } from "react";
+import { Check } from "lucide-react";
 import { useI18n, LANGUAGES } from "../context/I18nContext";
 import { C, dm } from "../tokens";
 
@@ -53,24 +54,22 @@ export default function LangSwitcher() {
             <button
               key={l.code}
               onClick={() => { setLang(l.code); setOpen(false); }}
+              className={l.code === lang ? "" : "wc26-lang-row"}
               style={{
                 width:"100%", padding:"10px 16px",
                 display:"flex", alignItems:"center", gap:10,
                 background: l.code === lang ? C.infoBg : "none",
                 border:"none", cursor:"pointer", textAlign:"left",
                 borderBottom:`1px solid ${C.border}`,
-                transition:"background 0.1s",
                 fontFamily:"'DM Sans', sans-serif",
               }}
-              onMouseEnter={e => e.currentTarget.style.background = l.code === lang ? C.infoBg : C.bgSubtle}
-              onMouseLeave={e => e.currentTarget.style.background = l.code === lang ? C.infoBg : "none"}
             >
               <span style={{ fontSize:16 }}>{l.flag}</span>
               <div>
                 <div style={{ fontSize:12, fontWeight:700, color: l.code === lang ? C.blue : C.text }}>{l.label}</div>
                 <div style={{ fontSize:10, color:C.textSoft }}>{l.code.toUpperCase()}{l.code === "ar" ? " · RTL" : ""}</div>
               </div>
-              {l.code === lang && <span style={{ marginLeft:"auto", color:C.blue, fontSize:14 }}>✓</span>}
+              {l.code === lang && <Check size={14} color={C.blue} style={{ marginLeft:"auto" }} />}
             </button>
           ))}
         </div>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Check, Search, ShieldCheck, Zap, ArrowRight } from "lucide-react";
 import PulseDot from "../PulseDot";
+import { Button } from "../ui";
 import { C, sora, dm } from "../../tokens";
 import { useSchedule } from "../../context/MatchScheduleContext";
 import { useI18n } from "../../context/I18nContext";
@@ -19,10 +21,10 @@ export default function Hero() {
   ];
 
   const PILLS = [
-    { icon: "✔",  key: "hero.pill.verified" },
-    { icon: "🔍", key: "hero.pill.manual"   },
-    { icon: "🛡️", key: "hero.pill.buyer"    },
-    { icon: "⚡", key: "hero.pill.fast"     },
+    { Icon: Check,       key: "hero.pill.verified" },
+    { Icon: Search,      key: "hero.pill.manual"   },
+    { Icon: ShieldCheck, key: "hero.pill.buyer"    },
+    { Icon: Zap,         key: "hero.pill.fast"     },
   ];
 
   const handleFind = () => {
@@ -38,11 +40,6 @@ export default function Hero() {
       background: `linear-gradient(135deg,${C.navy} 0%,${C.navyLight} 50%,${C.navyAlt} 100%)`,
       position: "relative", overflow: "hidden", padding: "clamp(48px,8vw,80px) 0",
     }}>
-      <div style={{
-        position: "absolute", inset: 0, opacity: 0.04, pointerEvents: "none",
-        backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)",
-        backgroundSize: "44px 44px",
-      }} />
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
         background: "radial-gradient(ellipse at 15% 0%,rgba(232,48,42,0.15) 0%,transparent 55%),radial-gradient(ellipse at 85% 100%,rgba(37,84,184,0.3) 0%,transparent 55%)",
@@ -100,66 +97,31 @@ export default function Hero() {
               fontSize: 15, color: "#fff", fontWeight: 500, ...dm,
             }}
           />
-          <button
-            onClick={handleFind}
-            style={{
-              padding: "10px 24px", borderRadius: 10,
-              background: C.accent, border: "none", color: "#fff",
-              fontSize: 14, fontWeight: 700, cursor: "pointer",
-              boxShadow: "0 4px 16px rgba(232,48,42,0.45)",
-              transition: "all 0.15s", ...dm,
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = C.accentDark}
-            onMouseLeave={e => e.currentTarget.style.background = C.accent}
-          >
+          <Button variant="accent" size="md" onClick={handleFind} style={{ boxShadow: "0 4px 16px rgba(232,48,42,0.45)" }}>
             {t("hero.search.btn")}
-          </button>
+          </Button>
         </div>
 
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, marginBottom: 36 }}>
-          {PILLS.map(({ icon, key }) => (
+          {PILLS.map(({ Icon, key }) => (
             <div key={key} style={{
               display: "flex", alignItems: "center", gap: 6,
               fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.85)",
               background: "rgba(255,255,255,0.10)", borderRadius: 999,
               padding: "6px 14px", ...dm,
             }}>
-              <span>{icon}</span>{t(key)}
+              <Icon size={13} />{t(key)}
             </div>
           ))}
         </div>
 
         <div className="wc26-hero-ctas" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-          <button
-            onClick={() => navigate("/marketplace")}
-            style={{
-              padding: "14px 28px", borderRadius: 12,
-              background: "#fff", border: "none",
-              color: C.navy, fontSize: 15, fontWeight: 700,
-              cursor: "pointer", transition: "all 0.15s",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.25)", ...dm,
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
-            onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
-          >
+          <Button variant="white" size="lg" onClick={() => navigate("/marketplace")}>
             {t("hero.cta.browse")}
-          </button>
-          <button
-            onClick={() => navigate("/register?role=seller")}
-            style={{
-              padding: "14px 28px", borderRadius: 12,
-              background: `linear-gradient(135deg,${C.blue},${C.blueDark})`,
-              border: "none", color: "#fff",
-              fontSize: 15, fontWeight: 700,
-              cursor: "pointer", transition: "all 0.15s",
-              boxShadow: "0 4px 20px rgba(27,60,136,0.45)",
-              display: "flex", alignItems: "center", gap: 8, ...dm,
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = "translateY(-2px)"}
-            onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
-          >
-            {t("hero.cta.sell")}
-          </button>
+          </Button>
+          <Button variant="primary" size="lg" onClick={() => navigate("/register?role=seller")}>
+            {t("hero.cta.sell")} <ArrowRight size={16} />
+          </Button>
         </div>
 
         <div className="wc26-hero-stats" style={{ display: "flex", justifyContent: "center", gap: 0, marginTop: 56, flexWrap: "wrap" }}>

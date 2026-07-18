@@ -3,8 +3,9 @@
  * Extracted from Register.jsx for maintainability.
  */
 import { useState, useEffect, useRef } from "react";
-import { AlertCircle, CheckCircle, ArrowRight, RefreshCw, Loader } from "lucide-react";
+import { AlertCircle, CheckCircle, ArrowRight, RefreshCw, Loader, MessageCircle, Clipboard, BarChart3, Info } from "lucide-react";
 import { C, sora, dm } from "../../tokens";
+import { Button } from "../../components/ui";
 import { sendSellerRegistrationMessenger } from "../../utils/whatsapp";
 import { Field, inputBase, sanitise, SESSION_KEY } from "./registerHelpers";
 import { WC26_ALL_FIXTURES, WC26_FLAGS } from "../../data/wc26Schedule.js";
@@ -95,7 +96,9 @@ export default function SellerForm() {
     const summary = `Full Name: ${c.fullName}\nEmail: ${c.email}\nPhone: ${c.phone}\nLocation: ${c.location}\n\nMatch: ${c.teams}\nDate: ${c.matchDate}\nSeat: ${c.seat}\nPrice: $${c.price}\nNotes: ${c.notes || "N/A"}`;
     return (
     <div style={{ textAlign: "center", padding: "32px 16px" }}>
-      <div style={{ fontSize: 48, marginBottom: 16 }}>💬</div>
+      <div className="wc26-icon-tile wc26-icon-tile-blue" style={{ width: 56, height: 56, borderRadius: "50%", margin: "0 auto 16px" }}>
+        <MessageCircle size={24} />
+      </div>
       <h3 style={{ ...sora, fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 10 }}>Messenger is open</h3>
 
       {waBlocked && (
@@ -116,23 +119,23 @@ export default function SellerForm() {
       </div>
 
       <button
-        onClick={() => { try { navigator.clipboard.writeText("🎫 New Seller Registration — Ticketeer\n\n" + summary + "\n\n⚠️ Awaiting manual review."); } catch {} }}
-        style={{ padding: "8px 18px", borderRadius: 8, border: "1px solid " + C.border, background: C.bg, fontSize: 13, fontWeight: 600, color: C.textMid, cursor: "pointer", marginBottom: 20, ...dm }}
+        onClick={() => { try { navigator.clipboard.writeText("New Seller Registration — Ticketeer\n\n" + summary + "\n\nAwaiting manual review."); } catch {} }}
+        style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 18px", borderRadius: 8, border: "1px solid " + C.border, background: C.bg, fontSize: 13, fontWeight: 600, color: C.textMid, cursor: "pointer", marginBottom: 20, ...dm }}
       >
-        📋 Copy Details
+        <Clipboard size={13} /> Copy Details
       </button>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 320, margin: "0 auto" }}>
         <button onClick={handleConfirm} style={{
           padding: "14px", borderRadius: 12,
-          background: "linear-gradient(135deg," + C.green + ",#15803D)",
+          background: C.green,
           border: "none", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
           boxShadow: "0 4px 16px rgba(22,163,74,0.35)", ...dm,
         }}>
           <CheckCircle size={16} /> Done
         </button>
-        <button onClick={handleResend} disabled={reopening} style={{
+        <button onClick={handleResend} disabled={reopening} className="wc26-lift-btn" style={{
           padding: "12px", borderRadius: 12,
           background: reopening ? C.bgSubtle : C.bg,
           border: "1px solid " + C.border,
@@ -140,7 +143,7 @@ export default function SellerForm() {
           color: reopening ? C.textSoft : C.textMid,
           cursor: reopening ? "not-allowed" : "pointer",
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-          transition: "all 0.15s", ...dm,
+          ...dm,
         }}>
           {reopening
             ? <><Loader size={14} style={{ animation: "wc26-spin 1s linear infinite" }} /> Opening…</>
@@ -164,7 +167,7 @@ export default function SellerForm() {
           Our team will review your listing and contact you on <strong style={{ color: C.text }}>{c.phone}</strong> within 24 hours. Your ticket will only go live after manual approval.
         </p>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.infoBg, border: "1px solid " + C.infoBorder, borderRadius: 10, padding: "10px 16px", fontSize: 13, fontWeight: 600, color: C.blue, ...dm }}>
-          ℹ️ Keep an eye on <strong>{c.phone}</strong> — we'll reach out shortly.
+          <Info size={14} /> Keep an eye on <strong>{c.phone}</strong> — we'll reach out shortly.
         </div>
       </div>
     );
@@ -244,8 +247,8 @@ export default function SellerForm() {
           </select>
         </Field>
         {form.teams && (
-          <div style={{ fontSize:12, color:C.textMid, padding:"8px 12px", background:C.bgSubtle, borderRadius:8, border:`1px solid ${C.border}`, ...dm }}>
-            ✓ {form.teams}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize:12, color:C.textMid, padding:"8px 12px", background:C.bgSubtle, borderRadius:8, border:`1px solid ${C.border}`, ...dm }}>
+            <CheckCircle size={13} color={C.green} /> {form.teams}
           </div>
         )}
       </div>
@@ -275,7 +278,7 @@ export default function SellerForm() {
           if (!bench) return null;
           return (
             <div style={{ marginTop:8, padding:"10px 12px", borderRadius:8, background:C.infoBg, border:`1px solid ${C.infoBorder}`, fontSize:12, color:C.blue, ...dm }}>
-              <div style={{ fontWeight:700, marginBottom:3 }}>📊 Market range for this match ({bench.round})</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 5, fontWeight:700, marginBottom:3 }}><BarChart3 size={13} /> Market range for this match ({bench.round})</div>
               <div style={{ color:C.textMid }}>
                 Typical listings: <strong style={{ color:C.text }}>${bench.low} – ${bench.high}</strong>
                 &nbsp;· Avg: <strong style={{ color:C.text }}>${bench.avg}</strong>
@@ -291,18 +294,9 @@ export default function SellerForm() {
           onFocus={e => e.target.style.borderColor = C.blue} onBlur={e => e.target.style.borderColor = C.border} />
       </Field>
 
-      <button onClick={handleSubmit} style={{
-        marginTop: 8, padding: "14px", borderRadius: 12,
-        background: "linear-gradient(135deg," + C.blue + "," + C.blueDark + ")",
-        border: "none", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-        boxShadow: C.shadowBlue, transition: "opacity 0.15s", ...dm,
-      }}
-        onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
-        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-      >
+      <Button variant="primary" size="lg" onClick={handleSubmit} style={{ marginTop: 8 }}>
         Submit for Review <ArrowRight size={16} />
-      </button>
+      </Button>
 
       <p style={{ fontSize: 12, color: C.textSoft, textAlign: "center", ...dm, lineHeight: 1.5 }}>
         By submitting, your details will be sent to our team for manual review. You will not be listed until approved.

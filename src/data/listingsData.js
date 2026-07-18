@@ -856,6 +856,13 @@ const KNOCKOUT_CATEGORY_CAPS = {
   "Category 3": { floor: 300, cap: 350 },
 };
 
+// ── Fixed prices for the final two matches of the tournament ───────────────
+// These bypass the demand-based formula entirely — set exactly as provided.
+const FIXED_CATEGORY_PRICES = {
+  "3rd":   { "Category 1": 3800, "Category 2": 1200, "Category 3": 700 }, // France vs England
+  "final": { "Category 1": 4000, "Category 2": 1500, "Category 3": 700 }, // Spain vs Argentina
+};
+
 // Relative demand input — same numbers used previously as flat market
 // prices, now repurposed purely as a ranking signal between 0 (lowest
 // demand) and 1 (highest demand) across the active knockout pool.
@@ -925,6 +932,10 @@ function normalizedDemand(fixtureId) {
  * per-match/per-category jitter so prices never look formulaic.
  */
 function getKnockoutCategoryPrice(fixtureId, category) {
+  if (FIXED_CATEGORY_PRICES[fixtureId]?.[category] !== undefined) {
+    return FIXED_CATEGORY_PRICES[fixtureId][category];
+  }
+
   const { floor, cap } = KNOCKOUT_CATEGORY_CAPS[category] ?? KNOCKOUT_CATEGORY_CAPS["Category 3"];
   const demand = normalizedDemand(fixtureId);
 

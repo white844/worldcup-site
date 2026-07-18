@@ -69,8 +69,8 @@ export default function Guarantee() {
           }}>
             <ShieldCheck size={36} color="#fff" />
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: 12, ...dm }}>
-            🛡️ Our Promise
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: 12, ...dm }}>
+            <ShieldCheck size={12} /> Our Promise
           </div>
           <h1 style={{ ...sora, fontWeight: 800, fontSize: "clamp(28px,5vw,48px)", color: "#fff", letterSpacing: "-0.03em", marginBottom: 16, lineHeight: 1.1 }}>
             100% Buyer Protection
@@ -137,7 +137,7 @@ export default function Guarantee() {
               }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
-                  background: `linear-gradient(135deg, ${C.blue}, ${C.blueDark})`,
+                  background: C.blue,
                   display: "flex", alignItems: "center", justifyContent: "center",
                   ...sora, fontWeight: 800, fontSize: 15, color: "#fff",
                 }}>

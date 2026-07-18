@@ -3,8 +3,10 @@
  */
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { C, sora, dm } from "../tokens";
 import { TicketeerIcon } from "./TicketeerLogo";
+import { Button } from "./ui";
 
 /** Selector for all naturally focusable elements */
 const FOCUSABLE = [
@@ -92,7 +94,7 @@ export default function SellModal({ onClose }) {
       >
         <div style={{
           width: 64, height: 64, borderRadius: 16,
-          background: `linear-gradient(135deg,${C.blue},${C.blueDark})`,
+          background: C.blue,
           display: "flex", alignItems: "center", justifyContent: "center",
           marginBottom: 20,
           boxShadow: C.shadowBlue,
@@ -111,18 +113,22 @@ export default function SellModal({ onClose }) {
         {/* Steps */}
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
           {[
-            ["1️⃣", "Create your seller account"],
-            ["2️⃣", "Submit your ticket details & proof"],
-            ["3️⃣", "We review and publish within 24h"],
-          ].map(([num, text]) => (
-            <div key={num} style={{
+            "Create your seller account",
+            "Submit your ticket details & proof",
+            "We review and publish within 24h",
+          ].map((text, i) => (
+            <div key={text} style={{
               display: "flex", alignItems: "flex-start", gap: 12,
               padding: "10px 14px",
               background: C.bg,
               borderRadius: 10,
               border: `1px solid ${C.border}`,
             }}>
-              <span style={{ fontSize: 16, flexShrink: 0 }}>{num}</span>
+              <span style={{
+                width: 20, height: 20, borderRadius: "50%", flexShrink: 0,
+                background: C.blue, color: "#fff", fontSize: 11, fontWeight: 700,
+                display: "flex", alignItems: "center", justifyContent: "center", ...sora,
+              }}>{i + 1}</span>
               <span style={{ fontSize: 13, color: C.textMid, lineHeight: 1.5, ...dm }}>{text}</span>
             </div>
           ))}
@@ -136,7 +142,7 @@ export default function SellModal({ onClose }) {
           border: "1px solid #86EFAC",
           marginBottom: 24,
         }}>
-          <span style={{ color: C.green, fontSize: 14 }}>✔</span>
+          <CheckCircle2 size={16} style={{ color: C.green, flexShrink: 0 }} />
           <span style={{ fontSize: 12, color: C.greenText, fontWeight: 600, ...dm }}>
             All listings are manually verified before going live.
           </span>
@@ -144,35 +150,12 @@ export default function SellModal({ onClose }) {
 
         {/* Actions */}
         <div style={{ display: "flex", gap: 10 }}>
-          <button
-            onClick={onClose}
-            style={{
-              flex: 1, padding: "12px", borderRadius: 12,
-              background: C.bg, border: `1px solid ${C.border}`,
-              fontSize: 14, fontWeight: 600, color: C.textMid,
-              cursor: "pointer", ...dm,
-            }}
-          >
+          <Button variant="secondary" size="md" onClick={onClose} style={{ flex: 1 }}>
             Cancel
-          </button>
-          <button
-            onClick={handleProceed}
-            style={{
-              flex: 2, padding: "12px", borderRadius: 12,
-              background: `linear-gradient(135deg,${C.blue},${C.blueDark})`,
-              border: "none", color: "#fff",
-              fontSize: 14, fontWeight: 700,
-              cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-              boxShadow: C.shadowBlue,
-              transition: "opacity 0.15s",
-              ...dm,
-            }}
-            onMouseEnter={e => e.currentTarget.style.opacity = "0.92"}
-            onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-          >
-            Register as Seller →
-          </button>
+          </Button>
+          <Button variant="primary" size="md" onClick={handleProceed} style={{ flex: 2 }}>
+            Register as Seller <ArrowRight size={15} />
+          </Button>
         </div>
 
         <style>{`

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { MapPin } from "lucide-react";
 import { C, sora, dm } from "../../tokens";
 import { Button } from "../ui";
 import { TRENDING_CITIES } from "../../data";
@@ -17,7 +18,7 @@ function CityCard({ c }) {
         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.city}</div>
       <div style={{ fontSize: 11, color: C.textSoft, display: "flex", alignItems: "center",
         gap: 4, marginBottom: 10, ...dm, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-        📍 {c.stadium}
+        <MapPin size={12} style={{ flexShrink: 0 }} /> {c.stadium}
       </div>
       <div style={{ display: "inline-flex", alignItems: "center", gap: 5, background: C.bg,
         borderRadius: 999, padding: "3px 10px", fontSize: 11, fontWeight: 600, color: C.textMid,

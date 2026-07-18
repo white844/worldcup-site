@@ -2,9 +2,16 @@
  * Footer — all links wired to real routes/hash sections
  */
 import { useNavigate } from "react-router-dom";
+import { Lock, CheckCircle2, ShieldCheck } from "lucide-react";
 import { C, dm } from "../tokens";
 import Logo from "./Logo";
 import { useI18n } from "../context/I18nContext";
+
+const BADGES = [
+  { Icon: Lock,         label: "Secure" },
+  { Icon: CheckCircle2, label: "Verified" },
+  { Icon: ShieldCheck,  label: "Protected" },
+];
 
 function scrollTo(hash, navigate) {
   if (window.location.pathname !== "/") {
@@ -20,9 +27,9 @@ export default function Footer() {
   const { t } = useI18n();
 
   const TRUST = [
-    t("footer.trust1"),
-    t("footer.trust2"),
-    t("footer.trust3"),
+    { Icon: CheckCircle2, label: t("footer.trust1") },
+    { Icon: ShieldCheck,  label: t("footer.trust2") },
+    { Icon: Lock,         label: t("footer.trust3") },
   ];
 
   const COLS = [
@@ -67,8 +74,10 @@ export default function Footer() {
               {t("footer.tagline")}
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 16 }}>
-              {TRUST.map(str => (
-                <span key={str} style={{ fontSize: 12, color: "rgba(255,255,255,0.55)" }}>{str}</span>
+              {TRUST.map(({ Icon, label }) => (
+                <span key={label} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "rgba(255,255,255,0.55)" }}>
+                  <Icon size={12} /> {label}
+                </span>
               ))}
             </div>
           </div>
@@ -107,9 +116,9 @@ export default function Footer() {
         }}>
           <span style={{ maxWidth: "100%" }}>© 2026 Ticketeer. Independent ticket marketplace. Not affiliated with FIFA or any official body.</span>
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            {["🔒 Secure", "✅ Verified", "🛡️ Protected"].map(b => (
-              <div key={b} style={{ background: "rgba(255,255,255,0.07)", borderRadius: 999, padding: "4px 10px", fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
-                {b}
+            {BADGES.map(({ Icon, label }) => (
+              <div key={label} style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,0.07)", borderRadius: 999, padding: "4px 10px", fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
+                <Icon size={11} /> {label}
               </div>
             ))}
           </div>

@@ -218,8 +218,10 @@ export const GLOBAL_CSS = `
     white-space: nowrap;
     line-height: 1;
   }
-  .wc26-btn-primary   { background: linear-gradient(135deg,${C.blue},${C.blueDark}); color: #fff; box-shadow: ${C.shadowBlue}; }
-  .wc26-btn-primary:hover   { opacity: 0.92; transform: translateY(-1px); box-shadow: ${C.shadowBlueHover}; }
+  .wc26-btn-primary   { background: ${C.blue}; color: #fff; box-shadow: ${C.shadowBlue}; }
+  .wc26-btn-primary:hover   { background: ${C.blueDark}; transform: translateY(-1px); box-shadow: ${C.shadowBlueHover}; }
+  .wc26-btn-accent    { background: ${C.accent}; color: #fff; box-shadow: ${C.shadowRed}; }
+  .wc26-btn-accent:hover    { background: ${C.accentDark}; transform: translateY(-1px); }
   .wc26-btn-secondary { background: ${C.bgCard}; color: ${C.textMid}; border: 1px solid ${C.borderMid}; }
   .wc26-btn-secondary:hover { background: ${C.bg}; color: ${C.text}; border-color: ${C.border}; }
   .wc26-btn-ghost     { background: transparent; color: ${C.textMid}; border: 1px solid ${C.borderMid}; }
@@ -263,6 +265,23 @@ export const GLOBAL_CSS = `
   @media (hover: hover) and (pointer: fine) {
     .wc26-card-hover:hover { box-shadow: ${C.shadowLg}; transform: translateY(-3px); }
   }
+
+  /* ═══════════════════════════════════════════════
+     ICON TILES
+     Flat tinted squares for lucide icons. No gradients,
+     no emoji — one visual language for iconography.
+  ════════════════════════════════════════════════ */
+  .wc26-icon-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+  }
+  .wc26-icon-tile-blue   { background: ${C.infoBg};   color: ${C.blue}; }
+  .wc26-icon-tile-green  { background: ${C.greenBg};  color: ${C.greenText}; }
+  .wc26-icon-tile-gold   { background: ${C.goldBg};   color: ${C.goldDark}; }
+  .wc26-icon-tile-red    { background: ${C.dangerBg}; color: ${C.accent}; }
 
   /* ═══════════════════════════════════════════════
      STATUS PILLS
@@ -341,6 +360,18 @@ export const GLOBAL_CSS = `
   .wc26-filter-row:hover { background: ${C.bgSubtle} !important; }
   .wc26-activity-item { transition: background 0.2s; }
   .wc26-activity-item:hover { background: rgba(255,255,255,0.1) !important; }
+  .wc26-lift-btn { transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) {
+    .wc26-lift-btn:hover { transform: translateY(-1px); }
+  }
+  .wc26-role-tab { transition: border-color 0.15s var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) {
+    .wc26-role-tab-inactive:hover { border-color: ${C.bluePale}; }
+  }
+  .wc26-lang-row { transition: background 0.1s; }
+  @media (hover: hover) and (pointer: fine) {
+    .wc26-lang-row:hover { background: ${C.bgSubtle} !important; }
+  }
 
   /* ═══════════════════════════════════════════════
      LAYOUT CONTAINERS
@@ -934,19 +965,19 @@ export const GLOBAL_CSS = `
     gap: 7px;
     padding: 8px 16px;
     border-radius: 10px;
-    background: linear-gradient(135deg, ${C.blue}, ${C.blueDark});
+    background: ${C.blue};
     border: none;
     color: #fff;
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), opacity 0.15s var(--ease-out);
+    transition: background 0.15s var(--ease-out), transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
     box-shadow: ${C.shadowBlue};
     font-family: 'DM Sans', sans-serif;
   }
   @media (hover: hover) and (pointer: fine) {
     .wc26-sell-btn:hover {
-      opacity: 0.92;
+      background: ${C.blueDark};
       transform: translateY(-1px);
     }
   }

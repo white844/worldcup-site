@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Flame } from "lucide-react";
 import { C, dm } from "../../tokens";
 import { useSchedule } from "../../context/MatchScheduleContext";
 import { useUrgency } from "../../hooks/useUrgency";
@@ -44,7 +45,7 @@ export default function UrgencyBar() {
         gap: 10, fontSize: 13, fontWeight: 600, color: C.warnText,
         flexWrap: "wrap", textAlign: "center", ...dm,
       }}>
-        <span style={{ fontSize: 16 }}>🔥</span>
+        <Flame size={16} style={{ color: C.warnText, flexShrink: 0 }} />
         <strong>{t("urgency.high")}</strong> <span style={{ wordBreak: "break-word" }}>{alertText}</span>
         <span>·</span>
         <strong>{t("urgency.browsing", { n: viewers })}</strong>

@@ -114,18 +114,13 @@ export default function Navbar() {
             padding: "12px 20px 20px", display: "flex", flexDirection: "column", gap: 4,
           }}>
             {!isBuyer && (
-              <button
+              <Button
+                variant="primary" size="lg" full
                 onClick={() => { setOpen(false); setShowSell(true); }}
-                style={{
-                  marginBottom: 8, padding: "14px", borderRadius: 12,
-                  background: `linear-gradient(135deg,${C.blue},${C.blueDark})`,
-                  border: "none", color: "#fff", fontSize: 15, fontWeight: 700,
-                  cursor: "pointer", display: "flex", alignItems: "center",
-                  justifyContent: "center", gap: 8, ...dm,
-                }}
+                style={{ marginBottom: 8 }}
               >
                 {t("nav.sell")}
-              </button>
+              </Button>
             )}
 
             {NAV_LINKS.map(({ labelKey, to, hash }) => (
@@ -137,17 +132,13 @@ export default function Navbar() {
             ))}
 
             {!isRegistered && (
-              <button
+              <Button
+                variant="secondary" size="lg" full
                 onClick={() => { setOpen(false); navigate("/register"); }}
-                style={{
-                  marginTop: 12, padding: "12px", borderRadius: 12,
-                  background: C.bg, border: `1px solid ${C.border}`,
-                  fontSize: 15, fontWeight: 600, color: C.textMid,
-                  cursor: "pointer", ...dm,
-                }}
+                style={{ marginTop: 12 }}
               >
                 {t("nav.signup")}
-              </button>
+              </Button>
             )}
           </div>
         )}

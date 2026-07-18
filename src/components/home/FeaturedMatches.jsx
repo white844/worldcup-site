@@ -3,7 +3,7 @@
  */
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Calendar, MapPin, Lock, Send, MessageCircle, AlertTriangle, Flame, Eye } from "lucide-react";
 import { Button } from "../ui";
 import { C, sora, dm } from "../../tokens";
 import { teamName, teamFlagImg, labelTeam, timeAgo } from "../../data";
@@ -19,7 +19,7 @@ function FlagImg({ raw, size = 44 }) {
     return (
       <div style={{
         width: size, height: Math.round(size * 0.67), borderRadius: 3,
-        background: "linear-gradient(135deg,#E2E8F0,#CBD5E1)",
+        background: "#E2E8F0",
         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
       }}>
         <span style={{ fontSize: Math.max(8, Math.round(size * 0.22)), fontWeight: 700, color: "#94A3B8", letterSpacing: "0.04em", fontFamily: "'DM Sans',sans-serif", userSelect: "none" }}>TBD</span>
@@ -118,9 +118,9 @@ function FeaturedCard({ match, urgency, index = 0 }) {
         </div>
 
         <div style={{ padding: "0 16px 12px", display: "flex", flexDirection: "column", gap: 5 }}>
-          {[["📅", `${match.date} · ${(() => { try { const [y,mo,d]=match.date.split("-").map(Number); const [h,m]=match.time.split(":").map(Number); return new Date(Date.UTC(y,mo-1,d,h,m)).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); } catch(e){ return match.time; } })()}`], ["📍", match.venue]].map(([ic, val]) => (
+          {[[Calendar, `${match.date} · ${(() => { try { const [y,mo,d]=match.date.split("-").map(Number); const [h,m]=match.time.split(":").map(Number); return new Date(Date.UTC(y,mo-1,d,h,m)).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); } catch(e){ return match.time; } })()}`], [MapPin, match.venue]].map(([IconComp, val]) => (
             <div key={val} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.textMid, ...dm }}>
-              <span style={{ color: C.blue }}>{ic}</span>{val}
+              <IconComp size={13} style={{ color: C.blue, flexShrink: 0 }} />{val}
             </div>
           ))}
         </div>
@@ -140,7 +140,9 @@ function FeaturedCard({ match, urgency, index = 0 }) {
           background: isLimited ? C.dangerBg : "rgba(22,163,74,0.06)",
           borderTop: `1px solid ${isLimited ? C.dangerBorder : "rgba(22,163,74,0.15)"}`,
           color: isLimited ? C.dangerText : C.green,
+          display: "flex", alignItems: "center", gap: 5,
         }}>
+          {isLimited ? <Flame size={11} /> : <Eye size={11} />}
           {urgencyText}
         </div>
 
@@ -152,20 +154,17 @@ function FeaturedCard({ match, urgency, index = 0 }) {
           {hasContact ? (
             <button
               onClick={handleContact}
+              className="wc26-lift-btn"
               style={{
                 padding: "9px 16px", borderRadius: 10,
-                background: isTelegram
-                  ? "linear-gradient(135deg,#2AABEE,#229ED9)"
-                  : "linear-gradient(135deg,#25D366,#128C7E)",
+                background: isTelegram ? "#229ED9" : "#25D366",
                 border: "none", color: "#fff", fontSize: 12, fontWeight: 700,
-                cursor: "pointer", transition: "all 0.15s",
+                cursor: "pointer",
                 display: "flex", alignItems: "center", gap: 6,
                 boxShadow: isTelegram ? "0 3px 10px rgba(42,171,238,0.30)" : "0 3px 10px rgba(37,211,102,0.30)", ...dm,
               }}
-              onMouseEnter={e => e.currentTarget.style.transform = "translateY(-1px)"}
-              onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
             >
-              <span>{isTelegram ? "✈️" : "💬"}</span> {t("featured.contact")}
+              {isTelegram ? <Send size={13} /> : <MessageCircle size={13} />} {t("featured.contact")}
             </button>
           ) : (
             <button
@@ -178,7 +177,7 @@ function FeaturedCard({ match, urgency, index = 0 }) {
                 display: "flex", alignItems: "center", gap: 6, ...dm,
               }}
             >
-              🔒 Sold Out
+              <Lock size={12} /> Sold Out
             </button>
           )}
         </div>
@@ -191,20 +190,28 @@ function FeaturedCard({ match, urgency, index = 0 }) {
           style={{ position: "fixed", inset: 0, zIndex: 600, background: "rgba(15,23,42,0.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
         >
           <div onClick={e => e.stopPropagation()} style={{ background: "#fff", borderRadius: 16, padding: 28, maxWidth: 360, width: "100%", boxShadow: "0 24px 60px rgba(15,23,42,0.25)" }}>
-            <div style={{ fontSize: 32, marginBottom: 12, textAlign: "center" }}>{isTelegram ? "✈️" : "💬"}</div>
+            <div style={{
+              width: 52, height: 52, borderRadius: "50%", margin: "0 auto 14px",
+              background: isTelegram ? "#E8F6FD" : "#E7F9EF",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: isTelegram ? "#229ED9" : "#25D366",
+            }}>
+              {isTelegram ? <Send size={22} /> : <MessageCircle size={22} />}
+            </div>
             <div style={{ fontSize: 17, fontWeight: 800, color: "#0F172A", marginBottom: 8, textAlign: "center", fontFamily: "Sora,sans-serif" }}>{isTelegram ? "Contact Seller on Telegram" : t("wa.title")}</div>
             <div style={{ fontSize: 13, color: "#64748B", marginBottom: 6, textAlign: "center", lineHeight: 1.5, fontFamily: "DM Sans,sans-serif" }}>{t("wa.about")}</div>
             <div style={{ fontSize: 13, fontWeight: 700, color: "#0F172A", textAlign: "center", marginBottom: 4, fontFamily: "DM Sans,sans-serif" }}>{labelTeam(match.home)} vs {labelTeam(match.away)}</div>
             <div style={{ fontSize: 12, color: "#64748B", textAlign: "center", marginBottom: 20, fontFamily: "DM Sans,sans-serif" }}>{match.date} · {match.venue}</div>
-            <div style={{ fontSize: 12, color: "#92400E", background: "#FFF7ED", border: "1px solid #FED7AA", borderRadius: 8, padding: "10px 12px", marginBottom: 20, lineHeight: 1.5, fontFamily: "DM Sans,sans-serif" }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize: 12, color: "#92400E", background: "#FFF7ED", border: "1px solid #FED7AA", borderRadius: 8, padding: "10px 12px", marginBottom: 20, lineHeight: 1.5, fontFamily: "DM Sans,sans-serif" }}>
+              <AlertTriangle size={14} style={{ flexShrink: 0, marginTop: 1 }} />
               {t("wa.warning")}
             </div>
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={e => { e.stopPropagation(); setConfirmOpen(false); }} style={{ flex: 1, padding: "11px", borderRadius: 10, border: "1px solid #E2E8F0", background: "#F8FAFC", fontSize: 13, fontWeight: 600, color: "#64748B", cursor: "pointer", fontFamily: "DM Sans,sans-serif" }}>{t("wa.cancel")}</button>
               <button onClick={handleConfirmContact} style={{ flex: 2, padding: "11px", borderRadius: 10, border: "none",
-                background: isTelegram ? "linear-gradient(135deg,#2AABEE,#229ED9)" : "linear-gradient(135deg,#25D366,#128C7E)",
+                background: isTelegram ? "#229ED9" : "#25D366",
                 fontSize: 13, fontWeight: 700, color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontFamily: "DM Sans,sans-serif" }}>
-                <span>{isTelegram ? "✈️" : "💬"}</span> {isTelegram ? "Open in Telegram" : t("wa.open")}
+                {isTelegram ? <Send size={14} /> : <MessageCircle size={14} />} {isTelegram ? "Open in Telegram" : t("wa.open")}
               </button>
             </div>
           </div>

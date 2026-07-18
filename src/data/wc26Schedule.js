@@ -250,54 +250,20 @@ export const WC26_SF = [
 
 // ── Third-place play-off + Final ───────────────────────────────────────────
 export const WC26_FINAL = [
-    { id:"3rd", date:"2026-07-18", time:"21:00", home:"L101", away:"L102", venue:"Hard Rock Stadium", round:"3rd Place" },
-    { id:"final", date:"2026-07-19", time:"19:00", home:"W101", away:"W102", venue:"MetLife Stadium", round:"Final" },
+    { id:"3rd", date:"2026-07-18", time:"21:00", home:"France", away:"England", venue:"Hard Rock Stadium", round:"3rd Place" },
+    { id:"final", date:"2026-07-19", time:"19:00", home:"Spain", away:"Argentina", venue:"MetLife Stadium", round:"Final" },
 ];
 
 // ── High-demand matches (used for featured section) ────────────────────────
 export const WC26_HIGH_DEMAND = new Set([
   "3rd",
   "final",
-  "gs01",
-  "sf_01",
-  "sf_02",
-  // Featured matches — added per product request
-  "gs67",  // England vs Croatia     — Jun 17 (Group L, AT&T Stadium)
-  "gs49",  // France vs Senegal      — Jun 16 (Group I, MetLife Stadium)
-  "gs21",  // USA vs Australia       — Jun 19 (Group D, Lumen Field)
-  "gs33",  // Netherlands vs Sweden  — Jun 20 (Group F, NRG Stadium)
-  "gs13",  // Brazil vs Morocco      — Jun 13 (Group C, MetLife Stadium)
-  "gs55",  // Argentina vs Algeria   — Jun 16 (Group J, Arrowhead Stadium)
-  "gs45",  // Spain vs Saudi Arabia  — Jun 21 (Group H, Mercedes-Benz Stadium)
-
-  // ── R32 high-demand ──
-  "r32_02",
-  "r32_05",
-  "r32_06",
-  "r32_07",
-  "r32_09",
-  "r32_11",
-  "r32_12",
-  "r32_13",
-
-  // ── R16 high-demand ──
-  "r16_01",
-  "r16_03",
-  "r16_04",
-  "r16_05",
-  "r16_06",
-  "r16_07",
 ]);
 
 // ── All fixtures merged ────────────────────────────────────────────────────
+// Only 2 matches remain in the tournament: 3rd place play-off + Final.
 export const WC26_ALL_FIXTURES = [
-  ...WC26_GROUP_STAGE,
-  // ── Knockout rounds — uncomment each stage as the bracket resolves ──
-  ...WC26_R32,
-  ...WC26_R16,
-  // ...WC26_QF,
-  // ...WC26_SF,
-  // ...WC26_FINAL,
+  ...WC26_FINAL,
 ];
 
 export const WC26_ISO2 = {

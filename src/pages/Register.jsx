@@ -11,7 +11,7 @@
  */
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { CheckCircle, User, Store } from "lucide-react";
+import { CheckCircle, User, Store, Ticket, Bell, ArrowRight } from "lucide-react";
 import PageShell from "../components/PageShell";
 import { C, sora, dm, SITE_TITLE, setPageMeta } from "../tokens";
 import { TicketeerIcon } from "../components/TicketeerLogo";
@@ -25,22 +25,20 @@ import { useUser } from "../context/UserContext";
 function RoleTab({ value, activeRole, onSelect, label, icon: Icon, description }) {
   const active = activeRole === value;
   return (
-    <button onClick={() => onSelect(value)} style={{
-      flex: 1, padding: "18px 16px", borderRadius: 14,
-      border: "2px solid " + (active ? C.blue : C.border),
-      background: active ? C.infoBg : C.bgCard,
-      cursor: "pointer", textAlign: "left", transition: "all 0.15s",
-      display: "flex", flexDirection: "column", gap: 8,
-    }}
-      onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = C.bluePale; }}
-      onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = C.border; }}
+    <button onClick={() => onSelect(value)}
+      className={active ? "wc26-role-tab" : "wc26-role-tab wc26-role-tab-inactive"}
+      style={{
+        flex: 1, padding: "18px 16px", borderRadius: 14,
+        border: "2px solid " + (active ? C.blue : C.border),
+        background: active ? C.infoBg : C.bgCard,
+        cursor: "pointer", textAlign: "left",
+        display: "flex", flexDirection: "column", gap: 8,
+      }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <div style={{
           width: 38, height: 38, borderRadius: 10,
-          background: active
-            ? "linear-gradient(135deg," + C.blue + "," + C.blueDark + ")"
-            : C.bg,
+          background: active ? C.blue : C.bg,
           display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
         }}>
           <Icon size={18} color={active ? "#fff" : C.textSoft} />
@@ -134,8 +132,8 @@ export function SignUpNudgeBanner() {
     <section style={{ background: C.bgCard, borderTop: "1px solid " + C.border, borderBottom: "1px solid " + C.border, padding: "40px 0" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.blue, marginBottom: 8, ...dm }}>
-            🎫 Got More Tickets?
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.blue, marginBottom: 8, ...dm }}>
+            <Ticket size={12} /> Got More Tickets?
           </div>
           <h3 style={{ ...sora, fontWeight: 800, fontSize: "clamp(20px,2.5vw,26px)", color: C.text, letterSpacing: "-0.02em", marginBottom: 8 }}>
             List another ticket for sale
@@ -144,16 +142,15 @@ export function SignUpNudgeBanner() {
             Submit a new listing — our team will review and approve it within 24 hours.
           </p>
         </div>
-        <button onClick={() => navigate("/register?role=seller")} style={{
+        <button onClick={() => navigate("/register?role=seller")} className="wc26-lift-btn" style={{
           padding: "12px 24px", borderRadius: 12,
-          background: "linear-gradient(135deg," + C.blue + "," + C.blueDark + ")",
+          background: C.blue,
           border: "none", color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer",
-          boxShadow: C.shadowBlue, transition: "all 0.15s", ...dm,
+          boxShadow: C.shadowBlue,
+          display: "flex", alignItems: "center", gap: 8, ...dm,
         }}
-          onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
-          onMouseLeave={e => e.currentTarget.style.opacity = "1"}
         >
-          Submit a New Listing →
+          Submit a New Listing <ArrowRight size={15} />
         </button>
       </div>
     </section>
@@ -164,8 +161,8 @@ export function SignUpNudgeBanner() {
     <section style={{ background: C.bgCard, borderTop: "1px solid " + C.border, borderBottom: "1px solid " + C.border, padding: "40px 0" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.blue, marginBottom: 8, ...dm }}>
-            🔔 Never Miss a Listing
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: C.blue, marginBottom: 8, ...dm }}>
+            <Bell size={12} /> Never Miss a Listing
           </div>
           <h3 style={{ ...sora, fontWeight: 800, fontSize: "clamp(20px,2.5vw,26px)", color: C.text, letterSpacing: "-0.02em", marginBottom: 8 }}>
             Get notified when new verified tickets go live
@@ -175,26 +172,20 @@ export function SignUpNudgeBanner() {
           </p>
         </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          <button onClick={() => navigate("/register?role=buyer")} style={{
+          <button onClick={() => navigate("/register?role=buyer")} className="wc26-lift-btn" style={{
             padding: "12px 24px", borderRadius: 12,
-            background: "linear-gradient(135deg," + C.blue + "," + C.blueDark + ")",
+            background: C.blue,
             border: "none", color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer",
-            boxShadow: C.shadowBlue, transition: "all 0.15s",
+            boxShadow: C.shadowBlue,
             display: "flex", alignItems: "center", gap: 8, ...dm,
           }}
-            onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
-            onMouseLeave={e => e.currentTarget.style.opacity = "1"}
           >
-            Create Free Account →
+            Create Free Account <ArrowRight size={15} />
           </button>
-          <button onClick={() => navigate("/register?role=seller")} style={{
+          <button onClick={() => navigate("/register?role=seller")} className="wc26-btn wc26-btn-secondary" style={{
             padding: "12px 24px", borderRadius: 12,
-            background: C.bg, border: "1px solid " + C.border,
-            fontSize: 14, fontWeight: 600, color: C.textMid,
-            cursor: "pointer", transition: "all 0.15s", ...dm,
+            fontSize: 14, fontWeight: 600, ...dm,
           }}
-            onMouseEnter={e => e.currentTarget.style.borderColor = C.blue}
-            onMouseLeave={e => e.currentTarget.style.borderColor = C.border}
           >
             Sell a Ticket
           </button>

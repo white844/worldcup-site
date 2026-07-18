@@ -22,6 +22,7 @@ import { isMatchPast } from "../hooks/useMatchSchedule";
 import {
   MapPin, Calendar, CheckCircle, Shield,
   ChevronLeft, MessageCircle, ShieldCheck, Zap,
+  Flame, Star, Send, Lock, AlertTriangle, Eye,
 } from "lucide-react";
 
 function useMatchUrgency(id) {
@@ -70,7 +71,7 @@ function FlagImg({ raw, size = 44 }) {
     return (
       <div style={{
         width: size, height: Math.round(size * 0.67), borderRadius: 3,
-        background: "linear-gradient(135deg,#E2E8F0,#CBD5E1)",
+        background: "#E2E8F0",
         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
       }}>
         <span style={{ fontSize: Math.max(8, Math.round(size * 0.22)), fontWeight: 700, color: "#94A3B8", letterSpacing: "0.04em", fontFamily: "'DM Sans',sans-serif", userSelect: "none" }}>
@@ -165,7 +166,7 @@ export default function TicketDetail() {
   const isWhatsApp   = match.contactUrl && match.contactUrl.includes("wa.me");
   const hasContact   = !!match.contactUrl;
   const contactLabel = isTelegram ? "Open in Telegram" : "Open in WhatsApp";
-  const contactEmoji = isTelegram ? "✈️" : "💬";
+  const ContactIcon = isTelegram ? Send : MessageCircle;
 
   const handleConfirmContact = () => {
     setConfirmOpen(false);
@@ -215,22 +216,25 @@ export default function TicketDetail() {
             {/* Match hero */}
             <div className="wc26-card" style={{ overflow:"hidden", marginBottom:24, boxShadow:C.shadowMd, borderRadius:16 }}>
               <div className="wc26-detail-hero-section" style={{ background:`linear-gradient(135deg,${C.navy},${C.navyLight})`, padding:"clamp(20px,5vw,32px) clamp(16px,4vw,28px)", position:"relative", overflow:"hidden" }}>
-                <div style={{ position:"absolute", inset:0, opacity:0.05, backgroundImage:"linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)", backgroundSize:"44px 44px" }} />
                 <div style={{ position:"relative" }}>
                   <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:20, flexWrap:"wrap" }}>
                     <span style={{ fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.6)", textTransform:"uppercase", letterSpacing:"0.08em", ...dm }}>{match.group}</span>
                     <span className="wc26-pill wc26-pill-sm" style={{
+                      display: "inline-flex", alignItems: "center", gap: 4,
                       background: isLimited ? "rgba(232,48,42,0.3)"    : "rgba(22,163,74,0.25)",
                       color:      isLimited ? C.dangerLight             : C.live,
                       border:    `1px solid ${isLimited ? "rgba(232,48,42,0.4)" : "rgba(22,163,74,0.4)"}`,
                     }}>
-                      {isLimited ? `🔥 Only ${urgency.tickets} ticket${urgency.tickets>1?"s":""}  left` : "● Available"}
+                      {isLimited && <Flame size={11} />}
+                      {isLimited ? `Only ${urgency.tickets} ticket${urgency.tickets>1?"s":""} left` : "Available"}
                     </span>
                     {/* Verified badge */}
                     <span style={{ display:"inline-flex", alignItems:"center", gap:4, padding:"3px 10px", borderRadius:999, background:"rgba(37,211,102,0.2)", border:"1px solid rgba(37,211,102,0.4)", fontSize:10, fontWeight:700, color:C.live, ...dm }}>
                       <ShieldCheck size={10} color={C.live} /> Verified by Admin
                     </span>
-                    <span style={{ fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.6)", marginLeft:"auto", ...dm }}>👁 {urgency.viewers} people viewing</span>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize:11, fontWeight:700, color:"rgba(255,255,255,0.6)", marginLeft:"auto", ...dm }}>
+                      <Eye size={12} /> {urgency.viewers} people viewing
+                    </span>
                   </div>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:16 }}>
                     <div style={{ textAlign:"center", flex:1, minWidth:0 }}>
@@ -290,7 +294,14 @@ export default function TicketDetail() {
                 <div style={{ flex:1, minWidth:0 }}>
                   <div style={{ ...sora, fontSize:17, fontWeight:700, color:C.text, marginBottom:2 }}>{match.seller}</div>
                   <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
-                    <span style={{ fontSize:13, color:"#F59E0B", fontWeight:700 }}>{"★".repeat(Math.floor(match.rating))} {match.rating}</span>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize:13, color:"#F59E0B", fontWeight:700 }}>
+                      <span style={{ display: "flex", gap: 1 }}>
+                        {Array.from({ length: Math.floor(match.rating) }).map((_, i) => (
+                          <Star key={i} size={12} fill="#F59E0B" strokeWidth={0} />
+                        ))}
+                      </span>
+                      {match.rating}
+                    </span>
                     <span style={{ fontSize:11, color:C.textSoft, ...dm }}>{match.sales} sales · Member since {match.since}</span>
                   </div>
                 </div>
@@ -390,9 +401,10 @@ export default function TicketDetail() {
               {/* Urgency */}
               <div style={{ padding:"12px 22px", borderBottom:`1px solid ${isLimited ? C.dangerBorder : "rgba(22,163,74,0.15)"}`, background: isLimited ? C.dangerBg : "rgba(22,163,74,0.05)" }}>
                 <div style={{ fontSize:12, fontWeight:700, color: isLimited ? C.dangerText : C.green, display:"flex", alignItems:"center", gap:6, ...dm }}>
+                  {isLimited ? <Flame size={13} /> : <Eye size={13} />}
                   {isLimited
-                    ? `🔥 Only ${urgency.tickets} ticket${urgency.tickets>1?"s":""} left at this price`
-                    : `👁 ${urgency.viewers} people viewing this listing right now`}
+                    ? `Only ${urgency.tickets} ticket${urgency.tickets>1?"s":""} left at this price`
+                    : `${urgency.viewers} people viewing this listing right now`}
                 </div>
               </div>
 
@@ -420,22 +432,19 @@ export default function TicketDetail() {
                 {hasContact ? (
                   <button
                     onClick={handleContact}
+                    className="wc26-lift-btn"
                     style={{
                       width:"100%", padding:"14px", borderRadius:12, marginBottom:10,
-                      background: isTelegram
-                        ? `linear-gradient(135deg,#2AABEE,#229ED9)`
-                        : `linear-gradient(135deg,${C.blue},${C.blueDark})`,
+                      background: isTelegram ? "#229ED9" : C.blue,
                       border:"none", color:"#fff",
                       fontSize:15, fontWeight:700,
-                      cursor:"pointer", transition:"all 0.15s",
+                      cursor:"pointer",
                       display:"flex", alignItems:"center", justifyContent:"center", gap:8,
                       boxShadow: isTelegram ? "0 3px 12px rgba(42,171,238,0.35)" : C.shadowBlue,
                       ...dm,
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.opacity="0.92"; }}
-                    onMouseLeave={e => { e.currentTarget.style.transform="translateY(0)";    e.currentTarget.style.opacity="1"; }}
                   >
-                    <MessageCircle size={18} />
+                    <ContactIcon size={18} />
                     {contactLabel}
                   </button>
                 ) : (
@@ -450,7 +459,7 @@ export default function TicketDetail() {
                       ...dm,
                     }}
                   >
-                    🔒 Sold Out
+                    <Lock size={15} /> Sold Out
                   </button>
                 )}
                 <p style={{ textAlign:"center", fontSize:11, color:C.textSoft, ...dm }}>
@@ -481,7 +490,14 @@ export default function TicketDetail() {
           style={{ position:"fixed", inset:0, zIndex:600, background:"rgba(15,23,42,0.55)", display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}
         >
           <div onClick={e => e.stopPropagation()} style={{ background:"#fff", borderRadius:16, padding:28, maxWidth:400, width:"100%", boxShadow:"0 24px 60px rgba(15,23,42,0.25)" }}>
-            <div style={{ fontSize:32, marginBottom:12, textAlign:"center" }}>{contactEmoji}</div>
+            <div style={{
+              width: 52, height: 52, borderRadius: "50%", margin: "0 auto 12px",
+              background: isTelegram ? "#E8F6FD" : "#E7F9EF",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: isTelegram ? "#229ED9" : C.whatsappDark,
+            }}>
+              <ContactIcon size={22} />
+            </div>
             <div style={{ fontSize:18, fontWeight:800, color:C.text, marginBottom:8, textAlign:"center", ...sora }}>
               Contact Seller on {isTelegram ? "Telegram" : "WhatsApp"}
             </div>
@@ -491,15 +507,16 @@ export default function TicketDetail() {
             </div>
             <div style={{ fontSize:12, color:C.textSoft, textAlign:"center", marginBottom:8, ...dm }}>{match.date} at {match.time}</div>
             <div style={{ fontSize:12, color:C.textSoft, textAlign:"center", marginBottom:20, ...dm }}>{match.venue} · {selectedCat} · ${activePrice}/ticket</div>
-            <div style={{ fontSize:12, color:C.warnText, background:C.warnBg, border:`1px solid ${C.warnBorder}`, borderRadius:8, padding:"10px 12px", marginBottom:20, ...dm, lineHeight:1.5 }}>
-              ⚠️ Always verify tickets before making any payment. Never pay outside of an agreed, traceable method.
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 6, fontSize:12, color:C.warnText, background:C.warnBg, border:`1px solid ${C.warnBorder}`, borderRadius:8, padding:"10px 12px", marginBottom:20, ...dm, lineHeight:1.5 }}>
+              <AlertTriangle size={14} style={{ flexShrink: 0, marginTop: 1 }} />
+              Always verify tickets before making any payment. Never pay outside of an agreed, traceable method.
             </div>
             <div style={{ display:"flex", gap:10 }}>
               <button onClick={() => setConfirmOpen(false)} style={{ flex:1, padding:"12px", borderRadius:10, border:`1px solid ${C.border}`, background:C.bg, fontSize:13, fontWeight:600, color:C.textMid, cursor:"pointer", ...dm }}>Cancel</button>
               <button onClick={handleConfirmContact} style={{ flex:2, padding:"12px", borderRadius:10, border:"none",
-                background: isTelegram ? "linear-gradient(135deg,#2AABEE,#229ED9)" : "linear-gradient(135deg,#25D366,#128C7E)",
+                background: isTelegram ? "#229ED9" : C.whatsapp,
                 fontSize:13, fontWeight:700, color:"#fff", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", gap:6, ...dm }}>
-                <span>{contactEmoji}</span> {contactLabel}
+                <ContactIcon size={14} /> {contactLabel}
               </button>
             </div>
           </div>

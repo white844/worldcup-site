@@ -5,7 +5,9 @@
  */
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Lock, ArrowRight } from "lucide-react";
 import PageShell from "../components/PageShell";
+import { Button } from "../components/ui";
 import { C, sora, dm, SITE_TITLE, setPageMeta } from "../tokens";
 import { TicketeerIcon } from "../components/TicketeerLogo";
 
@@ -48,37 +50,12 @@ export default function NotFound() {
           </p>
 
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-            <button
-              onClick={() => navigate("/marketplace")}
-              style={{
-                padding: "13px 28px", borderRadius: 12,
-                background: `linear-gradient(135deg,${C.blue},${C.blueDark})`,
-                border: "none", color: "#fff",
-                fontSize: 15, fontWeight: 700, cursor: "pointer",
-                boxShadow: C.shadowBlue, transition: "opacity 0.15s",
-                display: "flex", alignItems: "center", gap: 8,
-                ...dm,
-              }}
-              onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
-              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-            >
-              Browse All Tickets →
-            </button>
-
-            <button
-              onClick={() => navigate("/")}
-              style={{
-                padding: "13px 28px", borderRadius: 12,
-                background: C.bgCard, border: `1px solid ${C.border}`,
-                fontSize: 15, fontWeight: 600, color: C.textMid,
-                cursor: "pointer", transition: "all 0.15s",
-                ...dm,
-              }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = C.blue}
-              onMouseLeave={e => e.currentTarget.style.borderColor = C.border}
-            >
+            <Button variant="primary" size="lg" onClick={() => navigate("/marketplace")}>
+              Browse All Tickets <ArrowRight size={16} />
+            </Button>
+            <Button variant="secondary" size="lg" onClick={() => navigate("/")}>
               Go Home
-            </button>
+            </Button>
           </div>
 
           {/* Trust note */}
@@ -86,8 +63,9 @@ export default function NotFound() {
             marginTop: 40, padding: "12px 20px",
             background: C.infoBg, border: `1px solid ${C.infoBorder}`,
             borderRadius: 12, fontSize: 13, color: C.blue, fontWeight: 500, ...dm,
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
           }}>
-            🔒 All live listings are admin-verified — browse safely.
+            <Lock size={13} /> All live listings are admin-verified — browse safely.
           </div>
         </div>
       </div>

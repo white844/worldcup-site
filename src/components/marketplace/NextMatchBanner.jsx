@@ -20,7 +20,7 @@ function FlagImg({ raw, size = 36 }) {
     <div style={{
       width: size, height: Math.round(size * 0.67),
       borderRadius: 3,
-      background: "linear-gradient(135deg,#E2E8F0,#CBD5E1)",
+      background: "#E2E8F0",
       display: "flex", alignItems: "center", justifyContent: "center",
       flexShrink: 0,
     }}>
@@ -125,7 +125,7 @@ export default function NextMatchBanner({ nextIsoDate, nextMatches }) {
         borderRadius: 16,
         overflow: "hidden",
         border: `1.5px solid ${C.blue}33`,
-        background: `linear-gradient(135deg, ${C.blue}0D 0%, ${C.blueDark}08 100%)`,
+        background: `${C.blue}0D`,
         animation: "wc26-fadein 0.4s ease",
       }}
     >
@@ -133,7 +133,7 @@ export default function NextMatchBanner({ nextIsoDate, nextMatches }) {
       <div style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "12px 18px",
-        background: `linear-gradient(135deg, ${C.blue}, ${C.blueDark})`,
+        background: C.blue,
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{
